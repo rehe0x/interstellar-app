@@ -1,0 +1,143 @@
+page {
+	height: calc(100% - var(--status-bar-height));
+}
+
+.content {
+	height: 100%;
+  background-image: url('../../static/b.jpeg');
+  background-size: cover;
+  /* background-repeat: no-repeat; */
+  padding-top: var(--status-bar-height);
+}
+
+.status_bar{
+  height: var(--status-bar-height);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: rgba(32, 58, 87, 0.6);
+  /* background: brown; */
+}
+
+.flex-row{
+	height: 100%;
+	display: flex;
+}
+
+.flex-row-item1{
+	height: 100%;
+  width: 80%;
+}
+
+.flex-row-item2{
+	height: 100%;
+  width: 20%;
+}
+
+.flex-column1{
+	height: 100%;
+	flex-direction: column;
+}
+
+.flex-column1-item1{
+	width: 100%;
+  height: 30%;
+  background-color: rgba(32, 58, 87, 0.6);
+  padding: 7px;
+  box-sizing: border-box;
+  color: lightpink;
+  font-size: 0.9rem;
+}
+
+.flex-column1-item1 text{
+  color: rgb(180, 242, 253);
+  font-size: 0.9rem;
+}
+
+.flex-column1-item2{
+  padding: 10px;
+  height: 70%;
+  background-color: rgba(32, 58, 87, 0.8);
+  box-sizing: border-box;
+  color: rgb(180, 242, 253);
+}
+
+.flex-column2{
+	height: 100%;
+	flex-direction: column;
+}
+
+.flex-column2-item1{
+	width: 100%;
+  height: 30%;
+  background-color: rgba(32, 58, 87, 0.8);
+}
+.flex-column2-item2{
+	width: 100%;
+  height: 70%;
+  background-color: rgba(32, 58, 87, 0.6);
+}
+
+
+.flex-column1-item2 .flex-item{
+  flex-direction: column;
+  width: 100%;
+  height: 4rem;
+  padding: 7px 7px 7px 7px;
+  box-sizing: border-box;
+  background-color: rgba(10, 32, 58, 0.5);
+  margin-bottom: 8px;
+}
+
+.flex-column1-item2 .flex-item .flex-item1{
+  display: flex;
+  width: 100%;
+  height: 70%;
+  margin-bottom: 5px;
+}
+.flex-column1-item2 .flex-item .flex-item1 .img{
+  width: 3rem;
+  height: 100%;
+}
+
+.flex-column1-item2 .flex-item .flex-item1 .img image{
+  width: 100%;
+  height: 100%;
+}
+
+.flex-column1-item2 .flex-item .flex-item1 .text{
+  width: 70%;
+  height: 100%;
+  padding-left: 8px;
+}
+
+.flex-column1-item2 .flex-item .flex-item1 .text .small{
+  font-size: 0.7rem;
+}
+
+.flex-column1-item2 .flex-item .flex-item1 .button{
+  width: 30%;
+  height: 100%;
+  text-align: center;
+  color:white;
+}
+
+.flex-column1-item2 .flex-item .flex-item1 .button button{
+  color:cyan;
+}
+
+.flex-column1-item2 .flex-item .flex-item2{
+  width: 100%;
+  height: 30%;
+  font-size: 0.7rem;
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  color: rgb(20, 161, 79);
+}
+
+
+
+.scroll-Y {
+  height: 100%;
+}
