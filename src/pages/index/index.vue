@@ -10,16 +10,18 @@
 							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
 							<view><text>重氦：</text>{{ resources.deuterium }} / {{ resources.deuteriumStorageMax }}</view>
 							<view><text>能量：</text>{{ resources.energyUsed }} / {{ resources.energyMax }}</view>
+              <view><text>金属：</text>{{ resources.metal }} / {{ resources.metalStorageMax }}</view>
+							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
 						</view>
 						<view class="flex-column1-item2">
 							 <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
                 @scroll="scroll">
 									<view class="flex-item" v-for="(item, buildCode) in buildings" :key="buildCode">
 								<view class="flex-item1">
-									<view class="img"><image src="../../static/logo.png"/></view>
+									<view class="img"><image src="../../static/24.gif"/></view>
 									<view class="text">
-										<view>{{ item.name }} {{ item.level }}</view>
-										<view class="small">必要物质 暗物质粒子</view>
+										<view class="name">{{ item.name }} {{ item.level }}</view>
+										<view class="small">{{ item.buildTimeShow }}</view>
 									</view>
 									<view class="button">
 										<button type="primary" plain="true" size="mini" @tap="addBuildingQueue({buildCode})">升级</button>

@@ -12,7 +12,7 @@ page {
 
 .status_bar{
   height: var(--status-bar-height);
-  width: 100%;
+  width: 750rpx;
   position: fixed;
   top: 0;
   background-color: rgba(32, 58, 87, 0.6);
@@ -26,12 +26,12 @@ page {
 
 .flex-row-item1{
 	height: 100%;
-  width: 80%;
+  width: 600rpx
 }
 
 .flex-row-item2{
 	height: 100%;
-  width: 20%;
+  width: 150rpx;
 }
 
 .flex-column1{
@@ -40,23 +40,22 @@ page {
 }
 
 .flex-column1-item1{
-	width: 100%;
-  height: 30%;
+  height: 400rpx;
   background-color: rgba(32, 58, 87, 0.6);
   padding: 7px;
   box-sizing: border-box;
   color: lightpink;
-  font-size: 0.9rem;
+  font-size: 36rpx;
 }
 
 .flex-column1-item1 text{
   color: rgb(180, 242, 253);
-  font-size: 0.9rem;
+  font-size: 36rpx;
 }
 
 .flex-column1-item2{
   padding: 10px;
-  height: 70%;
+  height: calc(100% - 400rpx);
   background-color: rgba(32, 58, 87, 0.8);
   box-sizing: border-box;
   color: rgb(180, 242, 253);
@@ -68,12 +67,10 @@ page {
 }
 
 .flex-column2-item1{
-	width: 100%;
   height: 30%;
   background-color: rgba(32, 58, 87, 0.8);
 }
 .flex-column2-item2{
-	width: 100%;
   height: 70%;
   background-color: rgba(32, 58, 87, 0.6);
 }
@@ -81,9 +78,8 @@ page {
 
 .flex-column1-item2 .flex-item{
   flex-direction: column;
-  width: 100%;
-  height: 4rem;
-  padding: 7px 7px 7px 7px;
+  height: 180rpx;
+  padding: 7px 7px 0px 7px;
   box-sizing: border-box;
   background-color: rgba(10, 32, 58, 0.5);
   margin-bottom: 8px;
@@ -91,45 +87,36 @@ page {
 
 .flex-column1-item2 .flex-item .flex-item1{
   display: flex;
-  width: 100%;
-  height: 70%;
-  margin-bottom: 5px;
-}
-.flex-column1-item2 .flex-item .flex-item1 .img{
-  width: 3rem;
-  height: 100%;
+  height: 104rpx;
+  margin-bottom: 3px;
 }
 
 .flex-column1-item2 .flex-item .flex-item1 .img image{
-  width: 100%;
-  height: 100%;
+  width: 100rpx;
+  height: 100rpx;
 }
 
 .flex-column1-item2 .flex-item .flex-item1 .text{
-  width: 70%;
-  height: 100%;
+  width: 320rpx;
   padding-left: 8px;
 }
 
 .flex-column1-item2 .flex-item .flex-item1 .text .small{
-  font-size: 0.7rem;
+  font-size: 28rpx;
 }
 
-.flex-column1-item2 .flex-item .flex-item1 .button{
-  width: 30%;
-  height: 100%;
-  text-align: center;
-  color:white;
+.flex-column1-item2 .flex-item .flex-item1 .text .name{
+  font-size: 37.5rpx;
 }
 
 .flex-column1-item2 .flex-item .flex-item1 .button button{
   color:cyan;
+  font-size: 16rpx;
 }
 
 .flex-column1-item2 .flex-item .flex-item2{
-  width: 100%;
-  height: 30%;
-  font-size: 0.7rem;
+  height: 50rpx;
+  font-size: 26rpx;
   box-sizing: border-box;
   align-items: center;
   display: flex;
