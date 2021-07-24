@@ -10,8 +10,12 @@
 							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
 							<view><text>重氦：</text>{{ resources.deuterium }} / {{ resources.deuteriumStorageMax }}</view>
 							<view><text>能量：</text>{{ resources.energyUsed }} / {{ resources.energyMax }}</view>
-              <view><text>金属：</text>{{ resources.metal }} / {{ resources.metalStorageMax }}</view>
-							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
+              <u-button >默认按钮</u-button>
+              <u-button type="primary">主要按钮</u-button>
+              <u-button type="success">成功按钮</u-button>
+              <u-button type="info">信息按钮</u-button>
+              <u-button type="warning">警告按钮</u-button>
+              <u-button type="error">危险按钮</u-button>
 						</view>
 						<view class="flex-column1-item2">
 							 <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"

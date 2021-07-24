@@ -3,7 +3,7 @@ import { Config } from '../../config'
 // 创建axios实例
 const service = axios.create({
   baseURL: Config.APP_BASE_API,
-  timeout: 5000 // 请求超时时间
+  timeout: 50000 // 请求超时时间
 })
 
 // 真机获取
@@ -18,7 +18,7 @@ axios.defaults.adapter = function (config) {
       data: config.data,
       dataType: config.dataType,
       responseType: config.responseType,
-      sslVerify: config.sslVerify,
+      sslVerify: false,
       complete: function complete (response) {
         const res = {
           data: response.data,
