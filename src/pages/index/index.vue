@@ -1,6 +1,9 @@
 <template>
 	<view class="content">
 			<view class="status_bar">
+        <view class="list">
+          <u-icon name="list" color="rgb(181 241 253)" size="62" @click="drawerShow = true"></u-icon>
+        </view>
       </view>
 			<view class="flex-row">
 				<view class="flex-row-item1">
@@ -12,20 +15,7 @@
 							<view><text>能量：</text>{{ resources.energyUsed }} / {{ resources.energyMax }}</view>
 						</view>
 						<view class="flex-column1-item2">
-                              				<!-- <u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress> -->
-
-              <!-- <u-dropdown ref="uDropdown">
-
-			<u-dropdown-item title="属性" :class="sss">
-				<view class="slot-content" :height="100">
-				<u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress>
-<u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress>
-				</view>
-			</u-dropdown-item>
-		</u-dropdown> -->
-
-							<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
-                @scroll="scroll">
+							<scroll-view scroll-y="true" class="scroll-Y">
                 <view class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
                   <view class="flex-item1">
                     <view class="img"><image src="../../static/24.gif"/></view>
@@ -34,7 +24,7 @@
                       <view class="small">{{ item.buildTimeShow }}</view>
                     </view>
                     <view class="button">
-                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoad.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
+                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoading.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
                     </view>
                   </view>
                   <view class="flex-item2">
@@ -47,28 +37,24 @@
 				</view>
 				<view class="flex-row-item2">
 					<view class="flex-column2">
-						<view class="flex-column2-item1">
-<u-icon name="list" color="rgb(181 241 253)" size="62" @click="show = true"></u-icon>
-
+						<view class="flex-column2-item1">C</view>
+						<view class="flex-column2-item2">
+              <view class="item">控制台</view>
+              <view class="item">建筑</view>
+              <view class="item">研究</view>
+              <view class="item">船厂</view>
+              <view class="item">防御</view>
             </view>
-						<view class="flex-column2-item2">D</view>
 					</view>
 				</view>
 			</view>
-     <u-top-tips ref="uTips" :navbar-height="0"></u-top-tips>
-     <u-popup v-model="show" mode="right" :custom-style="cStyle" :mask-custom-style="mStyle" border-radius="0" width="250rpx" height="100%">
-        <view class="content1">
-				<scroll-view scroll-y="true" style="height: 300rpx;">
-					<view>
-						<view v-for="index in 20" :key="index">
-							第{{index}}个Item
-						</view>
-					</view>
-				</scroll-view>
-				<view class="confrim-btn">
-					<u-button @click="show = false;">确定</u-button>
+      <!-- 顶部提示 -->
+      <u-top-tips ref="uTips" :navbar-height="0"></u-top-tips>
+      <!-- 抽屉菜单 -->
+      <u-popup v-model="drawerShow" mode="right" :custom-style="customStyle" :mask-custom-style="maskCustomStyle" border-radius="0" width="250rpx" height="100%">
+				<view class="drawer-list">
+					<u-button @click="drawerShow = false;">确定</u-button>
 				</view>
-			</view>
       </u-popup>
 	</view>
 </template>
@@ -78,44 +64,23 @@ import { getResources, getBuilding, getResearch, addBuildingQueue, addResearchQu
 export default {
   data () {
     return {
-      show: false,
-      mStyle: {
-        background: 'rgba(32, 58, 87, 0.8)'
+      buttonLoading: [],
+      drawerShow: false,
+      maskCustomStyle: {
+        background: 'rgba(32, 58, 87, 0.5)'
       },
-      cStyle: {
-          background: 'rgba(32, 58, 87, 0.8)'
-        // background: '#2a4e6d',
+      customStyle: {
+        // background: 'rgba(32, 58, 87, 0.8)'
       },
       headStyle: {
         color: 'chartreuse'
       },
-      itemStyle: {
-        // border: '1px solid rgb(230, 230, 230)',
-        // 'margin-top': '20px',
-        // padding: '0 8rpx'
-      },
-      zd: {
-        head: '队列：金属矿 29 23 42',
-        body: '只要我们正确择取一个合适的参照物乃至稍降一格去看待他人，值得赏识的东西便会扑面而来',
-        open: true,
-        disabled: true
-      },
-      scrollTop: 0,
-      old: {
-        scrollTop: 0
-      },
       resources: {},
       buildings: [],
-      count: 0,
-      buttonLoad: []
     }
-  },
-  onLoad () {
-
   },
   async mounted () {
     const resource = await getResources()
-    console.log(resource)
     this.resources = resource.result
     const building = await getBuilding()
     this.buildings = building.result
@@ -160,41 +125,18 @@ export default {
     }, 1000)
   },
   methods: {
-    upper: function (e) {
-      // console.log(e)
-    },
-    lower: function (e) {
-      // console.log(e)
-    },
-    scroll: function (e) {
-      // console.log(e)
-      this.old.scrollTop = e.detail.scrollTop
-    },
-    showL(){
-
-    },
     async addBuildingQueue (row) {
-      this.buttonLoad.push(row.buildCode)
-      console.log(this.buttonLoad)
-      this.$refs.bload.loading = true
+      this.buttonLoading.push(row.buildCode)
       const rest = await addBuildingQueue({
         buildCode: row.buildCode
       })
-      const ff = await this.w(1000)
-      console.log(ff)
-      this.buttonLoad.splice(this.buttonLoad.indexOf(row.buildCode), 1)
+      await this.$utils.wait(1000)
+      this.buttonLoading.splice(this.buttonLoading.indexOf(row.buildCode), 1)
       this.$refs.uTips.show({
 				title: 'success',
 				type: 'success',
 				duration: '2300'
 			})
-    },
-    w (time) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve('ok')
-        }, time)
-      })
     },
     destroyed () {
       clearInterval(this.resourceTimer)
@@ -204,8 +146,5 @@ export default {
 </script>
 
 <style>
-@import 'index.css';
-.u-drawer-right {
-  background-color: rgba(32, 58, 87, 0.8);
-}
+@import 'index.css'
 </style>

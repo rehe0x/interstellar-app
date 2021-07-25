@@ -3,11 +3,9 @@ page {
 }
 
 .content {
-  /* width: 750rpx; */
-	height: 100%;
+	height: 100vh;
   background-image: url('../../static/b.jpeg');
   background-size: cover;
-  /* background-repeat: no-repeat; */
   padding-top: var(--status-bar-height);
 }
 
@@ -17,26 +15,29 @@ page {
   position: fixed;
   top: 0;
   background-color: rgba(32, 58, 87, 0.6);
-  /* background: brown; */
+}
+.status_bar .list {
+  float:right;
+  margin-right: 20rpx;
 }
 
 .flex-row{
-	height: 100%;
+	height: 100vh;
 	display: flex;
 }
 
 .flex-row-item1{
-	height: 100%;
+	height: 100vh;
   width: 620rpx
 }
 
 .flex-row-item2{
-	height: 100%;
+	height: 100vh;
   width: 130rpx;
 }
 
 .flex-column1{
-	height: 100%;
+	height: 100vh;
 	flex-direction: column;
 }
 
@@ -46,42 +47,29 @@ page {
   padding: 7px;
   box-sizing: border-box;
   color: lightpink;
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 
 .flex-column1-item1 text{
   color: rgb(180, 242, 253);
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 
 .flex-column1-item2{
   padding: 10px;
-  height: calc(100% - 400rpx);
+  height: calc(100vh - 400rpx);
   background-color: rgba(32, 58, 87, 0.8);
   box-sizing: border-box;
   color: rgb(180, 242, 253);
 }
 
-.flex-column2{
-	height: 100%;
-	flex-direction: column;
+.flex-column1-item2 .scroll-Y {
+  height: 100%;
 }
-
-.flex-column2-item1{
-  text-align: center;
-  height: 400rpx;
-  background-color: rgba(32, 58, 87, 0.6);
-  padding: 7px;
-}
-.flex-column2-item2{
-  height: calc(100% - 400rpx);
-  background-color: rgba(32, 58, 87, 0.6);
-}
-
 
 .flex-column1-item2 .flex-item{
   flex-direction: column;
-  height: 180rpx;
+  height: 188rpx;
   padding: 7px 7px 0px 7px;
   box-sizing: border-box;
   background-color: rgba(10, 32, 58, 0.5);
@@ -100,7 +88,7 @@ page {
 }
 
 .flex-column1-item2 .flex-item .flex-item1 .text{
-  width: 320rpx;
+  width: 360rpx;
   padding-left: 8px;
 }
 
@@ -111,11 +99,6 @@ page {
 .flex-column1-item2 .flex-item .flex-item1 .text .name{
   font-size: 37.5rpx;
 }
-/* 
-.flex-column1-item2 .flex-item .flex-item1 .button button{
-  color:cyan;
-  font-size: 16rpx;
-} */
 
 .flex-column1-item2 .flex-item .flex-item2{
   height: 50rpx;
@@ -123,34 +106,39 @@ page {
   box-sizing: border-box;
   align-items: center;
   display: flex;
-  color: rgb(20, 161, 79);
+  color: springgreen;
 }
 
 
-
-.scroll-Y {
-  height: 100%;
+.flex-column2{
+	height: 100vh;
+	flex-direction: column;
 }
 
-.head-style {
-  color: red;
-  padding-bottom: 10px;
+.flex-column2-item1{
+  text-align: center;
+  height: 400rpx;
+  background-color: rgba(32, 58, 87, 0.6);
+  padding: 7px;
 }
+.flex-column2-item2{
+  /* padding: 0px 10px 10px 10px; */
+  height: calc(100vh - 400rpx);
+  background-color: rgb(47 90 138 / 61%);
+  box-sizing: border-box;
+  color: rgb(180, 242, 253);
+}
+.flex-column2-item2 .item{
+  font-weight: bold;
+  text-align: center;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .u-tips {
   top: 0;
   height: 30px;
   background-color: rgba(32, 58, 87, 0.6);
-}
-/* .u-drawer-content-visible{
-  background: rgba(32, 58, 87, 0.8);
-
-} */
-.content1 {
-  padding: 24rpx;
-  text-align: center;
-  height: 100%;
-  /* background: rgba(32, 58, 87, 0.8); */
-}
-.u-drawer-right {
-  background-color: rgba(32, 58, 87, 0.8);
 }
