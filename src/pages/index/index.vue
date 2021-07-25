@@ -1,9 +1,6 @@
 <template>
 	<view class="content">
 			<view class="status_bar">
-        <view class="list">
-          <u-icon name="list" color="rgb(181 241 253)" size="62" @click="drawerShow = true"></u-icon>
-        </view>
       </view>
 			<view class="flex-row">
 				<view class="flex-row-item1">
@@ -37,7 +34,11 @@
 				</view>
 				<view class="flex-row-item2">
 					<view class="flex-column2">
-						<view class="flex-column2-item1">C</view>
+						<view class="flex-column2-item1">
+              <view class="list">
+                <u-icon name="list" color="rgb(181 241 253)" size="62" @click="drawerShow = true"></u-icon>
+              </view>
+            </view>
 						<view class="flex-column2-item2">
               <view class="item">控制台</view>
               <view class="item">建筑</view>
