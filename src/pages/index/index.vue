@@ -13,7 +13,10 @@
 						</view>
 						<view class="flex-column1-item2">
 							<scroll-view scroll-y="true" class="scroll-Y">
-                <view class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
+                <view v-if="swichMenuCode==1" class="flex-item1">
+                 控制台
+                </view>
+                <view v-if="swichMenuCode==2" class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
                   <view class="flex-item1">
                     <view class="img"><image src="../../static/24.gif"/></view>
                     <view class="text">
@@ -28,6 +31,38 @@
                     金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
                   </view>
                 </view>
+                <!-- <view v-if="swichMenuCode==2" class="flex-item1"  v-for="(item, buildCode) in buildings" :key="buildCode">
+                 建筑
+                </view> -->
+                 <view v-if="swichMenuCode==3" class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
+                 研究
+                </view>
+                <view v-if="swichMenuCode==4" class="flex-item" v-for="(item, buildCode) in buildings" :key="buildCode">
+                    <view class="flex-item1">
+                    <view class="img"><image src="../../static/24.gif"/></view>
+                    <view class="text">
+                      <view class="name">{{ item.name }} {{ item.level }}</view>
+                      <view class="small">{{ item.buildTimeShow }}</view>
+                    </view>
+                    <view class="button">
+                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoading.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
+                    </view>
+                  </view>
+                  <view class="flex-item2">
+                    金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
+                  </view>
+                </view>
+                <view v-if="swichMenuCode==0" class="flex-skeleton-item1">
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                   <view class="m-skeleton-fade"></view>
+                </view>
               </scroll-view>
 						</view>
 					</view>
@@ -40,15 +75,16 @@
               </view>
             </view>
 						<view class="flex-column2-item2">
-              <view class="item">控制台</view>
-              <view class="item">建筑</view>
-              <view class="item">研究</view>
-              <view class="item">船厂</view>
-              <view class="item">防御</view>
+              <view class="item" :class="[swichMenuCodeAct==1 ? 'item-activity' : '']" @click="swichMenu(1)">控制台</view>
+              <view class="item" :class="[swichMenuCodeAct==2 ? 'item-activity' : '']" @click="swichMenu(2)">建筑</view>
+              <view class="item" :class="[swichMenuCodeAct==3 ? 'item-activity' : '']" @click="swichMenu(3)">研究</view>
+              <view class="item" :class="[swichMenuCodeAct==4 ? 'item-activity' : '']" @click="swichMenu(4)">船厂</view>
+              <view class="item" :class="[swichMenuCodeAct==5 ? 'item-activity' : '']" @click="swichMenu(5)">防御</view>
             </view>
 					</view>
 				</view>
 			</view>
+
       <!-- 顶部提示 -->
       <u-top-tips ref="uTips" :navbar-height="0"></u-top-tips>
       <!-- 抽屉菜单 -->
@@ -66,6 +102,8 @@ export default {
   data () {
     return {
       buttonLoading: [],
+      swichMenuCode: 1,
+      swichMenuCodeAct: 1,
       drawerShow: false,
       maskCustomStyle: {
         background: 'rgba(32, 58, 87, 0.5)'
@@ -126,6 +164,12 @@ export default {
     }, 1000)
   },
   methods: {
+    async swichMenu(code) {
+      this.swichMenuCode = 0
+      this.swichMenuCodeAct = code
+      await this.$utils.wait(500)
+      this.swichMenuCode = code
+    },
     async addBuildingQueue (row) {
       this.buttonLoading.push(row.buildCode)
       const rest = await addBuildingQueue({

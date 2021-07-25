@@ -131,6 +131,7 @@ page {
   box-sizing: border-box;
   color: rgb(180, 242, 253);
 }
+
 .flex-column2-item2 .item{
   font-weight: bold;
   text-align: center;
@@ -140,8 +141,38 @@ page {
   justify-content: center;
 }
 
+.flex-column2-item2 .item-activity{
+  background-color: rgba(10, 32, 58, 0.5);
+
+}
+
 .u-tips {
-  top: 0;
+  top: var(--status-bar-height);
   height: 30px;
   background-color: rgba(32, 58, 87, 0.6);
+}
+
+
+.flex-skeleton-item1 .m-skeleton-fade {
+  height: 188rpx;
+  background: rgb(47 90 138 / 61%);
+  animation-duration: 1s;
+  animation-name: blink;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
