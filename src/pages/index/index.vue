@@ -10,42 +10,66 @@
 							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
 							<view><text>重氦：</text>{{ resources.deuterium }} / {{ resources.deuteriumStorageMax }}</view>
 							<view><text>能量：</text>{{ resources.energyUsed }} / {{ resources.energyMax }}</view>
-              <u-button >默认按钮</u-button>
-              <u-button type="primary">主要按钮</u-button>
-              <u-button type="success">成功按钮</u-button>
-              <u-button type="info">信息按钮</u-button>
-              <u-button type="warning">警告按钮</u-button>
-              <u-button type="error">危险按钮</u-button>
 						</view>
 						<view class="flex-column1-item2">
-							 <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
+                              				<!-- <u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress> -->
+
+              <!-- <u-dropdown ref="uDropdown">
+
+			<u-dropdown-item title="属性" :class="sss">
+				<view class="slot-content" :height="100">
+				<u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress>
+<u-line-progress :striped="true" :percent="70" :striped-active="true"></u-line-progress>
+				</view>
+			</u-dropdown-item>
+		</u-dropdown> -->
+
+							<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
                 @scroll="scroll">
-									<view class="flex-item" v-for="(item, buildCode) in buildings" :key="buildCode">
-								<view class="flex-item1">
-									<view class="img"><image src="../../static/24.gif"/></view>
-									<view class="text">
-										<view class="name">{{ item.name }} {{ item.level }}</view>
-										<view class="small">{{ item.buildTimeShow }}</view>
-									</view>
-									<view class="button">
-										<button type="primary" plain="true" size="mini" @tap="addBuildingQueue({buildCode})">升级</button>
-									</view>
-								</view>
-								<view class="flex-item2">
-									金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
-								</view>
-							</view>
-							 </scroll-view>
+                <view class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
+                  <view class="flex-item1">
+                    <view class="img"><image src="../../static/24.gif"/></view>
+                    <view class="text">
+                      <view class="name">{{ item.name }} {{ item.level }}</view>
+                      <view class="small">{{ item.buildTimeShow }}</view>
+                    </view>
+                    <view class="button">
+                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoad.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
+                    </view>
+                  </view>
+                  <view class="flex-item2">
+                    金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
+                  </view>
+                </view>
+              </scroll-view>
 						</view>
 					</view>
 				</view>
 				<view class="flex-row-item2">
 					<view class="flex-column2">
-						<view class="flex-column2-item1">C</view>
+						<view class="flex-column2-item1">
+<u-icon name="list" color="rgb(181 241 253)" size="62" @click="show = true"></u-icon>
+
+            </view>
 						<view class="flex-column2-item2">D</view>
 					</view>
 				</view>
 			</view>
+     <u-top-tips ref="uTips" :navbar-height="0"></u-top-tips>
+     <u-popup v-model="show" mode="right" :custom-style="cStyle" :mask-custom-style="mStyle" border-radius="0" width="250rpx" height="100%">
+        <view class="content1">
+				<scroll-view scroll-y="true" style="height: 300rpx;">
+					<view>
+						<view v-for="index in 20" :key="index">
+							第{{index}}个Item
+						</view>
+					</view>
+				</scroll-view>
+				<view class="confrim-btn">
+					<u-button @click="show = false;">确定</u-button>
+				</view>
+			</view>
+      </u-popup>
 	</view>
 </template>
 
@@ -54,13 +78,36 @@ import { getResources, getBuilding, getResearch, addBuildingQueue, addResearchQu
 export default {
   data () {
     return {
+      show: false,
+      mStyle: {
+        background: 'rgba(32, 58, 87, 0.8)'
+      },
+      cStyle: {
+          background: 'rgba(32, 58, 87, 0.8)'
+        // background: '#2a4e6d',
+      },
+      headStyle: {
+        color: 'chartreuse'
+      },
+      itemStyle: {
+        // border: '1px solid rgb(230, 230, 230)',
+        // 'margin-top': '20px',
+        // padding: '0 8rpx'
+      },
+      zd: {
+        head: '队列：金属矿 29 23 42',
+        body: '只要我们正确择取一个合适的参照物乃至稍降一格去看待他人，值得赏识的东西便会扑面而来',
+        open: true,
+        disabled: true
+      },
       scrollTop: 0,
       old: {
         scrollTop: 0
       },
       resources: {},
       buildings: [],
-      count: 0
+      count: 0,
+      buttonLoad: []
     }
   },
   onLoad () {
@@ -123,14 +170,30 @@ export default {
       // console.log(e)
       this.old.scrollTop = e.detail.scrollTop
     },
-    addBuildingQueue: async (row) => {
+    showL(){
+
+    },
+    async addBuildingQueue (row) {
+      this.buttonLoad.push(row.buildCode)
+      console.log(this.buttonLoad)
+      this.$refs.bload.loading = true
       const rest = await addBuildingQueue({
         buildCode: row.buildCode
       })
-      rest && uni.showToast({
-        title: '成功',
-        icon: 'loading',
-        duration: 1500
+      const ff = await this.w(1000)
+      console.log(ff)
+      this.buttonLoad.splice(this.buttonLoad.indexOf(row.buildCode), 1)
+      this.$refs.uTips.show({
+				title: 'success',
+				type: 'success',
+				duration: '2300'
+			})
+    },
+    w (time) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('ok')
+        }, time)
       })
     },
     destroyed () {
@@ -142,4 +205,7 @@ export default {
 
 <style>
 @import 'index.css';
+.u-drawer-right {
+  background-color: rgba(32, 58, 87, 0.8);
+}
 </style>

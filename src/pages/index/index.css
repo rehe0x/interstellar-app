@@ -27,12 +27,12 @@ page {
 
 .flex-row-item1{
 	height: 100%;
-  width: 600rpx
+  width: 620rpx
 }
 
 .flex-row-item2{
 	height: 100%;
-  width: 150rpx;
+  width: 130rpx;
 }
 
 .flex-column1{
@@ -68,11 +68,13 @@ page {
 }
 
 .flex-column2-item1{
-  height: 30%;
-  background-color: rgba(32, 58, 87, 0.8);
+  text-align: center;
+  height: 400rpx;
+  background-color: rgba(32, 58, 87, 0.6);
+  padding: 7px;
 }
 .flex-column2-item2{
-  height: 70%;
+  height: calc(100% - 400rpx);
   background-color: rgba(32, 58, 87, 0.6);
 }
 
@@ -109,11 +111,11 @@ page {
 .flex-column1-item2 .flex-item .flex-item1 .text .name{
   font-size: 37.5rpx;
 }
-
+/* 
 .flex-column1-item2 .flex-item .flex-item1 .button button{
   color:cyan;
   font-size: 16rpx;
-}
+} */
 
 .flex-column1-item2 .flex-item .flex-item2{
   height: 50rpx;
@@ -128,4 +130,27 @@ page {
 
 .scroll-Y {
   height: 100%;
+}
+
+.head-style {
+  color: red;
+  padding-bottom: 10px;
+}
+.u-tips {
+  top: 0;
+  height: 30px;
+  background-color: rgba(32, 58, 87, 0.6);
+}
+/* .u-drawer-content-visible{
+  background: rgba(32, 58, 87, 0.8);
+
+} */
+.content1 {
+  padding: 24rpx;
+  text-align: center;
+  height: 100%;
+  /* background: rgba(32, 58, 87, 0.8); */
+}
+.u-drawer-right {
+  background-color: rgba(32, 58, 87, 0.8);
 }
