@@ -38,7 +38,7 @@
 }
 
 .content_left_up text{
-  color: aqua;
+  color: rgb(0,205,204);
   font-size: 32rpx;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .content_left_down_build_list .item_down text{
-  color: aqua;
+  color: rgb(0,205,204);
 }
 .content_left_down_build_list .item_down text:not(:nth-child(1)){
   margin-left: 10rpx;
@@ -166,7 +166,7 @@
   top: 0;
   left: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, aqua 10%, transparent 10.01%);
+  background-image: radial-gradient(circle, rgb(0,205,204) 10%, transparent 10.01%);
   background-repeat: no-repeat;
   background-position: 50%;
   transform: scale(10, 10);
