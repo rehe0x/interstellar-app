@@ -1,0 +1,45 @@
+@font-face {
+  font-family: ZpixReviewLocal;
+  src: url(./static/fonts/zpix.woff2);
+}
+
+/* @font-face {
+  font-family: ZpixReviewOnline;
+  src: url(https://zpix.now.sh/zpix.woff2?v2021-03-21);
+} */
+
+page {
+  font-family: ZpixReviewLocal, ZpixReviewOnline, sans-serif;
+  -webkit-font-smoothing: none;
+  font-feature-settings: 'tnum';
+  line-height: 1.6;
+	height: 100%;
+  font-size: 28rpx;
+}
+
+
+.font_12 {
+  font-size: 24rpx;
+}
+.font_14 {
+  font-size: 28rpx;
+}
+.font_18 {
+  font-size: 36rpx;
+}
+.font_20 {
+  font-size: 40rpx;
+}
+.font_24 {
+  font-size: 48rpx;
+}
+
+
+.i-button{
+  background: rgb(45,184,172);
+  width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 242, 253);
+}

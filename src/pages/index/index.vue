@@ -1,187 +1,229 @@
 <template>
-	<view class="content">
-			<view class="status_bar">
-      </view>
-			<view class="flex-row">
-				<view class="flex-row-item1">
-					<view class="flex-column1">
-						<view class="flex-column1-item1">
-							<view><text>金属：</text>{{ resources.metal }} / {{ resources.metalStorageMax }}</view>
-							<view><text>晶体：</text>{{ resources.crystal }} / {{ resources.crystalStorageMax }}</view>
-							<view><text>重氦：</text>{{ resources.deuterium }} / {{ resources.deuteriumStorageMax }}</view>
-							<view><text>能量：</text>{{ resources.energyUsed }} / {{ resources.energyMax }}</view>
-						</view>
-						<view class="flex-column1-item2">
-							<scroll-view scroll-y="true" class="scroll-Y">
-                <view v-if="swichMenuCode==1" class="flex-item1">
-                 控制台
-                </view>
-                <view v-if="swichMenuCode==2" class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
-                  <view class="flex-item1">
-                    <view class="img"><image src="../../static/24.gif"/></view>
-                    <view class="text">
-                      <view class="name">{{ item.name }} {{ item.level }}</view>
-                      <view class="small">{{ item.buildTimeShow }}</view>
-                    </view>
-                    <view class="button">
-                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoading.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
-                    </view>
-                  </view>
-                  <view class="flex-item2">
-                    金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
-                  </view>
-                </view>
-                <!-- <view v-if="swichMenuCode==2" class="flex-item1"  v-for="(item, buildCode) in buildings" :key="buildCode">
-                 建筑
-                </view> -->
-                 <view v-if="swichMenuCode==3" class="flex-item"  v-for="(item, buildCode) in buildings" :key="buildCode">
-                 研究
-                </view>
-                <view v-if="swichMenuCode==4" class="flex-item" v-for="(item, buildCode) in buildings" :key="buildCode">
-                    <view class="flex-item1">
-                    <view class="img"><image src="../../static/24.gif"/></view>
-                    <view class="text">
-                      <view class="name">{{ item.name }} {{ item.level }}</view>
-                      <view class="small">{{ item.buildTimeShow }}</view>
-                    </view>
-                    <view class="button">
-                      <u-button  ref="bload"  type="primary" size="mini" :ripple="true" :loading="(buttonLoading.indexOf(buildCode)) === -1 ? false : true" ripple-bg-color="#909399" @tap="addBuildingQueue({buildCode})">升级</u-button>
+	<view class="wrapper">
+    <view class="status_bar">
+    </view>
+    <view class="content">
+      <view class="content_left">
+        <view class="content_left_up">
+          <view><text>金属：</text>{{ resources.metalStorageMax }} / {{ resources.metal }}</view>
+          <view><text>晶体：</text>{{ resources.crystalStorageMax }} / {{ resources.crystal }}</view>
+          <view><text>重氦：</text>{{ resources.deuteriumStorageMax }} / {{ resources.deuterium }}</view>
+          <view><text>能量：</text>{{ resources.energyMax }} / {{ resources.energyUsed }}</view>
+        </view>
+        <view class="content_left_down">
+          <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
+            <template v-if="swichSubmenuCode==1">
+              <view class="content_left_down_queue">
+                <template v-if="buildQueues.length > 0">
+                  <h2>建造队列</h2>
+                  <view class="content_left_down_queue_list">
+                    <view class="item" v-for="(item) in buildQueues" :key="item.id">
+                      <view>
+                        <h3>{{ item.buildName }} {{ item.level }}</h3>
+                        <template v-if="item.status === 'running'">
+                          <view class="i-progress" style="height: 32rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
+                        </template>
+                        <template v-else>
+                          <view class="i-progress" style="height: 32rpx"><view class="i-no-active" >等待</view></view>
+                        </template>
+                      </view>
+                      <view class="i-button" @tap="delBuildingQueue(item.id)">取消</view>
                     </view>
                   </view>
-                  <view class="flex-item2">
-                    金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }}
-                  </view>
-                </view>
-                <view v-if="swichMenuCode==0" class="flex-skeleton-item1">
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                   <view class="m-skeleton-fade"></view>
-                </view>
-              </scroll-view>
-						</view>
-					</view>
-				</view>
-				<view class="flex-row-item2">
-					<view class="flex-column2">
-						<view class="flex-column2-item1">
-              <view class="list">
-                <u-icon name="list" color="rgb(181 241 253)" size="62" @click="drawerShow = true"></u-icon>
+                </template>
               </view>
-            </view>
-						<view class="flex-column2-item2">
-              <view class="item" :class="[swichMenuCodeAct==1 ? 'item-activity' : '']" @click="swichMenu(1)">控制台</view>
-              <view class="item" :class="[swichMenuCodeAct==2 ? 'item-activity' : '']" @click="swichMenu(2)">建筑</view>
-              <view class="item" :class="[swichMenuCodeAct==3 ? 'item-activity' : '']" @click="swichMenu(3)">研究</view>
-              <view class="item" :class="[swichMenuCodeAct==4 ? 'item-activity' : '']" @click="swichMenu(4)">船厂</view>
-              <view class="item" :class="[swichMenuCodeAct==5 ? 'item-activity' : '']" @click="swichMenu(5)">防御</view>
-            </view>
-					</view>
-				</view>
-			</view>
-
-      <!-- 顶部提示 -->
-      <u-top-tips ref="uTips" :navbar-height="0"></u-top-tips>
-      <!-- 抽屉菜单 -->
-      <u-popup v-model="drawerShow" mode="right" :custom-style="customStyle" :mask-custom-style="maskCustomStyle" border-radius="0" width="250rpx" height="100%">
-				<view class="drawer-list">
-					<u-button @click="drawerShow = false;">确定</u-button>
-				</view>
-      </u-popup>
+              <view class="">
+                <h2>显示器</h2>
+                <view>
+                  你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
+                </view>
+              </view>
+            </template>
+            <template v-else-if="swichSubmenuCode==2">
+              <view class="content_left_down_build_list"  v-for="(item, buildCode) in buildings" :key="buildCode">
+                <view class="item_up">
+                  <image src="../../static/image/24.gif"/>
+                  <view class="info">
+                    <view class="font_18">{{ item.name }} {{ item.level }}</view>
+                    <view class="font_12">{{ item.buildTimeShow }}</view>
+                  </view>
+                  <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
+                </view>
+                <view class="item_down">
+                  <view><text>金属：</text>{{ item.metal }} <text>晶体：</text>{{ item.crystal }} <text>重氦：</text>{{ item.deuterium }}</view>
+                  <!-- 金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }} -->
+                </view>
+              </view>
+            </template>
+            <template v-else-if="swichSubmenuCode==3">
+              研究
+            </template>
+            <template v-else-if="swichSubmenuCode==4">
+              船厂
+            </template>
+            <template v-else-if="swichSubmenuCode==5">
+              防御
+            </template>
+          </scroll-view>
+        </view>
+      </view>
+      <view class="content_right">
+        <view class="content_right_up">
+          <view @click="drawerShow = true">设置</view>
+        </view>
+        <view class="content_right_down">
+          <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==2 ? 'submen_activity' : '']" @click="swichMenu(2)">建筑</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==3 ? 'submen_activity' : '']" @click="swichMenu(3)">研究</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==4 ? 'submen_activity' : '']" @click="swichMenu(4)">船厂</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==5 ? 'submen_activity' : '']" @click="swichMenu(5)">防御</view>
+        </view>
+      </view>
+    </view>
 	</view>
 </template>
 
 <script>
-import { getResources, getBuilding, getResearch, addBuildingQueue, addResearchQueue } from '../../api/planet'
+import { getPlanetBuildQueue, getResources, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
 export default {
   data () {
     return {
-      buttonLoading: [],
-      swichMenuCode: 1,
-      swichMenuCodeAct: 1,
+      swichSubmenuCode: 1,
+      swichSubmenuAct: 1,
       drawerShow: false,
-      maskCustomStyle: {
-        background: 'rgba(32, 58, 87, 0.5)'
-      },
-      customStyle: {
-        // background: 'rgba(32, 58, 87, 0.8)'
-      },
-      headStyle: {
-        color: 'chartreuse'
-      },
       resources: {},
       buildings: [],
+      buildQueues: [],
+      timeCount: 0
     }
+  },
+  computed: {
+    // progress () {
+    //   return (item) => {
+    //     // console.log(this.timeCount)
+    //     const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
+    //     if (item.startTime && item.seconds - t <= 0) {
+    //       // getPlanetBuildQueue().then((rest) => {
+    //       //   this.buildQueues = rest.result
+    //       // })
+    //       // getResources().then((rest) => {
+    //       //   this.resources = rest.result
+    //       // })
+    //     }
+    //     const s = Math.floor((t / item.seconds) * 100)
+    //     const showTime = this.$utils.remainingTime(item.seconds - t)
+    //     return { width: `width: ${s}%`, str: showTime }
+    //   }
+    // }
   },
   async mounted () {
     const resource = await getResources()
     this.resources = resource.result
     const building = await getBuilding()
     this.buildings = building.result
-
-    let metalT = 0
-    let crystalT = 0
-    let deuteriumT = 0
-    this.resourceTimer = setInterval(() => {
-      if (this.resources.metal < this.resources.metalStorageMax) {
-        if (this.resources.metalTime >= 1) {
-          this.resources.metal = Math.floor(+this.resources.metal + +this.resources.metalTime)
-        } else {
-          metalT += +this.resources.metalTime
-          if (metalT >= 1) {
-            this.resources.metal = Math.floor(+this.resources.metal + +metalT)
-            metalT = 0
-          }
-        }
-      }
-      if (this.resources.crystal < this.resources.crystalStorageMax) {
-        if (this.resources.crystalTime >= 1) {
-          this.resources.crystal = Math.floor(+this.resources.crystal + +this.resources.crystalTime)
-        } else {
-          crystalT += +this.resources.crystalTime
-          if (crystalT >= 1) {
-            this.resources.crystal = Math.floor(+this.resources.crystal + +crystalT)
-            crystalT = crystalT % 1
-          }
-        }
-      }
-      if (this.resources.deuterium < this.resources.deuteriumStorageMax) {
-        if (this.resources.deuteriumTime >= 1) {
-          this.resources.deuterium = Math.floor(+this.resources.deuterium + +this.resources.deuteriumTime)
-        } else {
-          deuteriumT += +this.resources.deuteriumTime
-          if (deuteriumT >= 1) {
-            this.resources.deuterium = Math.floor(+this.resources.deuterium + +deuteriumT)
-            deuteriumT = 0
-          }
-        }
-      }
-    }, 1000)
+    const buildQueue = await getPlanetBuildQueue()
+    this.buildQueues = buildQueue.result
+    this.timer()
   },
   methods: {
-    async swichMenu(code) {
-      this.swichMenuCode = 0
-      this.swichMenuCodeAct = code
-      await this.$utils.wait(500)
-      this.swichMenuCode = code
+    progress (item) {
+      const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
+      if (item.startTime && item.seconds - t <= 0) {
+        setTimeout(() => {
+          getPlanetBuildQueue().then((rest) => {
+            this.buildQueues = rest.result
+          })
+          getResources().then((rest) => {
+            this.resources = rest.result
+          })
+        }, 1000)
+        return { width: `width: ${100}%`, str: '0h 0m 0s' }
+      }
+      const s = Math.floor((t / item.seconds) * 100)
+      const showTime = this.$utils.remainingTime(item.seconds - t)
+      return { width: `width: ${s}%`, str: showTime }
+    },
+    async swichMenu (code) {
+      this.swichSubmenuAct = code
+      if (code === 1) {
+        const buildQueue = await getPlanetBuildQueue()
+        this.buildQueues = buildQueue.result
+        const resource = await getResources()
+        this.resources = resource.result
+      } else if (code === 2) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      } else if (code === 3) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      } else if (code === 4) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      } else if (code === 5) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      } else if (code === 6) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      }
+      this.swichSubmenuCode = code
     },
     async addBuildingQueue (row) {
-      this.buttonLoading.push(row.buildCode)
       const rest = await addBuildingQueue({
         buildCode: row.buildCode
       })
-      await this.$utils.wait(1000)
-      this.buttonLoading.splice(this.buttonLoading.indexOf(row.buildCode), 1)
-      this.$refs.uTips.show({
-				title: 'success',
-				type: 'success',
-				duration: '2300'
-			})
+      const resource = await getResources()
+      this.resources = resource.result
+    },
+    async delBuildingQueue (id) {
+      const rest = await deleteBuildQueue({
+        queueId: id
+      })
+      const buildQueue = await getPlanetBuildQueue()
+      this.buildQueues = buildQueue.result
+      const resource = await getResources()
+      this.resources = resource.result
+    },
+    timer () {
+      let metalT = 0
+      let crystalT = 0
+      let deuteriumT = 0
+      this.resourceTimer = setInterval(() => {
+        this.timeCount++
+        if (this.resources.metal < this.resources.metalStorageMax) {
+          if (this.resources.metalTime >= 1) {
+            this.resources.metal = Math.floor(+this.resources.metal + +this.resources.metalTime)
+          } else {
+            metalT += +this.resources.metalTime
+            if (metalT >= 1) {
+              this.resources.metal = Math.floor(+this.resources.metal + +metalT)
+              metalT = 0
+            }
+          }
+        }
+        if (this.resources.crystal < this.resources.crystalStorageMax) {
+          if (this.resources.crystalTime >= 1) {
+            this.resources.crystal = Math.floor(+this.resources.crystal + +this.resources.crystalTime)
+          } else {
+            crystalT += +this.resources.crystalTime
+            if (crystalT >= 1) {
+              this.resources.crystal = Math.floor(+this.resources.crystal + +crystalT)
+              crystalT = crystalT % 1
+            }
+          }
+        }
+        if (this.resources.deuterium < this.resources.deuteriumStorageMax) {
+          if (this.resources.deuteriumTime >= 1) {
+            this.resources.deuterium = Math.floor(+this.resources.deuterium + +this.resources.deuteriumTime)
+          } else {
+            deuteriumT += +this.resources.deuteriumTime
+            if (deuteriumT >= 1) {
+              this.resources.deuterium = Math.floor(+this.resources.deuterium + +deuteriumT)
+              deuteriumT = 0
+            }
+          }
+        }
+      }, 1000)
     },
     destroyed () {
       clearInterval(this.resourceTimer)

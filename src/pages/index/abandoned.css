@@ -1,0 +1,26 @@
+
+/*  */
+.flex-skeleton-item1 .m-skeleton-fade {
+  height: 188rpx;
+  background: rgb(47 90 138 / 61%);
+  animation-duration: 1s;
+  animation-name: blink;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

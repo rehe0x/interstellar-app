@@ -1,5 +1,9 @@
 import { request } from '../common/request'
 
+export const getPlanetBuildQueue = async (params) => {
+  return request.get('/api/planet/getPlanetBuildQueue', params)
+}
+
 export const getResources = (params) => {
   return request.get('/api/planet/getResources', params)
 }
@@ -18,4 +22,8 @@ export const addBuildingQueue = async (params) => {
 
 export const addResearchQueue = async (params) => {
   return request.post('/api/planet/addResearchQueue', params)
+}
+
+export const deleteBuildQueue = async (params) => {
+  return request.post('/api/planet/deleteBuildQueue', params)
 }
