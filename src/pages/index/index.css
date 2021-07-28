@@ -20,12 +20,12 @@
 
 .content_left{
 	height: 100%;
-  width: 620rpx
+  width: 640rpx
 }
 
 .content_right{
 	height: 100%;
-  width: 130rpx;
+  width: 110rpx;
 }
 
 .content_left_up {
@@ -34,12 +34,12 @@
   padding: 7px;
   box-sizing: border-box;
   color: rgb(180, 242, 253);
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 .content_left_up text{
   color: rgb(0,205,204);
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 .content_left_down {
@@ -75,8 +75,8 @@
 
 .content_left_down_build_list{
   flex-direction: column;
-  height: 188rpx;
-  padding: 7px 7px 0px 7px;
+  /* height: 188rpx; */
+  padding: 7px 7px 4px 7px;
   box-sizing: border-box;
   background-color: rgba(10, 32, 58, 0.5);
   margin-bottom: 8px;
@@ -84,7 +84,7 @@
 
 .content_left_down_build_list .item_up{
   display: flex;
-  height: 104rpx;
+  /* height: 96rpx; */
   margin-bottom: 3px;
 }
 
@@ -94,7 +94,7 @@
 
 .content_left_down_build_list .item_up image{
   width: 100rpx;
-  height: 100rpx;
+  height: 90rpx;
 }
 
 .content_left_down_build_list .item_up .info{
@@ -103,7 +103,6 @@
 }
 
 .content_left_down_build_list .item_down{
-  height: 50rpx;
   font-size: 24rpx;
   box-sizing: border-box;
   align-items: center;
@@ -128,7 +127,7 @@
 
 .content_right_up view{
   color: rgb(180, 242, 253);
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 .content_right_down{
@@ -139,8 +138,7 @@
 }
 
 .content_right_down .submenu{
-  font-weight: bold;
-  font-size: 32rpx;
+  font-size: 28rpx;
   text-align: center;
   height: 90rpx;
   display: flex;

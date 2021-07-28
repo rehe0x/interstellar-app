@@ -5,26 +5,26 @@
     <view class="content">
       <view class="content_left">
         <view class="content_left_up">
-          <view><text>金属：</text>{{ resources.metalStorageMax }} / {{ resources.metal }}</view>
-          <view><text>晶体：</text>{{ resources.crystalStorageMax }} / {{ resources.crystal }}</view>
-          <view><text>重氦：</text>{{ resources.deuteriumStorageMax }} / {{ resources.deuterium }}</view>
-          <view><text>能量：</text>{{ resources.energyMax }} / {{ resources.energyUsed }}</view>
+          <view><text>金属：</text>{{ resources.metalStorageMax | numberToCurrency }} / {{ resources.metal | numberToCurrency }}</view>
+          <view><text>晶体：</text>{{ resources.crystalStorageMax | numberToCurrency }} / {{ resources.crystal | numberToCurrency }}</view>
+          <view><text>重氦：</text>{{ resources.deuteriumStorageMax | numberToCurrency }} / {{ resources.deuterium | numberToCurrency }}</view>
+          <view><text>能量：</text>{{ resources.energyMax | numberToCurrency }} / {{ resources.energyUsed | numberToCurrency }}</view>
         </view>
         <view class="content_left_down">
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <template v-if="swichSubmenuCode==1">
               <view class="content_left_down_queue">
                 <template v-if="buildQueues.length > 0">
-                  <h2>建造队列</h2>
+                  <view class="font_16">建造队列</view>
                   <view class="content_left_down_queue_list">
                     <view class="item" v-for="(item) in buildQueues" :key="item.id">
                       <view>
-                        <h3>{{ item.buildName }} {{ item.level }}</h3>
+                        <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
                         <template v-if="item.status === 'running'">
-                          <view class="i-progress" style="height: 32rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
+                          <view class="i-progress" style="height: 28rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
                         </template>
                         <template v-else>
-                          <view class="i-progress" style="height: 32rpx"><view class="i-no-active" >等待</view></view>
+                          <view class="i-progress" style="height: 28rpx"><view class="i-no-active" >等待</view></view>
                         </template>
                       </view>
                       <view class="i-button" @tap="delBuildingQueue(item.id)">取消</view>
@@ -33,7 +33,7 @@
                 </template>
               </view>
               <view class="">
-                <h2>显示器</h2>
+               <view class="font_16">显示器</view>
                 <view>
                   你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
                 </view>
@@ -44,13 +44,13 @@
                 <view class="item_up">
                   <image src="../../static/image/24.gif"/>
                   <view class="info">
-                    <view class="font_18">{{ item.name }} {{ item.level }}</view>
+                    <view class="font_14">{{ item.name }} {{ item.level }}</view>
                     <view class="font_12">{{ item.buildTimeShow }}</view>
                   </view>
                   <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
                 </view>
                 <view class="item_down">
-                  <view><text>金属：</text>{{ item.metal }} <text>晶体：</text>{{ item.crystal }} <text>重氦：</text>{{ item.deuterium }}</view>
+                  <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
                   <!-- 金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }} -->
                 </view>
               </view>
@@ -95,6 +95,14 @@ export default {
       buildings: [],
       buildQueues: [],
       timeCount: 0
+    }
+  },
+  filters: {
+    numberToCurrency (value) {
+      if (!value) return '0'
+      // 整数部分处理，增加,
+      const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return intPartFormat
     }
   },
   computed: {

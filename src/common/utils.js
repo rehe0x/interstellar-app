@@ -22,3 +22,11 @@ export const remainingTime = (seconds) => {
 }
 
 export const wait = (seconds) => new Promise((resolve, reject) => { setTimeout(() => { resolve('ok') }, seconds) })
+
+/* 数字金额逢三加， 比如 123,464.23 */
+export const numberToCurrency = (value) => {
+  if (!value) return '0'
+  // 整数部分处理，增加,
+  const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+  return intPartFormat
+}

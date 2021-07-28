@@ -14,7 +14,7 @@ page {
   font-feature-settings: 'tnum';
   line-height: 1.6;
 	height: 100%;
-  font-size: 28rpx;
+  font-size: 24rpx;
 }
 
 
@@ -23,6 +23,9 @@ page {
 }
 .font_14 {
   font-size: 28rpx;
+}
+.font_16 {
+  font-size: 32rpx;
 }
 .font_18 {
   font-size: 36rpx;
@@ -37,7 +40,7 @@ page {
 
 .i-button{
   background: rgb(45,184,172);
-  width: 45px;
+  width: 90rpx;
   display: flex;
   align-items: center;
   justify-content: center;
