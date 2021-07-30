@@ -5,34 +5,12 @@
     <view class="content">
       <view class="content_left">
         <view class="content_left_up">
-          <view><text>金属：</text>{{ resources.metalStorageMax | numberToCurrency }} / {{ resources.metal | numberToCurrency }}</view>
-          <view><text>晶体：</text>{{ resources.crystalStorageMax | numberToCurrency }} / {{ resources.crystal | numberToCurrency }}</view>
-          <view><text>重氦：</text>{{ resources.deuteriumStorageMax | numberToCurrency }} / {{ resources.deuterium | numberToCurrency }}</view>
-          <view><text>能量：</text>{{ resources.energyMax | numberToCurrency }} / {{ resources.energyUsed | numberToCurrency }}</view>
+          <resources-compute  :resourcesDate="resources" v-if="Object.keys(resources).length > 0"/>
         </view>
         <view class="content_left_down">
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <template v-if="swichSubmenuCode==1">
-              <view class="content_left_down_queue">
-                <template v-if="buildQueues.length > 0">
-                  <view class="text_center font_16">建造队列</view>
-                  <view class="divider"></view>
-                  <view class="content_left_down_queue_list">
-                    <view class="item" v-for="(item) in buildQueues" :key="item.id">
-                      <view>
-                        <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
-                        <template v-if="item.status === QueueStatusEnum.RUNNING">
-                          <view class="i-progress" style="height: 28rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
-                        </template>
-                        <template v-else>
-                          <view class="i-progress" style="height: 28rpx"><view class="i-no-active" >等待</view></view>
-                        </template>
-                      </view>
-                      <view class="i-button" @tap="delBuildQueue(item.id)">取消</view>
-                    </view>
-                  </view>
-                </template>
-              </view>
+              <build-queue :buildQueuesDate="buildQueues" v-if="buildQueues.length > 0" @updateBuildQueue="updateBuildQueue" @delBuildQueue="delBuildQueue"/>
               <view class="content_left_down_active">
                 <view class="text_center font_16">显示器</view>
                 <view class="divider"></view>
@@ -206,9 +184,14 @@ export default {
     this.resources = resource.result
     const buildQueue = await getPlanetBuildQueue()
     this.buildQueues = buildQueue.result
-    this.timer()
   },
   methods: {
+    async updateBuildQueue () {
+      const resource = await getResources()
+      this.resources = resource.result
+      const buildQueue = await getPlanetBuildQueue()
+      this.buildQueues = buildQueue.result
+    },
     touchstart (code) {
       console.log('按下', code)
       this.touchstartStyle.push(code)
@@ -307,50 +290,6 @@ export default {
       this.buildQueues = buildQueue.result
       const resource = await getResources()
       this.resources = resource.result
-    },
-    timer () {
-      let metalT = 0
-      let crystalT = 0
-      let deuteriumT = 0
-      this.resourceTimer = setInterval(() => {
-        this.timeCount++
-        if (this.resources.metal < this.resources.metalStorageMax) {
-          if (this.resources.metalTime >= 1) {
-            this.resources.metal = Math.floor(+this.resources.metal + +this.resources.metalTime)
-          } else {
-            metalT += +this.resources.metalTime
-            if (metalT >= 1) {
-              this.resources.metal = Math.floor(+this.resources.metal + +metalT)
-              metalT = 0
-            }
-          }
-        }
-        if (this.resources.crystal < this.resources.crystalStorageMax) {
-          if (this.resources.crystalTime >= 1) {
-            this.resources.crystal = Math.floor(+this.resources.crystal + +this.resources.crystalTime)
-          } else {
-            crystalT += +this.resources.crystalTime
-            if (crystalT >= 1) {
-              this.resources.crystal = Math.floor(+this.resources.crystal + +crystalT)
-              crystalT = crystalT % 1
-            }
-          }
-        }
-        if (this.resources.deuterium < this.resources.deuteriumStorageMax) {
-          if (this.resources.deuteriumTime >= 1) {
-            this.resources.deuterium = Math.floor(+this.resources.deuterium + +this.resources.deuteriumTime)
-          } else {
-            deuteriumT += +this.resources.deuteriumTime
-            if (deuteriumT >= 1) {
-              this.resources.deuterium = Math.floor(+this.resources.deuterium + +deuteriumT)
-              deuteriumT = 0
-            }
-          }
-        }
-      }, 1000)
-    },
-    destroyed () {
-      clearInterval(this.resourceTimer)
     }
   }
 }
