@@ -58,8 +58,8 @@ page {
 
 .divider {
   height: 1px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   background:linear-gradient(
     to right, 
     rgba(0,0,0,0) 0%, 
@@ -78,6 +78,6 @@ page {
 }
 
 
-.text_align {
+.text_center {
   text-align: center;
 }

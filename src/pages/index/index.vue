@@ -15,7 +15,7 @@
             <template v-if="swichSubmenuCode==1">
               <view class="content_left_down_queue">
                 <template v-if="buildQueues.length > 0">
-                  <view class="text_align font_16">建造队列</view>
+                  <view class="text_center font_16">建造队列</view>
                   <view class="divider"></view>
                   <view class="content_left_down_queue_list">
                     <view class="item" v-for="(item) in buildQueues" :key="item.id">
@@ -34,7 +34,7 @@
                 </template>
               </view>
               <view class="content_left_down_active">
-                <view class="text_align font_16">显示器</view>
+                <view class="text_center font_16">显示器</view>
                 <view class="divider"></view>
                 <view class="content_left_down_active_list">
                   你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
@@ -42,12 +42,12 @@
               </view>
             </template>
             <template v-else-if="swichSubmenuCode == 2">
-              <view class="text_align font_16">基础建造</view>
+              <view class="text_center font_16">基础建造</view>
               <view class="divider"></view>
               <template v-for="(item, buildCode) in buildings">
-                <view class="content_left_down_build_list" :key="buildCode">
+                <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
                   <view class="item_up">
-                    <image src="../../static/image/24.gif"/>
+                    <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
                     <view class="info">
                       <view class="font_14">{{ item.name }} {{ item.level }}</view>
                       <view class="font_12">{{ item.buildTimeShow }}</view>
@@ -64,23 +64,23 @@
                       </template>
                     </template>
                     <template v-else>
-                      <view class="i-button" @tap="openPopup(item.requeriment)">查看</view>
+                      <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
                     </template>
                   </view>
                   <view class="item_down">
                     <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
                   </view>
                 </view>
-                <view class="divider" :key="buildCode"></view>
+                <view class="divider" :key="item.id"></view>
               </template>
             </template>
             <template v-else-if="swichSubmenuCode==3">
-              <view class="text_align font_16">科技研究</view>
+              <view class="text_center font_16">科技研究</view>
               <view class="divider"></view>
               <template v-for="(item, buildCode) in researchs" >
-                <view class="content_left_down_build_list" :key="buildCode">
+                <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
                   <view class="item_up">
-                    <image src="../../static/image/24.gif"/>
+                    <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
                     <view class="info">
                       <view class="font_14">{{ item.name }} {{ item.level }}</view>
                       <view class="font_12">{{ item.buildTimeShow }}</view>
@@ -94,14 +94,14 @@
                       </template>
                     </template>
                     <template v-else>
-                      <view class="i-button" @tap="openPopup(item.requeriment)">查看</view>
+                      <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
                     </template>
                   </view>
                   <view class="item_down">
                     <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
                   </view>
                 </view>
-                <view class="divider" :key="buildCode"></view>
+                <view class="divider" :key="item.id"></view>
               </template>
             </template>
             <template v-else-if="swichSubmenuCode==4">
@@ -117,7 +117,7 @@
         <view class="content_right_up">
           <view @tap="showDrawer">设置</view>
           <view @tap="navigateTo">原生</view>
-          <view @tap="openPopup">弹出</view>
+          <view @tap="openReqPopup">弹出</view>
         </view>
         <view class="content_right_down">
           <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>
@@ -129,13 +129,27 @@
       </view>
     </view>
     <view class="">
-      <view class="i_popup_mask" v-if="isShowPopup == true" @click="closePopup(1)">
-        <view class="i_popup" @click.stop="closePopup(2)">
+      <view class="i_popup_mask" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
+        <view class="i_popup" @click.stop="closeReqPopup(2)">
           <view class="i_popup_title font_16">科技树</view>
           <view class="i_popup_content font_14">
-            <view v-for="(item, index) in popupData.requeriments" :key="index">
+            <view v-for="(item, index) in requeriments.requeriments" :key="index">
               {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
             </view>
+          </view>
+        </view>
+      </view>
+      <view class="i_popup_mask" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
+        <view class="i_popup" @click.stop="closeDetailPopup(2)">
+          <view class="i_popup_title font_16">{{detail.name}}</view>
+          <view class="i_popup_content font_14">
+            <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
+              <view>{{ detail.description }}</view>
+              <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
+              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
+                {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+              </view>
+            </scroll-view>
           </view>
         </view>
       </view>
@@ -149,8 +163,11 @@ import { getPlanetBuildQueue, getPlanetBuildQueueByType, getResources, getBuildi
 export default {
   data () {
     return {
-      isShowPopup: false,
-      popupData: {},
+      touchstartStyle: [],
+      isShowReqPopup: false,
+      isShowDetailPopup: false,
+      requeriments: {},
+      detail: {},
       BuildTypeEnum: BuildTypeEnum,
       QueueStatusEnum: QueueStatusEnum,
       swichSubmenuCode: 1,
@@ -192,14 +209,31 @@ export default {
     this.timer()
   },
   methods: {
-    openPopup (r) {
-      console.log(r)
-      this.popupData = r
-      this.isShowPopup = true
+    touchstart (code) {
+      console.log('按下', code)
+      this.touchstartStyle.push(code)
     },
-    closePopup (v) {
+    touchend (code) {
+      console.log('松开')
+      this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
+    },
+    openReqPopup (r) {
+      console.log(r)
+      this.requeriments = r
+      this.isShowReqPopup = true
+    },
+    closeReqPopup (v) {
       if (v === 2) return
-      this.isShowPopup = false
+      this.isShowReqPopup = false
+    },
+    openDetailPopup (r) {
+      console.log(r)
+      this.detail = r
+      this.isShowDetailPopup = true
+    },
+    closeDetailPopup (v) {
+      if (v === 2) return
+      this.isShowDetailPopup = false
     },
     showDrawer () {
       uni.getSubNVueById('drawer').show('slide-in-left', 200)

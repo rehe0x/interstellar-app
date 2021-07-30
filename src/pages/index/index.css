@@ -76,7 +76,7 @@
 .content_left_down_build_list{
   flex-direction: column;
   /* height: 188rpx; */
-  padding: 0px 7px 0px 7px;
+  padding: 8px 7px 3px 7px;
   box-sizing: border-box;
   /* 透明块改成分割线 */
   /* background-color: rgba(10, 32, 58, 0.5); */
@@ -237,7 +237,7 @@
 
 .i_popup{
   position: relative;
-  width: 80%;
+  width: 700rpx;
   margin: auto;
   top: 40%;
   transform: translateY(-40%);
@@ -253,7 +253,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100px;
+  min-height: 200rpx;
+  max-height: 800rpx;
 }
 
 .i_popup_title {
