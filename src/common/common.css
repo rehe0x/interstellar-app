@@ -46,3 +46,38 @@ page {
   justify-content: center;
   color: rgb(180, 242, 253);
 }
+
+.i-no-button{
+  background: rgb(151,174,22);
+  width: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 242, 253);
+}
+
+.divider {
+  height: 1px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background:linear-gradient(
+    to right, 
+    rgba(0,0,0,0) 0%, 
+    rgba(35,198,200,0.8) 5%, 
+    rgba(35,198,200,0.8) 10%, 
+    rgba(35,198,200,0.8) 20%, 
+    rgba(35,198,200,0.8) 30%, 
+    rgba(35,198,200,0.8) 40%, 
+    rgba(35,198,200,0.8) 50%,
+    rgba(35,198,200,0.8) 60%, 
+    rgba(35,198,200,0.8) 70%, 
+    rgba(35,198,200,0.8) 80%, 
+    rgba(35,198,200,0.8) 90%, 
+    rgba(35,198,200,0.8) 95%, 
+    rgba(0,0,0,0) 100%)
+}
+
+
+.text_align {
+  text-align: center;
+}

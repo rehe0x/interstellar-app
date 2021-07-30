@@ -15,48 +15,94 @@
             <template v-if="swichSubmenuCode==1">
               <view class="content_left_down_queue">
                 <template v-if="buildQueues.length > 0">
-                  <view class="font_16">建造队列</view>
+                  <view class="text_align font_16">建造队列</view>
+                  <view class="divider"></view>
                   <view class="content_left_down_queue_list">
                     <view class="item" v-for="(item) in buildQueues" :key="item.id">
                       <view>
                         <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
-                        <template v-if="item.status === 'running'">
+                        <template v-if="item.status === QueueStatusEnum.RUNNING">
                           <view class="i-progress" style="height: 28rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
                         </template>
                         <template v-else>
                           <view class="i-progress" style="height: 28rpx"><view class="i-no-active" >等待</view></view>
                         </template>
                       </view>
-                      <view class="i-button" @tap="delBuildingQueue(item.id)">取消</view>
+                      <view class="i-button" @tap="delBuildQueue(item.id)">取消</view>
                     </view>
                   </view>
                 </template>
               </view>
-              <view class="">
-               <view class="font_16">显示器</view>
-                <view>
+              <view class="content_left_down_active">
+                <view class="text_align font_16">显示器</view>
+                <view class="divider"></view>
+                <view class="content_left_down_active_list">
                   你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
                 </view>
               </view>
             </template>
-            <template v-else-if="swichSubmenuCode==2">
-              <view class="content_left_down_build_list"  v-for="(item, buildCode) in buildings" :key="buildCode">
-                <view class="item_up">
-                  <image src="../../static/image/24.gif"/>
-                  <view class="info">
-                    <view class="font_14">{{ item.name }} {{ item.level }}</view>
-                    <view class="font_12">{{ item.buildTimeShow }}</view>
+            <template v-else-if="swichSubmenuCode == 2">
+              <view class="text_align font_16">基础建造</view>
+              <view class="divider"></view>
+              <template v-for="(item, buildCode) in buildings">
+                <view class="content_left_down_build_list" :key="buildCode">
+                  <view class="item_up">
+                    <image src="../../static/image/24.gif"/>
+                    <view class="info">
+                      <view class="font_14">{{ item.name }} {{ item.level }}</view>
+                      <view class="font_12">{{ item.buildTimeShow }}</view>
+                    </view>
+                    <template v-if="item.requeriment.isReq">
+                      <template v-if="typeBuildQueues.length === 0">
+                        <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
+                      </template>
+                      <template v-else-if="typeBuildQueues.length < 5">
+                        <view class="i-button" @tap="addBuildingQueue({buildCode})">加入</view>
+                      </template>
+                      <template v-else>
+                        <view class="i-no-button">升级</view>
+                      </template>
+                    </template>
+                    <template v-else>
+                      <view class="i-button" @tap="openPopup(item.requeriment)">查看</view>
+                    </template>
                   </view>
-                  <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
+                  <view class="item_down">
+                    <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
+                  </view>
                 </view>
-                <view class="item_down">
-                  <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
-                  <!-- 金属：{{ item.metal }} 晶体：{{ item.crystal }} 重氦：{{ item.deuterium }} -->
-                </view>
-              </view>
+                <view class="divider" :key="buildCode"></view>
+              </template>
             </template>
             <template v-else-if="swichSubmenuCode==3">
-              研究
+              <view class="text_align font_16">科技研究</view>
+              <view class="divider"></view>
+              <template v-for="(item, buildCode) in researchs" >
+                <view class="content_left_down_build_list" :key="buildCode">
+                  <view class="item_up">
+                    <image src="../../static/image/24.gif"/>
+                    <view class="info">
+                      <view class="font_14">{{ item.name }} {{ item.level }}</view>
+                      <view class="font_12">{{ item.buildTimeShow }}</view>
+                    </view>
+                    <template v-if="item.requeriment.isReq">
+                      <template v-if="typeBuildQueues.length > 0">
+                        <view class="i-no-button">升级</view>
+                      </template>
+                      <template v-else>
+                        <view class="i-button" @tap="addResearchQueue({buildCode})">升级</view>
+                      </template>
+                    </template>
+                    <template v-else>
+                      <view class="i-button" @tap="openPopup(item.requeriment)">查看</view>
+                    </template>
+                  </view>
+                  <view class="item_down">
+                    <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
+                  </view>
+                </view>
+                <view class="divider" :key="buildCode"></view>
+              </template>
             </template>
             <template v-else-if="swichSubmenuCode==4">
               船厂
@@ -69,7 +115,9 @@
       </view>
       <view class="content_right">
         <view class="content_right_up">
-          <view @click="drawerShow = true">设置</view>
+          <view @tap="showDrawer">设置</view>
+          <view @tap="navigateTo">原生</view>
+          <view @tap="openPopup">弹出</view>
         </view>
         <view class="content_right_down">
           <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>
@@ -80,22 +128,53 @@
         </view>
       </view>
     </view>
+    <view class="">
+      <view class="i_popup_mask" v-if="isShowPopup == true" @click="closePopup(1)">
+        <view class="i_popup" @click.stop="closePopup(2)">
+          <view class="i_popup_title font_16">科技树</view>
+          <view class="i_popup_content font_14">
+            <view v-for="(item, index) in popupData.requeriments" :key="index">
+              {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
 	</view>
 </template>
 
 <script>
-import { getPlanetBuildQueue, getResources, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
+import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
+import { getPlanetBuildQueue, getPlanetBuildQueueByType, getResources, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
 export default {
   data () {
     return {
+      isShowPopup: false,
+      popupData: {},
+      BuildTypeEnum: BuildTypeEnum,
+      QueueStatusEnum: QueueStatusEnum,
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
       drawerShow: false,
       resources: {},
       buildings: [],
+      researchs: [],
       buildQueues: [],
+      typeBuildQueues: [],
       timeCount: 0
     }
+  },
+  onLoad () {
+    // 监听 drawer 消息
+    uni.$on('drawer-page', (data) => {
+      uni.showToast({
+        title: '点击了第' + data + '项',
+        icon: 'none'
+      })
+    })
+  },
+  onUnload () {
+    uni.$off('drawer-page')
   },
   filters: {
     numberToCurrency (value) {
@@ -105,35 +184,31 @@ export default {
       return intPartFormat
     }
   },
-  computed: {
-    // progress () {
-    //   return (item) => {
-    //     // console.log(this.timeCount)
-    //     const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
-    //     if (item.startTime && item.seconds - t <= 0) {
-    //       // getPlanetBuildQueue().then((rest) => {
-    //       //   this.buildQueues = rest.result
-    //       // })
-    //       // getResources().then((rest) => {
-    //       //   this.resources = rest.result
-    //       // })
-    //     }
-    //     const s = Math.floor((t / item.seconds) * 100)
-    //     const showTime = this.$utils.remainingTime(item.seconds - t)
-    //     return { width: `width: ${s}%`, str: showTime }
-    //   }
-    // }
-  },
   async mounted () {
     const resource = await getResources()
     this.resources = resource.result
-    const building = await getBuilding()
-    this.buildings = building.result
     const buildQueue = await getPlanetBuildQueue()
     this.buildQueues = buildQueue.result
     this.timer()
   },
   methods: {
+    openPopup (r) {
+      console.log(r)
+      this.popupData = r
+      this.isShowPopup = true
+    },
+    closePopup (v) {
+      if (v === 2) return
+      this.isShowPopup = false
+    },
+    showDrawer () {
+      uni.getSubNVueById('drawer').show('slide-in-left', 200)
+    },
+    navigateTo () {
+      uni.navigateTo({
+        url: '/pages/index/new-nvue-page-1'
+      })
+    },
     progress (item) {
       const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
       if (item.startTime && item.seconds - t <= 0) {
@@ -152,28 +227,24 @@ export default {
       return { width: `width: ${s}%`, str: showTime }
     },
     async swichMenu (code) {
-      this.swichSubmenuAct = code
       if (code === 1) {
         const buildQueue = await getPlanetBuildQueue()
         this.buildQueues = buildQueue.result
-        const resource = await getResources()
-        this.resources = resource.result
       } else if (code === 2) {
         const building = await getBuilding()
         this.buildings = building.result
+        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
+        this.typeBuildQueues = typeBuildQueue.result
       } else if (code === 3) {
-        const building = await getBuilding()
-        this.buildings = building.result
+        const research = await getResearch()
+        this.researchs = research.result
+        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
+        this.typeBuildQueues = typeBuildQueue.result
       } else if (code === 4) {
-        const building = await getBuilding()
-        this.buildings = building.result
       } else if (code === 5) {
-        const building = await getBuilding()
-        this.buildings = building.result
       } else if (code === 6) {
-        const building = await getBuilding()
-        this.buildings = building.result
       }
+      this.swichSubmenuAct = code
       this.swichSubmenuCode = code
     },
     async addBuildingQueue (row) {
@@ -182,8 +253,19 @@ export default {
       })
       const resource = await getResources()
       this.resources = resource.result
+      const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
+      this.typeBuildQueues = typeBuildQueue.result
     },
-    async delBuildingQueue (id) {
+    async addResearchQueue (row) {
+      const rest = await addResearchQueue({
+        buildCode: row.buildCode
+      })
+      const resource = await getResources()
+      this.resources = resource.result
+      const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
+      this.typeBuildQueues = typeBuildQueue.result
+    },
+    async delBuildQueue (id) {
       const rest = await deleteBuildQueue({
         queueId: id
       })

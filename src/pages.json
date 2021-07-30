@@ -6,6 +6,39 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				"navigationBarTitleText": "interstellar",
+				"app-plus": {
+					"subNVues": [{
+						"id": "drawer",
+						"path": "pages/subnvue/drawer",
+						"type": "popup",
+						"style": {
+							"width": "30%",
+							"background": "transparent"
+						}
+					}, {
+						"id": "popup",
+						"path": "pages/subnvue/popup",
+						"type": "popup",
+						"style": {
+							"margin": "auto",
+							"width": "90%",
+							"height": "600rpx",
+							"background": "transparent"
+						}
+					}]
+				}
+			}
+		},
+		{
+			"path": "pages/index/new-nvue-page-1",
+			"style": {
+				"navigationBarTitleText": "interstellar"
+			}
+		},
+		{
+			"path": "pages/index/new-nvue-page-2",
+			"style": {
 				"navigationBarTitleText": "interstellar"
 			}
 		}

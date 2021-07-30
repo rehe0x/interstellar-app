@@ -56,7 +56,7 @@ service.interceptors.response.use(
       uni.showToast({
         title: res.data.msg,
         icon: 'loading',
-        duration: 1500
+        duration: 3000
       })
     } else {
       return res.data
@@ -66,7 +66,7 @@ service.interceptors.response.use(
     uni.showToast({
       title: error.message,
       icon: 'loading',
-      duration: 1500
+      duration: 3000
     })
     // // 兼容blob下载出错json提示
     // if (error.response.data instanceof Blob && error.response.data.type.toLowerCase().indexOf('json') !== -1) {

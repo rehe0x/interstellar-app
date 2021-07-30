@@ -49,14 +49,14 @@
   box-sizing: border-box;
   color: rgb(180, 242, 253);
 }
-
-.content_left_down_queue{
-  margin-bottom: 8px;
+.content_left_down_active{
+  margin-top: 10px;
+  padding: 0 7px 0px 7px;
 }
 
 .content_left_down_queue_list{
-  background-color: rgba(10, 32, 58, 0.5);
-  padding: 10px;
+  /* background-color: rgba(10, 32, 58, 0.5); */
+  padding: 0 7px 0px 7px;
 }
 .content_left_down_queue_list > .item{
   display: flex;
@@ -76,10 +76,11 @@
 .content_left_down_build_list{
   flex-direction: column;
   /* height: 188rpx; */
-  padding: 7px 7px 4px 7px;
+  padding: 0px 7px 0px 7px;
   box-sizing: border-box;
-  background-color: rgba(10, 32, 58, 0.5);
-  margin-bottom: 8px;
+  /* 透明块改成分割线 */
+  /* background-color: rgba(10, 32, 58, 0.5); */
+  /* margin-bottom: 8px; */
 }
 
 .content_left_down_build_list .item_up{
@@ -88,7 +89,7 @@
   margin-bottom: 3px;
 }
 
-.content_left_down_build_list .item_up .i-button{
+.content_left_down_build_list .item_up .i-button,.i-no-button{
   align-self: center;
 }
 
@@ -140,7 +141,7 @@
 .content_right_down .submenu{
   font-size: 28rpx;
   text-align: center;
-  height: 90rpx;
+  height: 76rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,9 +211,9 @@
 
 .i-striped-active + view{
   width: 200rpx;
-  position: fixed;
+  position: absolute;
   left: 50%;
-  margin-left: -100rpx;
+  margin-left: -50rpx;
   color: #000;
   display: flex;
   justify-content: center;
@@ -231,4 +232,36 @@
   100% {
     background-position: 39px 0;
   }
+}
+
+
+.i_popup{
+  position: relative;
+  width: 80%;
+  margin: auto;
+  top: 40%;
+  transform: translateY(-40%);
+  background: rgb(21 65 119 / 90%);
+  box-shadow: 0px 0px 8px 1px rgb(45,184,172) inset;
+  color: rgb(180, 242, 253);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.i_popup_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.i_popup_title {
+  text-align: center;
+}
+
+.i_popup_mask {
+  position: fixed;
+  inset: 0;
+  background: #73d2d233;
 }
