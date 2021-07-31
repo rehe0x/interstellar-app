@@ -5,6 +5,7 @@
     <view class="content">
       <view class="content_left">
         <view class="content_left_up">
+          <!-- <view class="font_14"><< 殖民地士大夫 1:333:5 >></view> -->
           <resources-compute />
         </view>
         <view class="content_left_down">
@@ -13,7 +14,7 @@
               <view class="content_left_down_head">
                 <view class="font_14 color_chartreuse">星际舰队</view>
                 <view>{{ t }}</view>
-                <view class="font_14 color_chartreuse">星际探索</view>
+                <view class="font_14 color_chartreuse">星际探索 ></view>
               </view>
               <build-queue />
               <view class="content_left_down_active">
@@ -98,9 +99,14 @@
       </view>
       <view class="content_right">
         <view class="content_right_up">
-          <view @tap="showDrawer">设置</view>
-          <view @tap="navigateTo">原生</view>
-          <view @tap="openReqPopup">弹出</view>
+          <view class="setting" @tap="showDrawer">设 置</view>
+          <!-- <view @tap="navigateTo">原生</view>
+          <view @tap="openReqPopup">弹出</view> -->
+          <view class="planet_show">
+            <view class="planet_show_name">殖民一号基地</view>
+            <view class="planet_show_name">123,55,12</view>
+          </view>
+          <!-- <view class="planet_select" @tap="showDrawer">> > ></view> -->
         </view>
         <view class="content_right_down">
           <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>

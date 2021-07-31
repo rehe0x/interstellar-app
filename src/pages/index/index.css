@@ -115,8 +115,26 @@
   box-sizing: border-box;
 }
 
-.content_right_up view{
+.content_right_up .setting{
   color: rgb(180, 242, 253);
+  font-size: 28rpx;
+}
+
+.content_right_up .planet_show{
+  line-height: 36rpx;
+  color: springgreen;
+  font-size: 28rpx;
+  writing-mode: vertical-lr;
+  margin: auto;
+  /* margin-top: 10px; */
+  letter-spacing: 4rpx;
+  word-break: keep-all;
+  height: 280rpx;
+  overflow: hidden;
+}
+
+.content_right_up .planet_select{
+  color: springgreen;
   font-size: 28rpx;
 }
 
