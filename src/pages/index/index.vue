@@ -5,12 +5,12 @@
     <view class="content">
       <view class="content_left">
         <view class="content_left_up">
-          <resources-compute  :resourcesDate="resources" v-if="Object.keys(resources).length > 0"/>
+          <resources-compute />
         </view>
         <view class="content_left_down">
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
-            <template v-if="swichSubmenuCode==1">
-              <build-queue :buildQueuesDate="buildQueues" v-if="buildQueues.length > 0" @updateBuildQueue="updateBuildQueue" @delBuildQueue="delBuildQueue"/>
+            <view v-show="swichSubmenuCode==1">
+              <build-queue />
               <view class="content_left_down_active">
                 <view class="text_center font_16">显示器</view>
                 <view class="divider"></view>
@@ -18,8 +18,8 @@
                   你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
                 </view>
               </view>
-            </template>
-            <template v-else-if="swichSubmenuCode == 2">
+            </view>
+            <view v-show="swichSubmenuCode == 2">
               <view class="text_center font_16">基础建造</view>
               <view class="divider"></view>
               <template v-for="(item, buildCode) in buildings">
@@ -31,10 +31,10 @@
                       <view class="font_12">{{ item.buildTimeShow }}</view>
                     </view>
                     <template v-if="item.requeriment.isReq">
-                      <template v-if="typeBuildQueues.length === 0">
+                      <template v-if="buildingBuildQueue.length === 0">
                         <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
                       </template>
-                      <template v-else-if="typeBuildQueues.length < 5">
+                      <template v-else-if="buildingBuildQueue.length < 5">
                         <view class="i-button" @tap="addBuildingQueue({buildCode})">加入</view>
                       </template>
                       <template v-else>
@@ -51,8 +51,8 @@
                 </view>
                 <view class="divider" :key="item.id"></view>
               </template>
-            </template>
-            <template v-else-if="swichSubmenuCode==3">
+            </view>
+            <view v-show="swichSubmenuCode==3">
               <view class="text_center font_16">科技研究</view>
               <view class="divider"></view>
               <template v-for="(item, buildCode) in researchs" >
@@ -64,7 +64,7 @@
                       <view class="font_12">{{ item.buildTimeShow }}</view>
                     </view>
                     <template v-if="item.requeriment.isReq">
-                      <template v-if="typeBuildQueues.length > 0">
+                      <template v-if="researchBuildQueue.length > 0">
                         <view class="i-no-button">升级</view>
                       </template>
                       <template v-else>
@@ -81,13 +81,13 @@
                 </view>
                 <view class="divider" :key="item.id"></view>
               </template>
-            </template>
-            <template v-else-if="swichSubmenuCode==4">
+            </view>
+            <view v-show="swichSubmenuCode==4">
               船厂
-            </template>
-            <template v-else-if="swichSubmenuCode==5">
+            </view>
+            <view v-show="swichSubmenuCode==5">
               防御
-            </template>
+            </view>
           </scroll-view>
         </view>
       </view>
@@ -137,7 +137,10 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getPlanetBuildQueue, getPlanetBuildQueueByType, getResources, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
+import { getNowTime, getPlanetBuildQueueByType, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
+let timerCount = 0
+const startTime = new Date().getTime()
+let nowTime = 0
 export default {
   data () {
     return {
@@ -151,11 +154,10 @@ export default {
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
       drawerShow: false,
-      resources: {},
       buildings: [],
       researchs: [],
-      buildQueues: [],
-      typeBuildQueues: [],
+      buildingBuildQueue: [],
+      researchBuildQueue: [],
       timeCount: 0
     }
   },
@@ -180,18 +182,11 @@ export default {
     }
   },
   async mounted () {
-    const resource = await getResources()
-    this.resources = resource.result
-    const buildQueue = await getPlanetBuildQueue()
-    this.buildQueues = buildQueue.result
+    const rest = await getNowTime()
+    nowTime = rest.result.nowTime
+    this.timer()
   },
   methods: {
-    async updateBuildQueue () {
-      const resource = await getResources()
-      this.resources = resource.result
-      const buildQueue = await getPlanetBuildQueue()
-      this.buildQueues = buildQueue.result
-    },
     touchstart (code) {
       console.log('按下', code)
       this.touchstartStyle.push(code)
@@ -226,37 +221,13 @@ export default {
         url: '/pages/index/new-nvue-page-1'
       })
     },
-    progress (item) {
-      const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
-      if (item.startTime && item.seconds - t <= 0) {
-        setTimeout(() => {
-          getPlanetBuildQueue().then((rest) => {
-            this.buildQueues = rest.result
-          })
-          getResources().then((rest) => {
-            this.resources = rest.result
-          })
-        }, 1000)
-        return { width: `width: ${100}%`, str: '0h 0m 0s' }
-      }
-      const s = Math.floor((t / item.seconds) * 100)
-      const showTime = this.$utils.remainingTime(item.seconds - t)
-      return { width: `width: ${s}%`, str: showTime }
-    },
     async swichMenu (code) {
       if (code === 1) {
-        const buildQueue = await getPlanetBuildQueue()
-        this.buildQueues = buildQueue.result
+        this.updateDate(['buildQueue'])
       } else if (code === 2) {
-        const building = await getBuilding()
-        this.buildings = building.result
-        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
-        this.typeBuildQueues = typeBuildQueue.result
+        this.updateDate(['building', 'buildingBuildQueue'])
       } else if (code === 3) {
-        const research = await getResearch()
-        this.researchs = research.result
-        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
-        this.typeBuildQueues = typeBuildQueue.result
+        this.updateDate(['research', 'researchBuildQueue'])
       } else if (code === 4) {
       } else if (code === 5) {
       } else if (code === 6) {
@@ -268,29 +239,58 @@ export default {
       const rest = await addBuildingQueue({
         buildCode: row.buildCode
       })
-      const resource = await getResources()
-      this.resources = resource.result
-      const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
-      this.typeBuildQueues = typeBuildQueue.result
+      this.updateDate(['resource', 'buildingBuildQueue'])
     },
     async addResearchQueue (row) {
       const rest = await addResearchQueue({
         buildCode: row.buildCode
       })
-      const resource = await getResources()
-      this.resources = resource.result
-      const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
-      this.typeBuildQueues = typeBuildQueue.result
+      this.updateDate(['resource', 'researchBuildQueue'])
     },
-    async delBuildQueue (id) {
-      const rest = await deleteBuildQueue({
-        queueId: id
-      })
-      const buildQueue = await getPlanetBuildQueue()
-      this.buildQueues = buildQueue.result
-      const resource = await getResources()
-      this.resources = resource.result
+    async updateDate (typeArray) {
+      if (typeArray.includes('resource')) {
+        this.$root.$emit('resourcesUpdate')
+      }
+      if (typeArray.includes('buildQueue')) {
+        this.$root.$emit('buildQueueUpdate')
+      }
+
+      if (typeArray.includes('building')) {
+        const building = await getBuilding()
+        this.buildings = building.result
+      }
+
+      if (typeArray.includes('research')) {
+        const research = await getResearch()
+        this.researchs = research.result
+      }
+
+      if (typeArray.includes('buildingBuildQueue')) {
+        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
+        this.buildingBuildQueue = typeBuildQueue.result
+      }
+
+      if (typeArray.includes('researchBuildQueue')) {
+        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
+        this.researchBuildQueue = typeBuildQueue.result
+      }
+    },
+    timer () {
+      if (nowTime > 0) {
+        const time = nowTime + timerCount * 1000
+        this.$root.$emit('resourcesTimer', time)
+        this.$root.$emit('buildQueueTimer', time)
+        const offset = new Date().getTime() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
+        timerCount++
+        this.timers = setTimeout(this.timer, 1000 - offset)
+      }
     }
+  },
+  destroyed () {
+    this.timers && clearTimeout(this.timers)
+  },
+  beforeDestroy () {
+    this.timers && clearTimeout(this.timers)
   }
 }
 </script>

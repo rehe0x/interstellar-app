@@ -8,7 +8,11 @@
           <view>
             <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
             <template v-if="item.status === QueueStatusEnum.RUNNING">
-              <view class="i-progress" style="height: 28rpx"><view class="i-striped-active" :style="progress(item).width"></view><view>{{progress(item).str}}</view></view>
+              <view class="i-progress" style="height: 28rpx">
+                <!-- 'width: '+Math.floor((((timeCount - item.startTime) / 1000) / item.seconds) * 100)+'%' -->
+                <view class="i-striped-active" :style="progressWidth(item)"></view>
+                <view>{{ progressTime(item) }}</view>
+              </view>
             </template>
             <template v-else>
               <view class="i-progress" style="height: 28rpx"><view class="i-no-active" >等待</view></view>
@@ -23,59 +27,67 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
+import { getPlanetBuildQueue, deleteBuildQueue } from '../../api/planet'
 export default {
   name: 'buildQueue',
   props: {
-    buildQueuesDate: {
-      type: Array,
-      required: true
-    }
+    // buildQueuesDate: {
+    //   type: Object,
+    //   required: true
+    // }
   },
   data () {
     return {
       BuildTypeEnum: BuildTypeEnum,
       QueueStatusEnum: QueueStatusEnum,
-      buildQueues: [],
-      timeCount: 0
-    }
-  },
-  watch: {
-    buildQueuesDate: {
-      handler (val) {
-        this.buildQueues = val
-      },
-      immediate: true
+      time: 0,
+      buildQueues: []
     }
   },
   created () {
   },
-  mounted () {
-    this.timer()
+  async mounted () {
+    this.$root.$on('buildQueueUpdate', async () => {
+      const buildQueue = await getPlanetBuildQueue()
+      this.buildQueues = buildQueue.result
+    })
+    this.$root.$on('buildQueueTimer', async (time) => {
+      this.time = time
+    })
+    const buildQueue = await getPlanetBuildQueue()
+    this.buildQueues = buildQueue.result
+  },
+  computed: {
   },
   methods: {
-    progress (item) {
-      this.timeCount
-      const t = (Math.floor(new Date().getTime()) - item.startTime) / 1000
+    progressTime (item) {
+      const t = (this.time - item.startTime) / 1000
       if (item.startTime && item.seconds - t <= 0) {
-        setTimeout(() => {
-          this.$emit('updateBuildQueue')
+        setTimeout(async () => {
+          this.$root.$emit('resourcesUpdate')
+          const buildQueue = await getPlanetBuildQueue()
+          this.buildQueues = buildQueue.result
         }, 1000)
-        return { width: `width: ${100}%`, str: '0h 0m 0s' }
+        return '0h 0m 0s'
+      }
+      const showTime = this.$utils.remainingTime(item.seconds - t)
+      return showTime
+    },
+    progressWidth (item) {
+      const t = (this.time - item.startTime) / 1000
+      if (item.startTime && item.seconds - t <= 0) {
+        return `width: ${100}%`
       }
       const s = Math.floor((t / item.seconds) * 100)
-      const showTime = this.$utils.remainingTime(item.seconds - t)
-      return { width: `width: ${s}%`, str: showTime }
+      return `width: ${s}%`
     },
     async delBuildQueue (id) {
-      this.$emit('delBuildQueue', id)
-    },
-    timer () {
-      this.buildQueueTimer = setInterval(() => {
-        this.timeCount++
-      }, 1000)
-    },
-    destroyed () {
-      clearInterval(this.buildQueueTimer)
+      const rest = await deleteBuildQueue({
+        queueId: id
+      })
+      this.$root.$emit('resourcesUpdate')
+      const buildQueue = await getPlanetBuildQueue()
+      this.buildQueues = buildQueue.result
     }
   }
 }

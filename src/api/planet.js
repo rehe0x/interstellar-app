@@ -1,5 +1,8 @@
 import { request } from '../common/request'
 
+export const getNowTime = async (params) => {
+  return request.get('/api/planet/getNowTime', params)
+}
 export const getPlanetBuildQueue = async (params) => {
   return request.get('/api/planet/getPlanetBuildQueue', params)
 }
