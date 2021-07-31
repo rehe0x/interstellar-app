@@ -44,6 +44,19 @@
   box-sizing: border-box;
   color: rgb(180, 242, 253);
 }
+
+.content_left_down_head{
+  display: flex;
+  margin-bottom: 10px;
+}
+.content_left_down_head > view:not(:last-child){
+  flex: auto;
+}
+.content_left_down_head > view:nth-child(2){
+  display: flex;
+  align-items: center;
+}
+
 .content_left_down_active{
   margin-top: 10px;
   padding: 0 7px 0px 7px;
@@ -109,7 +122,7 @@
 
 .content_right_down{
   height: calc(100% - 400rpx);
-  background-color: rgb(47 90 138 / 61%);
+  background-color: rgba(47,90,138,0.6);
   box-sizing: border-box;
   color: rgb(180, 242, 253);
 }
@@ -124,7 +137,7 @@
 }
 
 .content_right_down .submen_activity{
-  background-color: rgb(45 190 216 / 15%);
+  background-color: rgba(45,190,216,0.15);
 }
 
 .content_right_down .ripple {
@@ -162,7 +175,7 @@
   margin: auto;
   top: 40%;
   transform: translateY(-40%);
-  background: rgb(21 65 119 / 90%);
+  background: rgba(21,65,119 , 0.9);
   box-shadow: 0px 0px 8px 1px rgb(45,184,172) inset;
   color: rgb(180, 242, 253);
   padding: 20px;
@@ -184,6 +197,9 @@
 
 .i_popup_mask {
   position: fixed;
-  inset: 0;
-  background: #73d2d233;
+  /* inset: 0; 安卓不支持次写法*/
+  top: 0; right: 0; bottom: 0; left: 0;
+  /* background-color: #73d2d233; 安卓不支持*/
+  background-color: rgba(0,4,4,0.7);
+
 }

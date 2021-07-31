@@ -36,6 +36,12 @@ page {
 .font_24 {
   font-size: 48rpx;
 }
+.color_chartreuse{
+  color: springgreen;
+}
+.color_rgb0205204{
+  color: rgb(0,205,204)
+}
 
 
 .i-button{

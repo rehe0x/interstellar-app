@@ -109,7 +109,7 @@ export default {
 }
 
 .content_left_down_queue_list .i-progress{
-  width: 432rpx;
+  width: 460rpx;
   display: flex;
   align-items: center;
 }

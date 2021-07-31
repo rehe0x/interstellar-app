@@ -10,6 +10,11 @@
         <view class="content_left_down">
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <view v-show="swichSubmenuCode==1">
+              <view class="content_left_down_head">
+                <view class="font_14 color_chartreuse">星际舰队</view>
+                <view>{{ t }}</view>
+                <view class="font_14 color_chartreuse">星际探索</view>
+              </view>
               <build-queue />
               <view class="content_left_down_active">
                 <view class="text_center font_16">显示器</view>
@@ -136,10 +141,11 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
 import { getNowTime, getPlanetBuildQueueByType, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
 let timerCount = 0
-const startTime = new Date().getTime()
+const startTime = dayjs().valueOf()
 let nowTime = 0
 export default {
   data () {
@@ -158,7 +164,7 @@ export default {
       researchs: [],
       buildingBuildQueue: [],
       researchBuildQueue: [],
-      timeCount: 0
+      t: '0.0.0'
     }
   },
   onLoad () {
@@ -188,11 +194,9 @@ export default {
   },
   methods: {
     touchstart (code) {
-      console.log('按下', code)
       this.touchstartStyle.push(code)
     },
     touchend (code) {
-      console.log('松开')
       this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
     },
     openReqPopup (r) {
@@ -280,7 +284,8 @@ export default {
         const time = nowTime + timerCount * 1000
         this.$root.$emit('resourcesTimer', time)
         this.$root.$emit('buildQueueTimer', time)
-        const offset = new Date().getTime() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
+        this.t = dayjs(time).format('MM-DD HH:mm:ss')
+        const offset = dayjs().valueOf() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
         timerCount++
         this.timers = setTimeout(this.timer, 1000 - offset)
       }
