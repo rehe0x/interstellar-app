@@ -150,9 +150,6 @@
 }
 
 .planet_select_list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   top: var(--status-bar-height);
   right: 110rpx;
@@ -163,15 +160,18 @@
   width: 0rpx;
   opacity: 0;
   transition:all 0.2s;
-  overflow: hidden;
 }
 
 .planet_select_list_width {
   width: 640rpx;
   opacity: 1;
 }
-
-.planet_select_list .item{
+.planet_select_list_item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.planet_select_list_item .item{
   line-height: 36rpx;
   color: springgreen;
   font-size: 28rpx;
@@ -179,7 +179,7 @@
   letter-spacing: 4rpx;
   word-break: keep-all;
   overflow: hidden;
-  height: 100%;
+  height: 90%;
   padding-left: 10px;
   padding-right: 10px;
 }

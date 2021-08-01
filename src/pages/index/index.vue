@@ -111,42 +111,44 @@
           </view>
           <view class="planet_select_list" :class="planet_select_list_width ? 'planet_select_list_width' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
-              <view class="divider_vertical"></view>
-              <view @touchstart="touchstart(1)" @touchend="touchend(1)" :style="touchstartStyle.indexOf(1) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
+              <view class="planet_select_list_item">
+                <view class="divider_vertical"></view>
+                <view @touchstart="touchstart(1)" @touchend="touchend(1)" :style="touchstartStyle.indexOf(1) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_show_name">殖民地s44中心</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
+                  <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_show_name">s第三方噶</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
+                  <view class="item">
+                  <view class="planet_show_name">尔特瑞特第三方士大夫阿斯蒂芬士大夫</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
+                  <view class="item">
+                  <view class="planet_show_name">啊手动阀手动阀</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
                 <view class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
+                  <view class="planet_show_name">殖民地s44中心</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
                 <view class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
+                  <view class="planet_show_name">嗡嗡嗡嗡嗡嗡</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
+                <view class="item">
+                  <view class="planet_show_name">撒</view>
+                  <view class="planet_show_name">123,453,112</view>
+                </view>
+                <view class="divider_vertical"></view>
               </view>
-              <view class="divider_vertical"></view>
-              <view class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
-              <view class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
-              <view class="item">
-                <view class="planet_show_name">殖民地s44中心</view>
-                <view class="planet_show_name">123,453,112</view>
-              </view>
-              <view class="divider_vertical"></view>
             </scroll-view>
           </view>
         </view>
