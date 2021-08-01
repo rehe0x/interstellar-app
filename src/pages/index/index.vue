@@ -104,12 +104,51 @@
           <view @tap="openReqPopup">弹出</view> -->
           <view class="content_right_up_planet">
             <view class="planet_show">
-              <view class="planet_show_name">殖民地中心</view>
+              <view class="planet_show_name">殖民地s44中心</view>
               <view class="planet_show_name">123,453,112</view>
             </view>
-            <view class="planet_select_btn" @tap="planet_select_list_width ? planet_select_list_width = false : planet_select_list_width = true"><<<<</view>
+            <view class="planet_select_btn" @tap="planet_select_list_width ? planet_select_list_width = false : planet_select_list_width = true"><<<</view>
           </view>
-          <view class="planet_select_list" :class="planet_select_list_width ? 'planet_select_list_width' : ''"></view>
+          <view class="planet_select_list" :class="planet_select_list_width ? 'planet_select_list_width' : ''">
+            <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
+              <view class="divider_vertical"></view>
+              <view @touchstart="touchstart(1)" @touchend="touchend(1)" :style="touchstartStyle.indexOf(1) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+                <view class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+                <view class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+              <view class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+              <view class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+              <view class="item">
+                <view class="planet_show_name">殖民地s44中心</view>
+                <view class="planet_show_name">123,453,112</view>
+              </view>
+              <view class="divider_vertical"></view>
+            </scroll-view>
+          </view>
         </view>
         <view class="content_right_down">
           <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>
