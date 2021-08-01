@@ -74,7 +74,6 @@
 
 .content_left_down_build_list .item_up{
   display: flex;
-  /* height: 96rpx; */
   margin-bottom: 3px;
 }
 
@@ -110,43 +109,41 @@
 .content_right_up{
   height: 400rpx;
   background-color: rgba(32, 58, 87, 0.6);
-  /* padding: 7px; */
+  padding-left: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
 }
 
-.content_right_up .setting{
-  color: rgb(180, 242, 253);
-  font-size: 28rpx;
-  text-align: center;
-} 
-
-.content_right_up_planet {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 330rpx;
+.content_right_up .planet_icon{
+  width: 80rpx;
+  height: 80rpx;
+  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
+  border-radius: 50%;
 }
 
-.content_right_up .planet_show{
+.content_right_up_planet_info {
   line-height: 36rpx;
   color: springgreen;
   font-size: 28rpx;
   writing-mode: vertical-lr;
-  /* margin: auto; */
-  margin-top: 5px;
+  margin-top:20rpx;
   letter-spacing: 4rpx;
   word-break: keep-all;
-  /* max-height: 280rpx; */
-  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
-.content_right_up .planet_select_btn{
+.content_right_up_planet_info .planet_show{
+  max-height: 138px;
+  overflow: hidden;
+}
+
+.content_right_up_planet_info .planet_select_btn{
   color: springgreen;
   font-size: 28rpx;
+  text-align: center;
+  writing-mode: initial;
 }
 
 .planet_select_list {
@@ -180,21 +177,26 @@
   letter-spacing: 4rpx;
   word-break: keep-all;
   overflow: hidden;
-  height: 90%;
+  height: 95%;
   padding-left: 10px;
   padding-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .planet_select_list_item .planet_icon{
   width: 60rpx;
   height: 60rpx;
-  background: yellowgreen;
+  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
   border-radius: 50%;
   position: absolute;
 }
 
 .planet_select_list_item .planet_name {
   padding-top: 76rpx;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .content_right_down{
