@@ -31,7 +31,7 @@
 .content_left_up {
   height: 400rpx;
   background-color: rgba(32, 58, 87, 0.6);
-  padding: 7px;
+  padding-left: 7px;
   box-sizing: border-box;
   color: rgb(180, 242, 253);
   font-size: 28rpx;
@@ -111,7 +111,7 @@
   text-align: center;
   height: 400rpx;
   background-color: rgba(32, 58, 87, 0.6);
-  padding: 7px;
+  /* padding: 7px; */
   box-sizing: border-box;
 }
 
@@ -139,6 +139,9 @@
   word-break: keep-all;
   /* max-height: 280rpx; */
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .content_right_up .planet_select_btn{
