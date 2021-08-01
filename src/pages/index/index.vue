@@ -114,38 +114,59 @@
               <view class="planet_select_list_item">
                 <view class="divider_vertical"></view>
                 <view @touchstart="touchstart(1)" @touchend="touchend(1)" :style="touchstartStyle.indexOf(1) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_show_name">殖民地s44中心</view>
-                  <view class="planet_show_name">123,453,112</view>
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地s44中心</view>
+                    <view>123,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                  <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_show_name">s第三方噶</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地s44中心</view>
+                    <view>123,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                  <view class="item">
-                  <view class="planet_show_name">尔特瑞特第三方士大夫阿斯蒂芬士大夫</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地s44中心</view>
+                    <view>123,4,12</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                  <view class="item">
-                  <view class="planet_show_name">啊手动阀手动阀</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地s心</view>
+                    <view>123,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                <view class="item">
-                  <view class="planet_show_name">殖民地s44中心</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>44中心</view>
+                    <view>3,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                <view class="item">
-                  <view class="planet_show_name">嗡嗡嗡嗡嗡嗡</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地s44中心</view>
+                    <view>123,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
-                <view class="item">
-                  <view class="planet_show_name">撒</view>
-                  <view class="planet_show_name">123,453,112</view>
+                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view class="planet_icon"></view>
+                  <view class="planet_name">
+                    <view>殖民地心</view>
+                    <view>123,453,112</view>
+                  </view>
                 </view>
                 <view class="divider_vertical"></view>
               </view>

@@ -108,7 +108,6 @@
 }
 
 .content_right_up{
-  text-align: center;
   height: 400rpx;
   background-color: rgba(32, 58, 87, 0.6);
   /* padding: 7px; */
@@ -118,7 +117,8 @@
 .content_right_up .setting{
   color: rgb(180, 242, 253);
   font-size: 28rpx;
-}
+  text-align: center;
+} 
 
 .content_right_up_planet {
   display: flex;
@@ -171,6 +171,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .planet_select_list_item .item{
   line-height: 36rpx;
   color: springgreen;
@@ -182,6 +183,18 @@
   height: 90%;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.planet_select_list_item .planet_icon{
+  width: 60rpx;
+  height: 60rpx;
+  background: yellowgreen;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.planet_select_list_item .planet_name {
+  padding-top: 76rpx;
 }
 
 .content_right_down{
