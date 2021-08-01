@@ -102,11 +102,14 @@
           <view class="setting" @tap="showDrawer">设 置</view>
           <!-- <view @tap="navigateTo">原生</view>
           <view @tap="openReqPopup">弹出</view> -->
-          <view class="planet_show">
-            <view class="planet_show_name">殖民一号基地</view>
-            <view class="planet_show_name">123,55,12</view>
+          <view class="content_right_up_planet">
+            <view class="planet_show">
+              <view class="planet_show_name">殖民地中心</view>
+              <view class="planet_show_name">123,453,112</view>
+            </view>
+            <view class="planet_select_btn" @tap="planet_select_list_width ? planet_select_list_width = false : planet_select_list_width = true"><<<<</view>
           </view>
-          <!-- <view class="planet_select" @tap="showDrawer">> > ></view> -->
+          <view class="planet_select_list" :class="planet_select_list_width ? 'planet_select_list_width' : ''"></view>
         </view>
         <view class="content_right_down">
           <view class="submenu ripple" :class="[swichSubmenuAct==1 ? 'submen_activity' : '']" @click="swichMenu(1)">控制台</view>
@@ -118,30 +121,32 @@
       </view>
     </view>
     <view class="">
-      <view class="i_popup_mask" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
-        <view class="i_popup" @click.stop="closeReqPopup(2)">
-          <view class="i_popup_title font_16">科技树</view>
-          <view class="i_popup_content font_14">
-            <view v-for="(item, index) in requeriments.requeriments" :key="index">
-              {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+      <!-- <transition name="i_popup_mask"> -->
+        <view class="i_popup_mask" :class="i_popup_mask_opacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
+          <view class="i_popup" @click.stop="closeReqPopup(2)">
+            <view class="i_popup_title font_16">科技树</view>
+            <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
+              <view v-for="(item, index) in requeriments.requeriments" :key="index">
+                {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+              </view>
             </view>
           </view>
         </view>
-      </view>
-      <view class="i_popup_mask" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
-        <view class="i_popup" @click.stop="closeDetailPopup(2)">
-          <view class="i_popup_title font_16">{{detail.name}}</view>
-          <view class="i_popup_content font_14">
-            <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
-              <view>{{ detail.description }}</view>
-              <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
-              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
-                {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
-              </view>
-            </scroll-view>
+        <view class="i_popup_mask" :class="i_popup_mask_opacity" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
+          <view v-if="Object.keys(detail).length > 0" class="i_popup" @click.stop="closeDetailPopup(2)">
+            <view class="i_popup_title font_16">{{detail.name}}</view>
+            <view class="i_popup_content font_14">
+              <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
+                <view>{{ detail.description }}</view>
+                <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
+                <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
+                  {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+                </view>
+              </scroll-view>
+            </view>
           </view>
         </view>
-      </view>
+       <!-- </transition> -->
     </view>
 	</view>
 </template>
@@ -156,6 +161,8 @@ let nowTime = 0
 export default {
   data () {
     return {
+      i_popup_mask_opacity: '',
+      planet_select_list_width: false,
       touchstartStyle: [],
       isShowReqPopup: false,
       isShowDetailPopup: false,
@@ -209,19 +216,31 @@ export default {
       console.log(r)
       this.requeriments = r
       this.isShowReqPopup = true
+      this.$nextTick(() => {
+        this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+      })
     },
     closeReqPopup (v) {
       if (v === 2) return
-      this.isShowReqPopup = false
+      this.i_popup_mask_opacity = ''
+      setTimeout(() => {
+        this.isShowReqPopup = false
+      }, 200)
     },
     openDetailPopup (r) {
       console.log(r)
       this.detail = r
       this.isShowDetailPopup = true
+      this.$nextTick(() => {
+        this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+      })
     },
     closeDetailPopup (v) {
       if (v === 2) return
-      this.isShowDetailPopup = false
+      this.i_popup_mask_opacity = ''
+      setTimeout(() => {
+        this.isShowDetailPopup = false
+      }, 300)
     },
     showDrawer () {
       uni.getSubNVueById('drawer').show('slide-in-left', 200)
