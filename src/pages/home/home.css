@@ -64,8 +64,20 @@
   margin-left: 30rpx;
 }
 
+.main .main_footer {
+  display: flex;
+  height: 600rpx;
+  min-height: 160rpx;
+  display: flex;
+  align-items: center;
+}
+
 .footer{
   height: 10%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .uni-input {
@@ -73,4 +85,46 @@
   border-width: 2px;
   position: fixed;
   bottom: 0;
+}
+
+
+
+.i_popup{
+  position: relative;
+  width: 680rpx;
+  margin: auto;
+  top: 40%;
+  transform: translateY(-40%);
+  background-color: rgba(0, 4, 4, 0.7);
+  box-shadow: 0px 0px 3px 0px springgreen inset;
+  color: rgb(180, 242, 253);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.i_popup_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200rpx;
+  max-height: 800rpx;
+}
+
+.i_popup_title {
+  text-align: center;
+}
+
+.i_popup_mask {
+  position: fixed;
+  /* inset: 0; 安卓不支持次写法*/
+  top: 0; right: 0; bottom: 0; left: 0;
+  /* background-color: #73d2d233; 安卓不支持*/
+  background-color: rgba(0,4,4,0.7);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.i_popup_mask_opacity {
+  opacity: 1;
 }

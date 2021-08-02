@@ -238,7 +238,9 @@ export default {
       this.requeriments = r
       this.isShowReqPopup = true
       this.$nextTick(() => {
-        this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+        setTimeout(()=>{
+          this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+        },0)
       })
     },
     closeReqPopup (v) {
@@ -253,7 +255,9 @@ export default {
       this.detail = r
       this.isShowDetailPopup = true
       this.$nextTick(() => {
-        this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+        setTimeout(()=>{
+          this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+        },0)
       })
     },
     closeDetailPopup (v) {
