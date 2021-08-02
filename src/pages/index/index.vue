@@ -98,79 +98,32 @@
         </view>
       </view>
       <view class="content_right">
-        <view @tap="planet_select_list_width ? planet_select_list_width = false : planet_select_list_width = true" @touchstart="touchstart(5)" @touchend="touchend(5)" :style="touchstartStyle.indexOf(5) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''"  class="content_right_up">
+        <view class="content_right_up">
           <view class="planet_icon"></view>
           <!-- <view class="setting" @tap="showDrawer">设 置</view> -->
           <!-- <view @tap="navigateTo">原生</view>
           <view @tap="openReqPopup">弹出</view> -->
-          <view class="content_right_up_planet_info">
+          <view class="content_right_up_planet_info" @tap="planetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''">
             <view class="planet_name">
-              <view>殖民地</view>
+              <view>殖民地殖民地殖民地发撒地方</view>
               <view>123,453,112</view>
             </view>
             <view class="planet_select_btn"><<<</view>
           </view>
-          <view class="planet_select_list" :class="planet_select_list_width ? 'planet_select_list_width' : ''">
+          <view class="planet_select_list" :class="planet_select_list_show ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
               <view class="planet_select_list_item">
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(1)" @touchend="touchend(1)" :style="touchstartStyle.indexOf(1) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地s44中心</view>
-                    <view>123,453,112</view>
+                <template v-for="(item) in userPlanetList">
+                  <view class="divider_vertical"></view>
+                  <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                    <view class="planet_icon"></view>
+                    <view class="planet_name">
+                      <view>{{ item.name }}</view>
+                      <view>{{ item.galaxyX }},{{ item.galaxyY }},{{ item.galaxyZ }}</view>
+                    </view>
+                    <view class="planet_on" v-if="item.id == userSelectPlanetId"><</view>
                   </view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地s44中心水电费水电费水电费</view>
-                    <view>123,453,112</view>
-                  </view>
-                  <view class="planet_on"><</view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地s44中心</view>
-                    <view>123,4,12</view>
-                  </view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地s心</view>
-                    <view>123,453,112</view>
-                  </view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>44中心</view>
-                    <view>3,453,112</view>
-                  </view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地s44中心</view>
-                    <view>123,453,112</view>
-                  </view>
-                </view>
-                <view class="divider_vertical"></view>
-                <view @touchstart="touchstart(2)" @touchend="touchend(2)" :style="touchstartStyle.indexOf(2) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
-                  <view class="planet_icon"></view>
-                  <view class="planet_name">
-                    <view>殖民地心</view>
-                    <view>123,453,112</view>
-                  </view>
-                </view>
-                <view class="divider_vertical"></view>
+                </template>
               </view>
             </scroll-view>
           </view>
@@ -218,7 +171,9 @@
 <script>
 import dayjs from 'dayjs'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getNowTime, getPlanetBuildQueueByType, getBuilding, getResearch, addBuildingQueue, addResearchQueue, deleteBuildQueue } from '../../api/planet'
+import { getNowTime, getPlanetBuildQueueByType, getBuilding, getResearch, addBuildingQueue, addResearchQueue } from '../../api/planet'
+import { getUserPlanet } from '../../api/user'
+
 let timerCount = 0
 const startTime = dayjs().valueOf()
 let nowTime = 0
@@ -226,7 +181,7 @@ export default {
   data () {
     return {
       i_popup_mask_opacity: '',
-      planet_select_list_width: false,
+      planet_select_list_show: false,
       touchstartStyle: [],
       isShowReqPopup: false,
       isShowDetailPopup: false,
@@ -241,6 +196,8 @@ export default {
       researchs: [],
       buildingBuildQueue: [],
       researchBuildQueue: [],
+      userPlanetList: [],
+      userSelectPlanetId: 3,
       t: '0.0.0'
     }
   },
@@ -313,6 +270,14 @@ export default {
       uni.navigateTo({
         url: '/pages/index/new-nvue-page-1'
       })
+    },
+    async planetList () {
+      const rest = await getUserPlanet()
+      this.userPlanetList = rest.result
+      this.planet_select_list_show = !this.planet_select_list_show
+    },
+    async planetSelect (planetId) {
+      this.userSelectPlanetId = planetId
     },
     async swichMenu (code) {
       if (code === 1) {

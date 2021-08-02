@@ -134,9 +134,13 @@
   display: flex;
 }
 
-.content_right_up_planet_info .planet_show{
-  max-height: 138px;
+.content_right_up_planet_info .planet_name {
+  max-height: 260rpx;
   overflow: hidden;
+}
+
+.content_right_up_planet_info .planet_name view:nth-child(2) {
+  text-indent: 4rpx;
 }
 
 .content_right_up_planet_info .planet_select_btn{
@@ -159,7 +163,7 @@
   transition:all 0.2s;
 }
 
-.planet_select_list_width {
+.planet_select_list_show {
   width: 640rpx;
   opacity: 1;
 }
@@ -194,9 +198,13 @@
 
 .planet_select_list_item .planet_name {
   padding-top: 76rpx;
-  height: 100%;
+  height: 95%;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+.planet_select_list_item .planet_name view:nth-child(2) {
+  text-indent: 4rpx;
 }
 
 .content_right_down{
