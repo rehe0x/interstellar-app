@@ -10,7 +10,7 @@
             <template v-if="item.status === QueueStatusEnum.RUNNING">
               <view class="i-progress" style="height: 28rpx">
                 <!-- 'width: '+Math.floor((((timeCount - item.startTime) / 1000) / item.seconds) * 100)+'%' -->
-                <view class="i-striped-active" :style="progressWidth(item)"></view>
+                <view class="i-striped-active" :style="'width: '+Math.floor((((time - item.startTime) / 1000) / item.seconds) * 100)+'%'"></view>
                 <view>{{ progressTime(item) }}</view>
               </view>
             </template>

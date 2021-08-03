@@ -108,7 +108,7 @@
               <view>殖民地殖民地殖民地发撒地方</view>
               <view>123,453,112</view>
             </view>
-            <view class="planet_select_btn"><<<</view>
+            <view class="planet_select_btn"> >>>> </view>
           </view>
           <view class="planet_select_list" :class="planet_select_list_show ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
@@ -121,7 +121,7 @@
                       <view>{{ item.name }}</view>
                       <view>{{ item.galaxyX }},{{ item.galaxyY }},{{ item.galaxyZ }}</view>
                     </view>
-                    <view class="planet_on" v-if="item.id == userSelectPlanetId"><</view>
+                    <view class="planet_on" v-if="item.id == userSelectPlanetId">> </view>
                   </view>
                 </template>
               </view>
@@ -165,6 +165,8 @@
         </view>
        <!-- </transition> -->
     </view>
+    <view class="i_transition_mask" :class="i_transition_mask_opacity" v-show="indexTransitionMask">
+    </view>
 	</view>
 </template>
 
@@ -180,6 +182,8 @@ let nowTime = 0
 export default {
   data () {
     return {
+      i_transition_mask_opacity: '',
+      indexTransitionMask: true,
       i_popup_mask_opacity: '',
       planet_select_list_show: false,
       touchstartStyle: [],
@@ -210,6 +214,9 @@ export default {
       })
     })
   },
+  onShow () {
+    console.log('show')
+  },
   onUnload () {
     uni.$off('drawer-page')
   },
@@ -225,6 +232,18 @@ export default {
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
     this.timer()
+
+    this.i_transition_mask_opacity = 'i_transition_mask_opacity'
+    setTimeout(() => {
+      // // 过度效果 关闭上一个页面
+      // const pages = getCurrentPages()
+      // // #ifdef APP-PLUS
+      // for (let index = 0; index < pages.length - 1; index++) {
+      //   pages[index].$getAppWebview().close()
+      // }
+      // #endif
+      this.indexTransitionMask = false
+    }, 1000)
   },
   methods: {
     touchstart (code) {
@@ -238,9 +257,9 @@ export default {
       this.requeriments = r
       this.isShowReqPopup = true
       this.$nextTick(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
           this.i_popup_mask_opacity = 'i_popup_mask_opacity'
-        },0)
+        }, 0)
       })
     },
     closeReqPopup (v) {
@@ -255,9 +274,9 @@ export default {
       this.detail = r
       this.isShowDetailPopup = true
       this.$nextTick(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
           this.i_popup_mask_opacity = 'i_popup_mask_opacity'
-        },0)
+        }, 0)
       })
     },
     closeDetailPopup (v) {

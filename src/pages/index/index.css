@@ -1,6 +1,6 @@
 .wrapper {
 	height: calc(100% - var(--status-bar-height));
-  background-image: url('../../static/image/b.jpeg');
+  background-image: url('@/static/image/b.jpeg');
   background-size: cover;
   padding-top: var(--status-bar-height);
 }
@@ -295,3 +295,19 @@
 .i_popup_mask_opacity {
   opacity: 1;
 }
+
+
+.i_transition_mask {
+  position: fixed;
+  /* inset: 0; 安卓不支持次写法*/
+  top: 0; right: 0; bottom: 0; left: 0;
+  /* background-color: #73d2d233; 安卓不支持*/
+  background-color: rgba(0,4,4);
+  opacity: 1;
+  transition: all 1s;
+}
+
+.i_transition_mask_opacity {
+  opacity: 0;
+}
+

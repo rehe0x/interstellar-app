@@ -63,7 +63,17 @@ page {
 }
 
 .i-button-x{
-  background: rgb(35 125 118);
+  background: rgb(35,125,118);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 242, 253);
+  width: 100rpx;
+  min-width: 240rpx;
+}
+
+.i-no-button-x{
+  background: rgb(90,124,129);
   display: flex;
   align-items: center;
   justify-content: center;
