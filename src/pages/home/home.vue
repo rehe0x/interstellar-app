@@ -95,7 +95,7 @@ export default {
       loginStatusMsg: '',
       universeMap: {},
       selectUniverseId: 1,
-      phoneValue: '18583158007'
+      phoneValue: 18583158007
     }
   },
   onLoad () {
@@ -146,10 +146,16 @@ export default {
     async toGame () {
       this.toGameStatus = true
       this.i_transition_mask_opacity = 'i_transition_mask_opacity'
-      const rest = await login({ universeId: this.selectUniverseId, phone: this.phoneValue })
-      console.log(rest)
-      uni.setStorageSync('token', rest.result.token)
-      if (rest.code === 200) {
+      const rest = await login({ universeId: this.selectUniverseId, phone: this.phoneValue, code: +this.smsCodeInput.join('') })
+
+      setTimeout(() => {
+        if (!rest) {
+          this.toGameStatus = false
+          this.i_transition_mask_opacity = ''
+        }
+      }, 1000)
+      if (rest && rest.code === 200) {
+        uni.setStorageSync('token', rest.result.token)
         setTimeout(() => {
           uni.redirectTo({
             url: `/pages/index/index?userId=${rest.result.id}&planetId=${rest.result.planetId}`,
