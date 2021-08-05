@@ -1,6 +1,7 @@
 .wrapper {
 	height: calc(100% - var(--status-bar-height));
-  background-image: url('@/static/image/b.jpeg');
+  /* background-image: url('@/static/image/b.jpeg'); */
+  background-image: url('@/static/image/home.jpeg');
   background-size: cover;
   padding-top: var(--status-bar-height);
 }
@@ -20,12 +21,12 @@
 
 .content_left{
 	height: 100%;
-  width: 640rpx
+  width: 85%;
 }
 
 .content_right{
 	height: 100%;
-  width: 110rpx;
+  width: 15%;
 }
 
 .content_left_up {
