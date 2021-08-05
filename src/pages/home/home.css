@@ -19,7 +19,7 @@
   text-align: end;
 }
 .header_title {
-  color: azure;
+  color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,8 +34,8 @@
 }
 
 .main_universe_item{
-  color: powderblue;
-  background: #0e1313d6;
+  color: rgb(0,205,204);
+  background: rgba(0,4,4, 0.5);
   display: flex;
   align-items: center;
   height: 140rpx;
@@ -70,7 +70,7 @@
 
 .footer{
   height: 10%;
-  color: white;
+  color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;
   align-items: flex-end;
