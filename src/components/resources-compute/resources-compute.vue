@@ -32,9 +32,7 @@ export default {
       return intPartFormat
     }
   },
-  created () {
-  },
-  async mounted () {
+  async created () {
     const resource = await getPlanetResources({ planetId: this.planetId })
     this.resources = resource.result
     this.$root.$on('resourcesUpdate', async () => {
@@ -44,6 +42,8 @@ export default {
     this.$root.$on('resourcesTimer', async (time) => {
       this.timer(time)
     })
+  },
+  async mounted () {
   },
   methods: {
     timer (time) {

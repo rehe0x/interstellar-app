@@ -5,7 +5,6 @@
     <view class="content">
       <view class="content_left">
         <view class="content_left_up">
-          <!-- <view class="font_14"><< 殖民地士大夫 1:333:5 >></view> -->
           <resources-compute :planetId="planetId" />
         </view>
         <view class="content_left_down">
@@ -13,7 +12,7 @@
             <view v-show="swichSubmenuCode==1">
               <view class="content_left_down_head">
                 <view class="font_14 color_chartreuse">星际舰队</view>
-                <view>{{ t }}</view>
+                <view>{{ gameTime }}</view>
                 <view class="font_14 color_chartreuse">星际探索 ></view>
               </view>
               <build-queue :planetId="planetId" />
@@ -101,8 +100,6 @@
         <view class="content_right_up">
           <view class="planet_icon"></view>
           <!-- <view class="setting" @tap="showDrawer">设 置</view> -->
-          <!-- <view @tap="navigateTo">原生</view>
-          <view @tap="openReqPopup">弹出</view> -->
           <view class="content_right_up_planet_info" @tap="getPlanetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''">
             <view class="planet_name">
               <view>{{ planetInfo.name }}</view>
@@ -110,7 +107,7 @@
             </view>
             <view class="planet_select_btn"> >>> </view>
           </view>
-          <view class="planet_select_list" :class="planet_select_list_show ? 'planet_select_list_show' : ''">
+          <view class="planet_select_list" :class="planetSelectListShow ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
               <view class="planet_select_list_item">
                 <template v-for="(item) in userPlanetList">
@@ -138,34 +135,32 @@
       </view>
     </view>
     <view class="">
-      <!-- <transition name="i_popup_mask"> -->
-        <view class="i_popup_mask" :class="i_popup_mask_opacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
-          <view class="i_popup" @click.stop="closeReqPopup(2)">
-            <view class="i_popup_title font_16">科技树</view>
-            <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
-              <view v-for="(item, index) in requeriments.requeriments" :key="index">
+      <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
+        <view class="i_popup" @click.stop="closeReqPopup(2)">
+          <view class="i_popup_title font_16">科技树</view>
+          <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
+            <view v-for="(item, index) in requeriments.requeriments" :key="index">
+              {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
+        <view v-if="Object.keys(detail).length > 0" class="i_popup" @click.stop="closeDetailPopup(2)">
+          <view class="i_popup_title font_16">{{detail.name}}</view>
+          <view class="i_popup_content font_14">
+            <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
+              <view>{{ detail.description }}</view>
+              <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
+              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
                 {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
               </view>
-            </view>
+            </scroll-view>
           </view>
         </view>
-        <view class="i_popup_mask" :class="i_popup_mask_opacity" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
-          <view v-if="Object.keys(detail).length > 0" class="i_popup" @click.stop="closeDetailPopup(2)">
-            <view class="i_popup_title font_16">{{detail.name}}</view>
-            <view class="i_popup_content font_14">
-              <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
-                <view>{{ detail.description }}</view>
-                <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
-                <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
-                  {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
-                </view>
-              </scroll-view>
-            </view>
-          </view>
-        </view>
-       <!-- </transition> -->
+      </view>
     </view>
-    <view class="i_transition_mask" :class="i_transition_mask_opacity" v-show="indexTransitionMask">
+    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="indexTransitionMask">
     </view>
 	</view>
 </template>
@@ -182,37 +177,31 @@ let nowTime = 0
 export default {
   data () {
     return {
-      i_transition_mask_opacity: '',
+      BuildTypeEnum: BuildTypeEnum,
+      QueueStatusEnum: QueueStatusEnum,
+      gameTime: '0.0.0',
+      iTransitionMaskOpacity: '',
       indexTransitionMask: true,
-      i_popup_mask_opacity: '',
-      planet_select_list_show: false,
+      iPopupMaskOpacity: '',
+      planetSelectListShow: false,
       touchstartStyle: [],
       isShowReqPopup: false,
       isShowDetailPopup: false,
-      requeriments: {},
-      detail: {},
-      BuildTypeEnum: BuildTypeEnum,
-      QueueStatusEnum: QueueStatusEnum,
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
-      drawerShow: false,
+      requeriments: {},
+      detail: {},
       buildings: [],
       researchs: [],
       buildingBuildQueue: [],
       researchBuildQueue: [],
       userPlanetList: [],
       planetId: 3,
-      planetInfo: {},
-      t: '0.0.0'
+      planetInfo: {}
     }
   },
   onLoad (option) {
     this.planetId = option.planetId
-  },
-  onShow () {
-    console.log('show')
-  },
-  onUnload () {
   },
   filters: {
     numberToCurrency (value) {
@@ -222,19 +211,19 @@ export default {
       return intPartFormat
     }
   },
-  async mounted () {
+  async created () {
     const planet = await getUserPlanet()
     this.userPlanetList = planet.result
-
     this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
 
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
     this.timer()
-
-    this.i_transition_mask_opacity = 'i_transition_mask_opacity'
+  },
+  async mounted () {
+    this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
     setTimeout(() => {
-      // // 过度效果 关闭上一个页面
+      // // 过度效果 关闭上一个页面  保留
       // const pages = getCurrentPages()
       // // #ifdef APP-PLUS
       // for (let index = 0; index < pages.length - 1; index++) {
@@ -252,35 +241,33 @@ export default {
       this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
     },
     openReqPopup (r) {
-      console.log(r)
       this.requeriments = r
       this.isShowReqPopup = true
       this.$nextTick(() => {
         setTimeout(() => {
-          this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+          this.iPopupMaskOpacity = 'i_popup_mask_opacity'
         }, 0)
       })
     },
     closeReqPopup (v) {
       if (v === 2) return
-      this.i_popup_mask_opacity = ''
+      this.iPopupMaskOpacity = ''
       setTimeout(() => {
         this.isShowReqPopup = false
       }, 200)
     },
     openDetailPopup (r) {
-      console.log(r)
       this.detail = r
       this.isShowDetailPopup = true
       this.$nextTick(() => {
         setTimeout(() => {
-          this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+          this.iPopupMaskOpacity = 'i_popup_mask_opacity'
         }, 0)
       })
     },
     closeDetailPopup (v) {
       if (v === 2) return
-      this.i_popup_mask_opacity = ''
+      this.iPopupMaskOpacity = ''
       setTimeout(() => {
         this.isShowDetailPopup = false
       }, 300)
@@ -294,9 +281,7 @@ export default {
       })
     },
     async getPlanetList () {
-      // const rest = await getUserPlanet()
-      // this.userPlanetList = rest.result
-      this.planet_select_list_show = !this.planet_select_list_show
+      this.planetSelectListShow = !this.planetSelectListShow
     },
     async planetSelect (planetId) {
       this.planetId = planetId
@@ -366,7 +351,7 @@ export default {
         const time = nowTime + timerCount * 1000
         this.$root.$emit('resourcesTimer', time)
         this.$root.$emit('buildQueueTimer', time)
-        this.t = dayjs(time).format('MM-DD HH:mm:ss')
+        this.gameTime = dayjs(time).format('MM-DD HH:mm:ss')
         const offset = dayjs().valueOf() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
         timerCount++
         this.timers = setTimeout(this.timer, 1000 - offset)

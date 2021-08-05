@@ -9,8 +9,8 @@
             <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
             <template v-if="item.status === QueueStatusEnum.RUNNING">
               <view class="i-progress" style="height: 28rpx">
-                <!-- 'width: '+Math.floor((((timeCount - item.startTime) / 1000) / item.seconds) * 100)+'%' -->
-                <view class="i-striped-active" :style="'width: '+Math.floor((((time - item.startTime) / 1000) / item.seconds) * 100)+'%'"></view>
+                <!-- 小程序style不支持计算函数 -->
+                <view class="i-striped-active" :style="'width: '+Math.floor((time - item.startTime) / 1000 / item.seconds * 100)+'%'"></view>
                 <view>{{ progressTime(item) }}</view>
               </view>
             </template>
@@ -43,9 +43,7 @@ export default {
       buildQueues: []
     }
   },
-  created () {
-  },
-  async mounted () {
+  async created () {
     this.$root.$on('buildQueueUpdate', async () => {
       const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
       this.buildQueues = buildQueue.result
@@ -55,6 +53,8 @@ export default {
     })
     const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
     this.buildQueues = buildQueue.result
+  },
+  async mounted () {
   },
   computed: {
   },
@@ -81,9 +81,7 @@ export default {
       return `width: ${s}%`
     },
     async delBuildQueue (id) {
-      const rest = await deleteBuildQueue({
-        queueId: id
-      })
+      await deleteBuildQueue({ queueId: id })
       this.$root.$emit('resourcesUpdate')
       const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
       this.buildQueues = buildQueue.result
@@ -95,7 +93,6 @@ export default {
 <style scoped>
 
 .content_left_down_queue_list{
-  /* background-color: rgba(10, 32, 58, 0.5); */
   padding: 0 7px 0px 7px;
 }
 .content_left_down_queue_list > .item{

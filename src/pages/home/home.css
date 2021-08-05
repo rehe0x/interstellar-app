@@ -76,15 +76,6 @@
   align-items: flex-end;
 }
 
-.uni-input {
-  border-style: solid;
-  border-width: 2px;
-  position: fixed;
-  bottom: 0;
-}
-
-
-
 .i_popup{
   position: fixed;
   height: 460rpx;
@@ -98,57 +89,20 @@
   padding: 20px;
   box-sizing: border-box;
 }
-.i_popup_animation_right {
-  animation: animation_right 0.3s;
-	animation-timing-function: linear;
-	animation-fill-mode: forwards;
-}
 
-@keyframes animation_right
-{
-	100% {left: -50%;}
+.i_popup_title {
+  text-align: center;
 }
-
-.i_popup_animation_right_x {
-  animation: animation_right_x 0.3s;
-	animation-timing-function: linear;
-	animation-fill-mode: forwards;
-}
-
-@keyframes animation_right_x
-{
-  0% {left: -50%;}
-  100% {left: 50%;}
-}
-
-.i_popup_animation_left {
-  animation: animation_left 0.3s;
-  animation-timing-function: linear;
-	animation-fill-mode: forwards;
-}
-
-@keyframes animation_left
-{
-	100% {left: 50%;}
-}
-
-.i_popup_animation_left_x {
-  animation: animation_left_x 0.3s;
-	animation-timing-function: linear;
-	animation-fill-mode: forwards;
-}
-
-@keyframes animation_left_x
-{
-  0% {left: 50%;}
-  100% {left: 150%;}
+.i_popup_close {
+  position: absolute;
+  top: 10rpx;
+  right: 16rpx;
 }
 
 .i_popup_content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 300rpx */
 }
 
 .i_popup_content .next {
@@ -179,15 +133,6 @@
   flex-basis: 100rpx;
 }
 
-.i_popup_title {
-  text-align: center;
-}
-.i_popup_close {
-  position: absolute;
-  top: 10rpx;
-  right: 16rpx;
-}
-
 .i_popup_mask {
   position: fixed;
   /* inset: 0; 安卓不支持次写法*/
@@ -214,4 +159,51 @@
 
 .i_transition_mask_opacity {
   opacity: 0.9;
+}
+
+
+.login_animation_stepone_next {
+  animation: login_stepone_next 0.3s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes login_stepone_next
+{
+	100% {left: -50%;}
+}
+
+.login_animation_stepone_back {
+  animation: login_stepone_back 0.3s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes login_stepone_back
+{
+  0% {left: -50%;}
+  100% {left: 50%;}
+}
+
+.login_animation_steptwo_next {
+  animation: login_steptwo_next 0.3s;
+  animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes login_steptwo_next
+{
+	100% {left: 50%;}
+}
+
+.login_animation_steptwo_back {
+  animation: login_steptwo_back 0.3s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes login_steptwo_back
+{
+  0% {left: 50%;}
+  100% {left: 150%;}
 }
