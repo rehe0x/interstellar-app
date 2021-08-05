@@ -6,7 +6,7 @@
       <view class="content_left">
         <view class="content_left_up">
           <!-- <view class="font_14"><< 殖民地士大夫 1:333:5 >></view> -->
-          <resources-compute />
+          <resources-compute :planetId="planetId" />
         </view>
         <view class="content_left_down">
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
@@ -16,7 +16,7 @@
                 <view>{{ t }}</view>
                 <view class="font_14 color_chartreuse">星际探索 ></view>
               </view>
-              <build-queue />
+              <build-queue :planetId="planetId" />
               <view class="content_left_down_active">
                 <view class="text_center font_16">显示器</view>
                 <view class="divider"></view>
@@ -103,12 +103,12 @@
           <!-- <view class="setting" @tap="showDrawer">设 置</view> -->
           <!-- <view @tap="navigateTo">原生</view>
           <view @tap="openReqPopup">弹出</view> -->
-          <view class="content_right_up_planet_info" @tap="planetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''">
+          <view class="content_right_up_planet_info" @tap="getPlanetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''">
             <view class="planet_name">
-              <view>殖民地殖民地殖民地发撒地方</view>
-              <view>123,453,112</view>
+              <view>{{ planetInfo.name }}</view>
+              <view>{{ planetInfo.galaxyX }},{{ planetInfo.galaxyY }},{{ planetInfo.galaxyZ }}</view>
             </view>
-            <view class="planet_select_btn"> >>>> </view>
+            <view class="planet_select_btn"> >>> </view>
           </view>
           <view class="planet_select_list" :class="planet_select_list_show ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
@@ -121,7 +121,7 @@
                       <view>{{ item.name }}</view>
                       <view>{{ item.galaxyX }},{{ item.galaxyY }},{{ item.galaxyZ }}</view>
                     </view>
-                    <view class="planet_on" v-if="item.id == userSelectPlanetId">> </view>
+                    <view class="planet_on" v-if="item.id == planetId">> </view>
                   </view>
                 </template>
               </view>
@@ -201,24 +201,18 @@ export default {
       buildingBuildQueue: [],
       researchBuildQueue: [],
       userPlanetList: [],
-      userSelectPlanetId: 3,
+      planetId: 3,
+      planetInfo: {},
       t: '0.0.0'
     }
   },
-  onLoad () {
-    // 监听 drawer 消息
-    uni.$on('drawer-page', (data) => {
-      uni.showToast({
-        title: '点击了第' + data + '项',
-        icon: 'none'
-      })
-    })
+  onLoad (option) {
+    this.planetId = option.planetId
   },
   onShow () {
     console.log('show')
   },
   onUnload () {
-    uni.$off('drawer-page')
   },
   filters: {
     numberToCurrency (value) {
@@ -229,6 +223,11 @@ export default {
     }
   },
   async mounted () {
+    const planet = await getUserPlanet()
+    this.userPlanetList = planet.result
+
+    this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
     this.timer()
@@ -294,13 +293,17 @@ export default {
         url: '/pages/index/new-nvue-page-1'
       })
     },
-    async planetList () {
-      const rest = await getUserPlanet()
-      this.userPlanetList = rest.result
+    async getPlanetList () {
+      // const rest = await getUserPlanet()
+      // this.userPlanetList = rest.result
       this.planet_select_list_show = !this.planet_select_list_show
     },
     async planetSelect (planetId) {
-      this.userSelectPlanetId = planetId
+      this.planetId = planetId
+      this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+      this.$nextTick(() => {
+        this.updateDate(['resource', 'buildQueue', 'building', 'research', 'buildingBuildQueue', 'researchBuildQueue'])
+      })
     },
     async swichMenu (code) {
       if (code === 1) {
@@ -318,12 +321,14 @@ export default {
     },
     async addBuildingQueue (row) {
       const rest = await addBuildingQueue({
+        planetId: this.planetId,
         buildCode: row.buildCode
       })
       this.updateDate(['resource', 'buildingBuildQueue'])
     },
     async addResearchQueue (row) {
       const rest = await addResearchQueue({
+        planetId: this.planetId,
         buildCode: row.buildCode
       })
       this.updateDate(['resource', 'researchBuildQueue'])
@@ -337,22 +342,22 @@ export default {
       }
 
       if (typeArray.includes('building')) {
-        const building = await getBuilding()
+        const building = await getBuilding({ planetId: this.planetId })
         this.buildings = building.result
       }
 
       if (typeArray.includes('research')) {
-        const research = await getResearch()
+        const research = await getResearch({ planetId: this.planetId })
         this.researchs = research.result
       }
 
       if (typeArray.includes('buildingBuildQueue')) {
-        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.BUILDING })
+        const typeBuildQueue = await getPlanetBuildQueueByType({ planetId: this.planetId, buildType: BuildTypeEnum.BUILDING })
         this.buildingBuildQueue = typeBuildQueue.result
       }
 
       if (typeArray.includes('researchBuildQueue')) {
-        const typeBuildQueue = await getPlanetBuildQueueByType({ buildType: BuildTypeEnum.RESEARCH })
+        const typeBuildQueue = await getPlanetBuildQueueByType({ planetId: this.planetId, buildType: BuildTypeEnum.RESEARCH })
         this.researchBuildQueue = typeBuildQueue.result
       }
     },

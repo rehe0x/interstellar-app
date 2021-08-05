@@ -40,7 +40,8 @@ axios.defaults.adapter = function (config) {
 // request拦截器
 service.interceptors.request.use(
   req => {
-    req.headers.Authorization = 'getToken()' // 让每个请求携带自定义token 请根据实际情况自行修改
+    const token = uni.getStorageSync('token')
+    req.headers.Authorization = token // 让每个请求携带自定义token 请根据实际情况自行修改
     req.headers['Content-Type'] = 'application/json'
     return req
   },

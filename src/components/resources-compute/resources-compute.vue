@@ -8,17 +8,16 @@
 </template>
 
 <script>
-import { getResources } from '../../api/planet'
+import { getPlanetResources } from '../../api/planet'
 let metalT = 0
 let crystalT = 0
 let deuteriumT = 0
 export default {
   name: 'resourcesCompute',
   props: {
-    // resourcesDate: {
-    //   type: Object,
-    //   required: true
-    // }
+    planetId: {
+      required: true
+    }
   },
   data () {
     return {
@@ -36,10 +35,10 @@ export default {
   created () {
   },
   async mounted () {
-    const resource = await getResources()
+    const resource = await getPlanetResources({ planetId: this.planetId })
     this.resources = resource.result
     this.$root.$on('resourcesUpdate', async () => {
-      const resource = await getResources()
+      const resource = await getPlanetResources({ planetId: this.planetId })
       this.resources = resource.result
     })
     this.$root.$on('resourcesTimer', async (time) => {

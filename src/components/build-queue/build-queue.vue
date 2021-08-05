@@ -31,10 +31,9 @@ import { getPlanetBuildQueue, deleteBuildQueue } from '../../api/planet'
 export default {
   name: 'buildQueue',
   props: {
-    // buildQueuesDate: {
-    //   type: Object,
-    //   required: true
-    // }
+    planetId: {
+      required: true
+    }
   },
   data () {
     return {
@@ -48,13 +47,13 @@ export default {
   },
   async mounted () {
     this.$root.$on('buildQueueUpdate', async () => {
-      const buildQueue = await getPlanetBuildQueue()
+      const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
       this.buildQueues = buildQueue.result
     })
     this.$root.$on('buildQueueTimer', async (time) => {
       this.time = time
     })
-    const buildQueue = await getPlanetBuildQueue()
+    const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
     this.buildQueues = buildQueue.result
   },
   computed: {
@@ -65,7 +64,7 @@ export default {
       if (item.startTime && item.seconds - t <= 0) {
         setTimeout(async () => {
           this.$root.$emit('resourcesUpdate')
-          const buildQueue = await getPlanetBuildQueue()
+          const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
           this.buildQueues = buildQueue.result
         }, 1000)
         return '0h 0m 0s'
@@ -86,7 +85,7 @@ export default {
         queueId: id
       })
       this.$root.$emit('resourcesUpdate')
-      const buildQueue = await getPlanetBuildQueue()
+      const buildQueue = await getPlanetBuildQueue({ planetId: this.planetId })
       this.buildQueues = buildQueue.result
     }
   }
