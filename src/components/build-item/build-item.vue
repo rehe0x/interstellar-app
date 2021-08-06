@@ -5,8 +5,8 @@
     <template v-for="(item, buildCode) in builds">
       <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
         <view class="item_up">
-          <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
-          <view class="info">
+          <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'transform: translateX(-110rpx);' : ''"/>
+          <view class="info" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'transform: translateX(-110rpx);' : ''">
             <view class="font_14">{{ item.name }} {{ item.level > 0 ? item.level: ''}}</view>
             <view class="font_12">{{ item.buildTimeShow }}</view>
           </view>
@@ -260,6 +260,7 @@ export default {
 .content_left_down_build_list .item_up{
   display: flex;
   margin-bottom: 3px;
+  align-items: center;
 }
 
 .content_left_down_build_list .item_up .i-button,.i-no-button{
@@ -269,11 +270,13 @@ export default {
 .content_left_down_build_list .item_up image{
   width: 100rpx;
   height: 90rpx;
+  transition: all 0.5s;
 }
 
 .content_left_down_build_list .item_up .info{
   width: 360rpx;
   padding-left: 8px;
+  transition: all 0.5s;
 }
 
 .content_left_down_build_list .fd_build_form {
@@ -282,7 +285,7 @@ export default {
   position: absolute;
   right: -60%;
   transition: all 0.3s;
-  width: 280rpx;
+  width: 260rpx;
 }
 
 .content_left_down_build_list .fd_build_form_right {
