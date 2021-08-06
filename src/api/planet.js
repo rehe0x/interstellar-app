@@ -19,6 +19,14 @@ export const getBuilding = async (params) => {
   return request.get('/api/planet/getBuilding', { params })
 }
 
+export const getFleet = async (params) => {
+  return request.get('/api/planet/getFleet', { params })
+}
+
+export const getDefense = async (params) => {
+  return request.get('/api/planet/getDefense', { params })
+}
+
 export const getResearch = async (params) => {
   return request.get('/api/planet/getResearch', { params })
 }

@@ -24,74 +24,19 @@
                 </view>
               </view>
             </view>
-            <view v-show="swichSubmenuCode == 2">
-              <view class="text_center font_16">基础建造</view>
-              <view class="divider"></view>
-              <template v-for="(item, buildCode) in buildings">
-                <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
-                  <view class="item_up">
-                    <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
-                    <view class="info">
-                      <view class="font_14">{{ item.name }} {{ item.level }}</view>
-                      <view class="font_12">{{ item.buildTimeShow }}</view>
-                    </view>
-                    <template v-if="item.requeriment.isReq">
-                      <template v-if="buildingBuildQueue.length === 0">
-                        <view class="i-button" @tap="addBuildingQueue({buildCode})">升级</view>
-                      </template>
-                      <template v-else-if="buildingBuildQueue.length < 5">
-                        <view class="i-button" @tap="addBuildingQueue({buildCode})">加入</view>
-                      </template>
-                      <template v-else>
-                        <view class="i-no-button">升级</view>
-                      </template>
-                    </template>
-                    <template v-else>
-                      <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
-                    </template>
-                  </view>
-                  <view class="item_down">
-                    <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
-                  </view>
-                </view>
-                <view class="divider" :key="item.id"></view>
-              </template>
-            </view>
-            <view v-show="swichSubmenuCode==3">
-              <view class="text_center font_16">科技研究</view>
-              <view class="divider"></view>
-              <template v-for="(item, buildCode) in researchs" >
-                <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
-                  <view class="item_up">
-                    <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
-                    <view class="info">
-                      <view class="font_14">{{ item.name }} {{ item.level }}</view>
-                      <view class="font_12">{{ item.buildTimeShow }}</view>
-                    </view>
-                    <template v-if="item.requeriment.isReq">
-                      <template v-if="researchBuildQueue.length > 0">
-                        <view class="i-no-button">升级</view>
-                      </template>
-                      <template v-else>
-                        <view class="i-button" @tap="addResearchQueue({buildCode})">升级</view>
-                      </template>
-                    </template>
-                    <template v-else>
-                      <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
-                    </template>
-                  </view>
-                  <view class="item_down">
-                    <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
-                  </view>
-                </view>
-                <view class="divider" :key="item.id"></view>
-              </template>
-            </view>
-            <view v-show="swichSubmenuCode==4">
-              船厂
-            </view>
-            <view v-show="swichSubmenuCode==5">
-              防御
+            <view v-if="loadComplete">
+              <view v-show="swichSubmenuCode==2">
+                <build-item title="基础建筑" :buildType="BuildTypeEnum.BUILDING" :planetId="planetId" />
+              </view>
+              <view v-show="swichSubmenuCode==3">
+                <build-item title="科技研究" :buildType="BuildTypeEnum.RESEARCH" :planetId="planetId" />
+              </view>
+              <view v-show="swichSubmenuCode==4">
+                <build-item title="舰队" :buildType="BuildTypeEnum.FLEET" :planetId="planetId" />
+              </view>
+              <view v-show="swichSubmenuCode==5">
+                <build-item title="防御" :buildType="BuildTypeEnum.DEFENSE" :planetId="planetId" />
+              </view>
             </view>
           </scroll-view>
         </view>
@@ -134,32 +79,6 @@
         </view>
       </view>
     </view>
-    <view class="">
-      <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
-        <view class="i_popup" @click.stop="closeReqPopup(2)">
-          <view class="i_popup_title font_16">科技树</view>
-          <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
-            <view v-for="(item, index) in requeriments.requeriments" :key="index">
-              {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
-        <view v-if="Object.keys(detail).length > 0" class="i_popup" @click.stop="closeDetailPopup(2)">
-          <view class="i_popup_title font_16">{{detail.name}}</view>
-          <view class="i_popup_content font_14">
-            <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
-              <view>{{ detail.description }}</view>
-              <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
-              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
-                {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
-              </view>
-            </scroll-view>
-          </view>
-        </view>
-      </view>
-    </view>
     <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="indexTransitionMask">
     </view>
 	</view>
@@ -168,7 +87,7 @@
 <script>
 import dayjs from 'dayjs'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getNowTime, getPlanetBuildQueueByType, getBuilding, getResearch, addBuildingQueue, addResearchQueue } from '../../api/planet'
+import { getNowTime } from '../../api/planet'
 import { getUserPlanet } from '../../api/user'
 
 let timerCount = 0
@@ -179,22 +98,14 @@ export default {
     return {
       BuildTypeEnum: BuildTypeEnum,
       QueueStatusEnum: QueueStatusEnum,
+      loadComplete: false,
       gameTime: '0.0.0',
       iTransitionMaskOpacity: '',
       indexTransitionMask: true,
-      iPopupMaskOpacity: '',
       planetSelectListShow: false,
       touchstartStyle: [],
-      isShowReqPopup: false,
-      isShowDetailPopup: false,
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
-      requeriments: {},
-      detail: {},
-      buildings: [],
-      researchs: [],
-      buildingBuildQueue: [],
-      researchBuildQueue: [],
       userPlanetList: [],
       planetId: 3,
       planetInfo: {}
@@ -203,19 +114,10 @@ export default {
   onLoad (option) {
     this.planetId = option.planetId
   },
-  filters: {
-    numberToCurrency (value) {
-      if (!value) return '0'
-      // 整数部分处理，增加,
-      const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
-      return intPartFormat
-    }
-  },
   async created () {
     const planet = await getUserPlanet()
     this.userPlanetList = planet.result
     this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
-
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
     this.timer()
@@ -232,6 +134,11 @@ export default {
       // #endif
       this.indexTransitionMask = false
     }, 1000)
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.loadComplete = true
+      }, 1000)
+    })
   },
   methods: {
     touchstart (code) {
@@ -239,38 +146,6 @@ export default {
     },
     touchend (code) {
       this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
-    },
-    openReqPopup (r) {
-      this.requeriments = r
-      this.isShowReqPopup = true
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.iPopupMaskOpacity = 'i_popup_mask_opacity'
-        }, 0)
-      })
-    },
-    closeReqPopup (v) {
-      if (v === 2) return
-      this.iPopupMaskOpacity = ''
-      setTimeout(() => {
-        this.isShowReqPopup = false
-      }, 200)
-    },
-    openDetailPopup (r) {
-      this.detail = r
-      this.isShowDetailPopup = true
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.iPopupMaskOpacity = 'i_popup_mask_opacity'
-        }, 0)
-      })
-    },
-    closeDetailPopup (v) {
-      if (v === 2) return
-      this.iPopupMaskOpacity = ''
-      setTimeout(() => {
-        this.isShowDetailPopup = false
-      }, 300)
     },
     showDrawer () {
       uni.getSubNVueById('drawer').show('slide-in-left', 200)
@@ -287,36 +162,23 @@ export default {
       this.planetId = planetId
       this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
       this.$nextTick(() => {
-        this.updateDate(['resource', 'buildQueue', 'building', 'research', 'buildingBuildQueue', 'researchBuildQueue'])
+        this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
       })
     },
     async swichMenu (code) {
       if (code === 1) {
         this.updateDate(['buildQueue'])
       } else if (code === 2) {
-        this.updateDate(['building', 'buildingBuildQueue'])
+        this.updateDate([BuildTypeEnum.BUILDING])
       } else if (code === 3) {
-        this.updateDate(['research', 'researchBuildQueue'])
+        this.updateDate([BuildTypeEnum.RESEARCH])
       } else if (code === 4) {
+        this.updateDate([BuildTypeEnum.FLEET])
       } else if (code === 5) {
-      } else if (code === 6) {
+        this.updateDate([BuildTypeEnum.DEFENSE])
       }
-      this.swichSubmenuAct = code
       this.swichSubmenuCode = code
-    },
-    async addBuildingQueue (row) {
-      const rest = await addBuildingQueue({
-        planetId: this.planetId,
-        buildCode: row.buildCode
-      })
-      this.updateDate(['resource', 'buildingBuildQueue'])
-    },
-    async addResearchQueue (row) {
-      const rest = await addResearchQueue({
-        planetId: this.planetId,
-        buildCode: row.buildCode
-      })
-      this.updateDate(['resource', 'researchBuildQueue'])
+      this.swichSubmenuAct = code
     },
     async updateDate (typeArray) {
       if (typeArray.includes('resource')) {
@@ -326,24 +188,25 @@ export default {
         this.$root.$emit('buildQueueUpdate')
       }
 
-      if (typeArray.includes('building')) {
-        const building = await getBuilding({ planetId: this.planetId })
-        this.buildings = building.result
+      if (typeArray.includes(BuildTypeEnum.BUILDING)) {
+        this.$nextTick(() => {
+          this.$root.$emit('buildingUpdate')
+        })
       }
-
-      if (typeArray.includes('research')) {
-        const research = await getResearch({ planetId: this.planetId })
-        this.researchs = research.result
+      if (typeArray.includes(BuildTypeEnum.RESEARCH)) {
+        this.$nextTick(() => {
+          this.$root.$emit('buildResearchUpdate')
+        })
       }
-
-      if (typeArray.includes('buildingBuildQueue')) {
-        const typeBuildQueue = await getPlanetBuildQueueByType({ planetId: this.planetId, buildType: BuildTypeEnum.BUILDING })
-        this.buildingBuildQueue = typeBuildQueue.result
+      if (typeArray.includes(BuildTypeEnum.FLEET)) {
+        this.$nextTick(() => {
+          this.$root.$emit('buildFleetUpdate')
+        })
       }
-
-      if (typeArray.includes('researchBuildQueue')) {
-        const typeBuildQueue = await getPlanetBuildQueueByType({ planetId: this.planetId, buildType: BuildTypeEnum.RESEARCH })
-        this.researchBuildQueue = typeBuildQueue.result
+      if (typeArray.includes(BuildTypeEnum.DEFENSE)) {
+        this.$nextTick(() => {
+          this.$root.$emit('buildDefenseUpdate')
+        })
       }
     },
     timer () {
