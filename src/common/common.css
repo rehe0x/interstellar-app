@@ -17,6 +17,11 @@ page {
   font-size: 24rpx;
 }
 
+/* 一个大坑，ios上scroll里面的定位无效，就因为这个属性 */
+.uni-scroll-view{
+  -webkit-overflow-scrolling: auto
+}
+
 
 .font_12 {
   font-size: 24rpx;
