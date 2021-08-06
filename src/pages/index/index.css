@@ -112,17 +112,16 @@
   top: var(--status-bar-height);
   right: 110rpx;
   bottom: 0;
-  background-color: rgba(0, 4, 4, 0.7);
+  background-color: rgba(0,0,0,0);
   box-shadow: 0px 0px 3px 0px springgreen inset;
   height: 392rpx;
   width: 0rpx;
-  opacity: 0;
   transition:all 0.2s;
 }
 
 .planet_select_list_show {
   width: 640rpx;
-  opacity: 1;
+  background-color: rgba(0,0,0, 0.7);
 }
 .planet_select_list_item{
   display: flex;
@@ -218,12 +217,11 @@
   /* inset: 0; 安卓不支持次写法*/
   top: 0; right: 0; bottom: 0; left: 0;
   /* background-color: #73d2d233; 安卓不支持*/
-  background-color: rgba(0,4,4);
-  opacity: 1;
+  background-color: rgba(0,0,0,1);
   transition: all 1s;
 }
 
 .i_transition_mask_opacity {
-  opacity: 0;
+  background-color: rgba(0,0,0,0);
 }
 

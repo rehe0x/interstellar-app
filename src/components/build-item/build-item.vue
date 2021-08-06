@@ -31,11 +31,10 @@
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.FLEET || buildType == BuildTypeEnum.DEFENSE">
-              <!-- v-show="fdBuildFormStyle.indexOf(buildCode) == -1" -->
-              <view class="i-button" style="height: 40rpx;transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
+              <view class="i-button " style="height: 40rpx;transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
               <view class="fd_build_form" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'right: 10px':''">
                 <input class="build_num font_16" maxlength="11" type="number"  placeholder="建造数量" />
-                <view class="i-button" style="width: 170rpx;height: 60rpx;" @tap="addFleetQueue({buildCode})">确定</view>
+                <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="addFleetQueue({buildCode})">确定</view>
               </view>
             </template>
           </template>
@@ -285,7 +284,6 @@ export default {
   position: absolute;
   right: -60%;
   transition: all 0.3s;
-  width: 260rpx;
 }
 
 .content_left_down_build_list .fd_build_form_right {
@@ -295,16 +293,13 @@ export default {
 .content_left_down_build_list .fd_build_form .build_num{
   border: 2px solid;
   height: 60rpx;
+  width: 180rpx;
   text-indent: 20rpx;
   margin-right: 10px;
 }
 .content_left_down_build_list .fd_build_form .i-button{
   transition: all 0.5s;
   overflow: hidden;
-  /* width: 0px;
-  height: 0px;
-  width: 30px;
-  height: 30px; */
 }
 
 .content_left_down_build_list .item_down{
@@ -328,7 +323,7 @@ export default {
   margin: auto;
   top: 40%;
   transform: translateY(-40%);
-  background-color: rgba(0, 4, 4, 0.7);
+  background-color: rgba(0,0,0, 0.7);
   box-shadow: 0px 0px 3px 0px springgreen inset;
   color: rgb(180, 242, 253);
   padding: 20px;
@@ -354,12 +349,11 @@ export default {
   /* inset: 0; 安卓不支持次写法*/
   top: 0; right: 0; bottom: 0; left: 0;
   /* background-color: #73d2d233; 安卓不支持*/
-  background-color: rgba(0,4,4,0.7);
-  opacity: 0;
+  background-color: rgba(0,0,0,0);
   transition: all 0.3s;
 }
 
 .i_popup_mask_opacity {
-  opacity: 1;
+  background: rgba(0,0,0,0.7)
 }
 </style>
