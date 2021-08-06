@@ -34,9 +34,9 @@
       </view>
     </view>
     <view class="">
-      <view class="i_popup_mask" :class="i_popup_mask_opacity" v-if="isShowLoginPopup == true" @click="closeLoginPopup(1)">
+      <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowLoginPopup == true" @click="closeLoginPopup(1)">
         <!-- <view> -->
-        <view class="i_popup" :class="login_animation_stepone" @click.stop="closeLoginPopup(2)">
+        <view class="i_popup" :class="[loginAnimationStepone,iPopupContentOpacity]" @click.stop="closeLoginPopup(2)">
           <view class="i_popup_close font_16" @click="closeLoginPopup(1)">关闭</view>
           <view class="i_popup_title font_18">登陆</view>
           <view class="i_popup_content font_14">
@@ -47,7 +47,7 @@
             <view class="next font_18" :class="loginStepNextButtonStyle" @tap="nextLogin" >下一步</view>
           </view>
         </view>
-        <view class="i_popup" v-if="loginStep == 2" style="left: 150%" :class="login_animation_steptwo" @click.stop="closeLoginPopup(2)">
+        <view class="i_popup" v-if="loginStep == 2" style="left: 150%" :class="[loginAnimationSteptwo,iPopupContentOpacity]" @click.stop="closeLoginPopup(2)">
           <view class="i_popup_close font_16"  @click="closeLoginPopup(1)">关闭</view>
           <view class="" style="display: flex;align-items: center;">
             <view class="i_popup_title font_16" style="position: absolute;" @tap="backLogin">返回</view>
@@ -67,7 +67,7 @@
         <!-- </view> -->
       </view>
     </view>
-    <view class="i_transition_mask" :class="i_transition_mask_opacity" v-show="toGameStatus">
+    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="toGameStatus">
     </view>
   </view>
 </template>
@@ -80,15 +80,16 @@ export default {
   data () {
     return {
       loginStatus: false,
-      i_popup_mask_opacity: '',
+      iPopupMaskOpacity: '',
+      iPopupContentOpacity: '',
       isShowLoginPopup: false,
-      i_transition_mask_opacity: '',
+      iTransitionMaskOpacity: '',
       toGameStatus: false,
       touchstartStyle: [],
       loginStep: 1,
       loginStepNextButtonStyle: 'i-no-button-x',
-      login_animation_stepone: '',
-      login_animation_steptwo: '',
+      loginAnimationStepone: '',
+      loginAnimationSteptwo: '',
       smsCodeInput: [],
       smsCodeInputFocus: 0,
       smsCodeNullValue: null,
@@ -145,13 +146,13 @@ export default {
     },
     async toGame () {
       this.toGameStatus = true
-      this.i_transition_mask_opacity = 'i_transition_mask_opacity'
+      this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
       const rest = await login({ universeId: this.selectUniverseId, phone: this.phoneValue, code: +this.smsCodeInput.join('') })
 
       setTimeout(() => {
         if (!rest) {
           this.toGameStatus = false
-          this.i_transition_mask_opacity = ''
+          this.iTransitionMaskOpacity = ''
         }
       }, 1000)
       if (rest && rest.code === 200) {
@@ -174,20 +175,22 @@ export default {
     openLoginPopup (r) {
       this.isShowLoginPopup = true
       this.loginStep = 1
-      this.login_animation_stepone = ''
+      this.loginAnimationStepone = ''
       this.$nextTick(() => {
         setTimeout(() => {
-          this.i_popup_mask_opacity = 'i_popup_mask_opacity'
+          this.iPopupContentOpacity = 'i_popup_content_opacity'
+          this.iPopupMaskOpacity = 'i_popup_mask_opacity'
         }, 0)
       })
     },
     closeLoginPopup (v) {
       if (v === 2) return
-      this.i_popup_mask_opacity = ''
+      this.iPopupContentOpacity = ''
+      this.iPopupMaskOpacity = ''
       this.loginStep = 1
       setTimeout(() => {
         this.isShowLoginPopup = false
-      }, 200)
+      }, 300)
     },
     async nextLogin () {
       if (/^1[3-9]\d{9}$/.test(this.phoneValue)) {
@@ -196,14 +199,14 @@ export default {
         if (rest.code === 200) {
           this.loginStep = 2
           this.loginStatusMsg = ''
-          this.login_animation_stepone = 'login_animation_stepone_next'
-          this.login_animation_steptwo = 'login_animation_steptwo_next'
+          this.loginAnimationStepone = 'login_animation_stepone_next'
+          this.loginAnimationSteptwo = 'login_animation_steptwo_next'
         }
       }
     },
     backLogin () {
-      this.login_animation_steptwo = 'login_animation_steptwo_back'
-      this.login_animation_stepone = 'login_animation_stepone_back'
+      this.loginAnimationSteptwo = 'login_animation_steptwo_back'
+      this.loginAnimationStepone = 'login_animation_stepone_back'
     }
   },
   destroyed () {

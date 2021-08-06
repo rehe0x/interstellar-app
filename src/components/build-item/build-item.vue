@@ -50,7 +50,7 @@
     </template>
     <view>
       <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
-        <view class="i_popup" @click.stop="closeReqPopup(2)">
+        <view class="i_popup" :class="iPopupContentOpacity" @click.stop="closeReqPopup(2)">
           <view class="i_popup_title font_16">科技树</view>
           <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
             <view v-for="(item, index) in requeriments.requeriments" :key="index">
@@ -60,7 +60,7 @@
         </view>
       </view>
       <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowDetailPopup == true" @click="closeDetailPopup(1)">
-        <view v-if="Object.keys(detail).length > 0" class="i_popup" @click.stop="closeDetailPopup(2)">
+        <view v-if="Object.keys(detail).length > 0" class="i_popup" :class="iPopupContentOpacity" @click.stop="closeDetailPopup(2)">
           <view class="i_popup_title font_16">{{detail.name}}</view>
           <view class="i_popup_content font_14">
             <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
@@ -101,6 +101,7 @@ export default {
       touchstartStyle: [],
       fdBuildFormStyle: [],
       iPopupMaskOpacity: '',
+      iPopupContentOpacity: '',
       isShowReqPopup: false,
       isShowDetailPopup: false,
       requeriments: {},
@@ -213,6 +214,7 @@ export default {
       this.isShowReqPopup = true
       this.$nextTick(() => {
         setTimeout(() => {
+          this.iPopupContentOpacity = 'i_popup_content_opacity'
           this.iPopupMaskOpacity = 'i_popup_mask_opacity'
         }, 0)
       })
@@ -220,21 +222,24 @@ export default {
     closeReqPopup (v) {
       if (v === 2) return
       this.iPopupMaskOpacity = ''
+      this.iPopupContentOpacity = ''
       setTimeout(() => {
         this.isShowReqPopup = false
-      }, 200)
+      }, 300)
     },
     openDetailPopup (r) {
       this.detail = r
       this.isShowDetailPopup = true
       this.$nextTick(() => {
         setTimeout(() => {
+          this.iPopupContentOpacity = 'i_popup_content_opacity'
           this.iPopupMaskOpacity = 'i_popup_mask_opacity'
         }, 0)
       })
     },
     closeDetailPopup (v) {
       if (v === 2) return
+      this.iPopupContentOpacity = ''
       this.iPopupMaskOpacity = ''
       setTimeout(() => {
         this.isShowDetailPopup = false
@@ -323,11 +328,16 @@ export default {
   margin: auto;
   top: 40%;
   transform: translateY(-40%);
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgb(0,0,0);
   box-shadow: 0px 0px 3px 0px springgreen inset;
   color: rgb(180, 242, 253);
   padding: 20px;
   box-sizing: border-box;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.i_popup_content_opacity {
+  opacity: 0.7;
 }
 
 .i_popup_content {

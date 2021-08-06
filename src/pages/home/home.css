@@ -83,11 +83,17 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgb(0,0,0);
   box-shadow: 0px 0px 3px 0px springgreen inset;
   color: rgb(180, 242, 253);
   padding: 20px;
   box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.i_popup_content_opacity {
+  opacity: 0.7;
 }
 
 .i_popup_title {
