@@ -3,10 +3,10 @@
     <view class="text_center font_16">{{ title }}</view>
     <view class="divider"></view>
     <template v-for="(item, buildCode) in builds">
-      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
+      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgb(253 72 72 / 44%)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgb(0 0 0 / 44%)' : ''" class="content_left_down_build_list" :key="buildCode">
         <view class="item_up">
-          <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'transform: translateX(-110rpx);' : ''"/>
-          <view class="info" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'transform: translateX(-110rpx);' : ''">
+          <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''"/>
+          <view class="info" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''">
             <view class="font_14">{{ item.name }} {{ item.level > 0 ? item.level: ''}}</view>
             <view class="font_12">{{ item.buildTimeShow }}</view>
           </view>
@@ -31,10 +31,10 @@
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.FLEET || buildType == BuildTypeEnum.DEFENSE">
-              <view class="i-button " style="height: 40rpx;transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
-              <view class="fd_build_form" :style="fdBuildFormStyle.indexOf(buildCode) != -1 ? 'right: 10px':''">
-                <input class="build_num font_16" maxlength="11" type="number"  placeholder="建造数量" />
-                <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="addFleetQueue({buildCode})">确定</view>
+              <view class="i-button " style="height: 40rpx;transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
+              <view class="fd_build_form" v-show="fdBuildFormStatus.includes(buildCode)" :style="fdBuildFormStyle">
+                <input class="build_num font_16" :focus="buildNumFocus" maxlength="4" type="number"  v-model="buildNum" placeholder="建造数量" />
+                <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
               </view>
             </template>
           </template>
@@ -79,7 +79,7 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { addBuildingQueue, addResearchQueue, getPlanetBuildQueueByType, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
+import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueueByType, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
 
 export default {
   name: 'buildQueue',
@@ -99,7 +99,8 @@ export default {
       BuildTypeEnum: BuildTypeEnum,
       QueueStatusEnum: QueueStatusEnum,
       touchstartStyle: [],
-      fdBuildFormStyle: [],
+      fdBuildFormStatus: [],
+      fdBuildFormStyle: '',
       iPopupMaskOpacity: '',
       iPopupContentOpacity: '',
       isShowReqPopup: false,
@@ -107,7 +108,9 @@ export default {
       requeriments: {},
       detail: {},
       builds: [],
-      buildQueues: []
+      buildQueues: [],
+      buildNum: null,
+      buildNumFocus: false,
     }
   },
   filters: {
@@ -165,12 +168,36 @@ export default {
       this.updateDate(['resource'], BuildTypeEnum.RESEARCH)
     },
     async addFleetQueue (row) {
-      this.fdBuildFormStyle.splice(this.fdBuildFormStyle.indexOf(row.buildCode), 1)
-      // const rest = await addFleetQueue({
-      //   planetId: this.planetId,
-      //   buildCode: row.buildCode
-      // })
-      // this.updateDate(['resource'], BuildTypeEnum.BUILDING)
+      console.log(this.buildNum)
+      if(this.buildNum){
+        const rest = await addFleetQueue({
+          planetId: this.planetId,
+          buildCode: row.buildCode,
+          buildNum: this.buildNum
+        })
+        this.updateDate(['resource'], BuildTypeEnum.FLEET)
+      }
+      this.fdBuildFormStyle = ''
+      this.buildNumFocus = false
+      setTimeout(() => {
+        this.fdBuildFormStatus.splice(this.fdBuildFormStatus.indexOf(row.buildCode), 1)
+      }, 300)
+    },
+    async addDefenseQueue (row) {
+      console.log(this.buildNum)
+      if(this.buildNum){
+        const rest = await addDefenseQueue({
+          planetId: this.planetId,
+          buildCode: row.buildCode,
+          buildNum: this.buildNum
+        })
+        this.updateDate(['resource'], BuildTypeEnum.DEFENSE)
+      }
+      this.fdBuildFormStyle = ''
+      this.buildNumFocus = false
+      setTimeout(() => {
+        this.fdBuildFormStatus.splice(this.fdBuildFormStatus.indexOf(row.buildCode), 1)
+      }, 300)
     },
     async updateDate (typeArray, buildQueueType) {
       if (typeArray.includes('resource')) {
@@ -201,7 +228,15 @@ export default {
       }
     },
     fdBuildFormShow (code) {
-      this.fdBuildFormStyle.push(code)
+      this.fdBuildFormStatus.push(code)
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.fdBuildFormStyle = 'right: 20rpx'
+        },0)
+        setTimeout(() => {
+          this.buildNumFocus = true
+        },400)
+      })
     },
     touchstart (code) {
       this.touchstartStyle.push(code)

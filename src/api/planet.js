@@ -39,6 +39,14 @@ export const addResearchQueue = async (params) => {
   return request.post('/api/planet/addResearchQueue', params)
 }
 
+export const addFleetQueue = async (params) => {
+  return request.post('/api/planet/addFleetQueue', params)
+}
+
+export const addDefenseQueue = async (params) => {
+  return request.post('/api/planet/addDefenseQueue', params)
+}
+
 export const deleteBuildQueue = async (params) => {
   return request.post('/api/planet/deleteBuildQueue', params)
 }

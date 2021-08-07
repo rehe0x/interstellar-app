@@ -6,7 +6,8 @@
       <view class="content_left_down_queue_list">
         <view class="item" v-for="(item) in buildQueues" :key="item.id">
           <view>
-            <view class="font_12">{{ item.buildName }} {{ item.level }}</view>
+            <view v-if="item.buildType === BuildTypeEnum.FLEET || item.buildType === BuildTypeEnum.DEFENSE" class="font_12">{{ item.buildName }} {{ item.level }} / {{ item.remainLevel }}</view>
+            <view v-else class="font_12">{{ item.buildName }} {{ item.level }} / {{ item.remainLevel }}</view>
             <template v-if="item.status === QueueStatusEnum.RUNNING">
               <view class="i-progress" style="height: 28rpx">
                 <!-- 小程序style不支持计算函数 -->
