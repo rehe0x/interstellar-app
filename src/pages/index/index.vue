@@ -116,7 +116,9 @@ export default {
   },
   async created () {
     uni.$on('toLogin', () => {
-      this.toLogin()
+      setTimeout(() => {
+        this.toLogin()
+      }, 1500)
     })
     const planet = await getUserPlanet()
     this.userPlanetList = planet.result
@@ -154,9 +156,12 @@ export default {
       uni.getSubNVueById('drawer').show('slide-in-left', 200)
     },
     toLogin () {
-      console.log('3333333')
       this.indexTransitionMask = true
-      this.iTransitionMaskOpacity = ''
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.iTransitionMaskOpacity = ''
+        }, 0)
+      })
       uni.removeStorageSync('token')
       setTimeout(() => {
         uni.redirectTo({
