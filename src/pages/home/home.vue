@@ -67,7 +67,7 @@
         <!-- </view> -->
       </view>
     </view>
-    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="toGameStatus">
+    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="homeTransitionMask">
     </view>
   </view>
 </template>
@@ -84,7 +84,7 @@ export default {
       iPopupContentOpacity: '',
       isShowLoginPopup: false,
       iTransitionMaskOpacity: '',
-      toGameStatus: false,
+      homeTransitionMask: true,
       touchstartStyle: [],
       loginStep: 1,
       loginStepNextButtonStyle: 'i-no-button-x',
@@ -108,6 +108,14 @@ export default {
     this.universeMap = rest.result
   },
   async mounted () {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
+      }, 0)
+    })
+    setTimeout(() => {
+      this.homeTransitionMask = false
+    }, 800)
   },
   methods: {
     onKeyPhoneInput: function (event) {
@@ -145,14 +153,18 @@ export default {
       }
     },
     async toGame () {
-      this.toGameStatus = true
-      this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
+      this.homeTransitionMask = true
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.iTransitionMaskOpacity = ''
+        }, 0)
+      })
       const rest = await login({ universeId: this.selectUniverseId, phone: this.phoneValue, code: +this.smsCodeInput.join('') })
 
       setTimeout(() => {
         if (!rest) {
-          this.toGameStatus = false
-          this.iTransitionMaskOpacity = ''
+          this.homeTransitionMask = false
+          this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
         }
       }, 1000)
       if (rest && rest.code === 200) {

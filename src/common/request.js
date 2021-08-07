@@ -59,6 +59,7 @@ service.interceptors.response.use(
         icon: 'loading',
         duration: 3000
       })
+      uni.$emit('toLogin')
     } else {
       return res.data
     }

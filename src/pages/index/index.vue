@@ -115,6 +115,9 @@ export default {
     this.planetId = option.planetId
   },
   async created () {
+    uni.$on('toLogin', () => {
+      this.toLogin()
+    })
     const planet = await getUserPlanet()
     this.userPlanetList = planet.result
     this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
@@ -150,10 +153,17 @@ export default {
     showDrawer () {
       uni.getSubNVueById('drawer').show('slide-in-left', 200)
     },
-    navigateTo () {
-      uni.navigateTo({
-        url: '/pages/index/new-nvue-page-1'
-      })
+    toLogin () {
+      console.log('3333333')
+      this.indexTransitionMask = true
+      this.iTransitionMaskOpacity = ''
+      uni.removeStorageSync('token')
+      setTimeout(() => {
+        uni.redirectTo({
+          url: '/pages/home/home',
+          animationType: 'none'
+        })
+      }, 300)
     },
     async getPlanetList () {
       this.planetSelectListShow = !this.planetSelectListShow
