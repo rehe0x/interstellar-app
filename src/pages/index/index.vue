@@ -86,11 +86,12 @@
 
 <script>
 import dayjs from 'dayjs'
+import { wait } from '../../common/utils.js'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
 import { getNowTime } from '../../api/planet'
 import { getUserPlanet } from '../../api/user'
 
-let timerCount = 0
+let timerCount = -1
 let startTime = dayjs().valueOf()
 let nowTime = 0
 export default {
@@ -234,17 +235,17 @@ export default {
     },
     timer () {
       if (nowTime > 0) {
+        timerCount++
         const time = nowTime + timerCount * 1000
         this.$root.$emit('resourcesTimer', time)
         this.$root.$emit('buildQueueTimer', time)
         this.gameTime = dayjs(time).format('MM-DD HH:mm:ss')
         const offset = dayjs().valueOf() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
-        timerCount++
         this.timers = setTimeout(this.timer, 1000 - offset)
       }
     },
     async startTimer () {
-      timerCount = 0
+      timerCount = -1
       startTime = dayjs().valueOf()
       const rest = await getNowTime()
       nowTime = rest.result.nowTime
