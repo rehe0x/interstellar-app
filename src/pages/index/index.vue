@@ -127,13 +127,13 @@ export default {
       this.startTimer()
       this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
     })
-    const rest = await getNowTime()
-    nowTime = rest.result.nowTime
-    this.timer()
-
     const planet = await getUserPlanet()
     this.userPlanetList = planet.result
     this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+
+    const rest = await getNowTime()
+    nowTime = rest.result.nowTime
+    this.timer()
   },
   async mounted () {
     this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
