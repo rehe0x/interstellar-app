@@ -91,7 +91,7 @@ import { getNowTime } from '../../api/planet'
 import { getUserPlanet } from '../../api/user'
 
 let timerCount = 0
-const startTime = dayjs().valueOf()
+let startTime = dayjs().valueOf()
 let nowTime = 0
 export default {
   data () {
@@ -120,12 +120,20 @@ export default {
         this.toLogin()
       }, 1500)
     })
-    const planet = await getUserPlanet()
-    this.userPlanetList = planet.result
-    this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+    uni.$on('onHide', () => {
+      this.stopTimer()
+    })
+    uni.$on('onShow', () => {
+      this.startTimer()
+      this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
+    })
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
     this.timer()
+
+    const planet = await getUserPlanet()
+    this.userPlanetList = planet.result
+    this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
   },
   async mounted () {
     this.iTransitionMaskOpacity = 'i_transition_mask_opacity'
@@ -234,6 +242,18 @@ export default {
         timerCount++
         this.timers = setTimeout(this.timer, 1000 - offset)
       }
+    },
+    async startTimer () {
+      timerCount = 0
+      startTime = dayjs().valueOf()
+      const rest = await getNowTime()
+      nowTime = rest.result.nowTime
+      this.timer()
+      console.log('startTimer', nowTime)
+    },
+    stopTimer () {
+      nowTime = 0
+      console.log('stopTimer', nowTime)
     }
   },
   destroyed () {

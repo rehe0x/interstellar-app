@@ -10,9 +10,11 @@ export default {
   },
   onShow: function () {
     console.log('App Show')
+    uni.$emit('onShow')
   },
   onHide: function () {
     console.log('App Hide')
+    uni.$emit('onHide')
   }
 }
 </script>
