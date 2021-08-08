@@ -13,7 +13,7 @@
               <view class="content_left_down_head">
                 <view class="font_14 color_chartreuse">星际舰队</view>
                 <view>{{ gameTime }}</view>
-                <view class="font_14 color_chartreuse">星际探索 ></view>
+                <view class="font_14 color_chartreuse" @click="toStaratlas">星际探索</view>
               </view>
               <build-queue :planetId="planetId" />
               <view class="content_left_down_active">
@@ -177,6 +177,13 @@ export default {
           animationType: 'none'
         })
       }, 300)
+    },
+    toStaratlas () {
+      uni.navigateTo({
+          url: '/pages/staratlas/staratlas',
+          animationType: 'fade-in',
+          animationDuration: 500
+      });
     },
     async getPlanetList () {
       this.planetSelectListShow = !this.planetSelectListShow
