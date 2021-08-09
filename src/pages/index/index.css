@@ -8,7 +8,7 @@
 
 .status_bar{
   height: var(--status-bar-height);
-  width: 750rpx;
+  width: 100%;
   position: fixed;
   top: 0;
   background-color: rgba(32, 58, 87, 0.6);

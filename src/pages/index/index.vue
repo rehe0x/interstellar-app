@@ -45,7 +45,7 @@
         <view class="content_right_up">
           <view class="planet_icon"></view>
           <!-- <view class="setting" @tap="showDrawer">设 置</view> -->
-          <view class="content_right_up_planet_info" @tap="getPlanetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''">
+          <view class="content_right_up_planet_info" @tap="getPlanetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgba(253,72,72,0.4)':''">
             <view class="planet_name">
               <view>{{ planetInfo.name }}</view>
               <view>{{ planetInfo.galaxyX }},{{ planetInfo.galaxyY }},{{ planetInfo.galaxyZ }}</view>
@@ -57,7 +57,7 @@
               <view class="planet_select_list_item">
                 <template v-for="(item) in userPlanetList">
                   <view class="divider_vertical"></view>
-                  <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="item">
+                  <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="item">
                     <view class="planet_icon"></view>
                     <view class="planet_name">
                       <view>{{ item.name }}</view>
@@ -181,10 +181,10 @@ export default {
     },
     toStaratlas () {
       uni.navigateTo({
-          url: '/pages/staratlas/staratlas',
-          animationType: 'fade-in',
-          animationDuration: 500
-      });
+        url: '/pages/staratlas/staratlas',
+        animationType: 'fade-in',
+        animationDuration: 500
+      })
     },
     async getPlanetList () {
       this.planetSelectListShow = !this.planetSelectListShow

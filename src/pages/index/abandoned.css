@@ -2,7 +2,7 @@
 /*  */
 .flex-skeleton-item1 .m-skeleton-fade {
   height: 188rpx;
-  background: rgb(47 90 138 / 61%);
+  background: rgba(47,90,138,0.6);
   animation-duration: 1s;
   animation-name: blink;
   animation-timing-function: ease-in-out;
@@ -39,7 +39,7 @@
 <view class="text_center font_16">基础建造</view>
 <view class="divider"></view>
 <template v-for="(item, buildCode) in buildings">
-  <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
+  <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="content_left_down_build_list" :key="buildCode">
     <view class="item_up">
       <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
       <view class="info">
@@ -72,7 +72,7 @@
 <view class="text_center font_16">科技研究</view>
 <view class="divider"></view>
 <template v-for="(item, buildCode) in researchs" >
-  <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="content_left_down_build_list" :key="buildCode">
+  <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" :style="touchstartStyle.indexOf(buildCode) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="content_left_down_build_list" :key="buildCode">
     <view class="item_up">
       <image @tap="openDetailPopup(item)" src="../../static/image/24.gif"/>
       <view class="info">

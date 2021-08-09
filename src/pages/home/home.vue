@@ -10,7 +10,7 @@
       <view class="main">
         <view class="main_universe">
           <template v-for="(item, key) in universeMap">
-            <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgb(253 72 72 / 44%)':''" class="main_universe_item">
+            <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
               <view class="icon"></view>
               <view class="title">
                 <view class="font_20">{{ item.name }}</view>

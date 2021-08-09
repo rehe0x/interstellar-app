@@ -3,7 +3,7 @@
     <view class="text_center font_16">{{ title }}</view>
     <view class="divider"></view>
     <template v-for="(item, buildCode) in builds">
-      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgb(253 72 72 / 44%)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgb(0 0 0 / 44%)' : ''" class="content_left_down_build_list" :key="buildCode">
+      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="content_left_down_build_list" :key="buildCode">
         <view class="item_up">
           <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''"/>
           <view class="info" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''">
