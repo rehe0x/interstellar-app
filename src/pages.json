@@ -33,6 +33,15 @@
 			}
 		},
 		{
+			"path": "pages/staratlas_flex/staratlas_flex",
+			"style": {
+				"navigationBarTitleText": "interstellar",
+				"app-plus": {
+					"background": "black"
+				}
+			}
+		},
+		{
 			"path": "pages/index/new-nvue-page-1",
 			"style": {
 				"navigationBarTitleText": "interstellar"

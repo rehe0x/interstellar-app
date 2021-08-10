@@ -53,7 +53,7 @@
         <view class="i_popup" :class="iPopupContentOpacity" @click.stop="closeReqPopup(2)">
           <view class="i_popup_title font_16">科技树</view>
           <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
-            <view v-for="(item, index) in requeriments.requeriments" :key="'req' + index">
+            <view v-for="(item, index) in requeriments.requeriments" :key="index">
               {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
             </view>
           </view>
@@ -66,7 +66,7 @@
             <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
               <view>{{ detail.description }}</view>
               <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
-              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="'detail' + index">
+              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
                 {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
               </view>
             </scroll-view>
