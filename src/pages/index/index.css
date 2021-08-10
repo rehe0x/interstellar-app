@@ -48,14 +48,9 @@
 
 .content_left_down_head{
   display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 10px;
-}
-.content_left_down_head > view:not(:last-child){
-  flex: auto;
-}
-.content_left_down_head > view:nth-child(2){
-  display: flex;
-  align-items: center;
 }
 
 .content_left_down_active{

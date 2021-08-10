@@ -3,9 +3,14 @@
 		<view class="status_bar">
 		</view>
 		<view class="content" @touchmove.stop="">
-       <view class="header">
-        <view class="header_back font_16" @click="toIndex">返回</view>
-        <view class="header_title font_16">太阳系134,53</view>
+      <view class="header">
+        <view class="header_back font_18" @click="toIndex">返回</view>
+        <view class="galaxy_form">
+          <view class="font_18">太阳系</view>
+          <input class="galaxy_x font_18" maxlength="1" value="1"  type="number"  placeholder="" />
+          <input class="galaxy_y font_18" maxlength="3" value="333" type="number"  placeholder="" />
+          <view class="x_button font_14">空间跳跃</view>
+        </view>
       </view>
 			<view class="main">
 				<scroll-view scroll-x="true" style="height: 100%" class="scroll-view_H">
@@ -56,12 +61,18 @@
           </table>
 				</scroll-view>
 			</view>
+      <view class="footer">
+        <view class="arrow arrow_left1"></view>
+        <view class="arrow arrow_left2"></view>
+        <view class="control font_18">控制</view>
+        <view class="arrow arrow_right2"></view>
+        <view class="arrow arrow_right1"></view>
+      </view>
 		</view>
 	</view>
 </template>
 
 <script>
-// import inobounce from 'inobounce/inobounce'
 export default {
   data () {
     return {
@@ -69,13 +80,8 @@ export default {
     }
   },
   created () {
-    // const u = navigator.userAgent
-    // if (u.indexOf('iPhone') > -1) {
-      // inobounce.enable()
-    // }
   },
   beforeDestroy () {
-    // inobounce.disable()
   },
   methods: {
     toIndex () {
