@@ -11,9 +11,9 @@
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <view v-show="swichSubmenuCode==1">
               <view class="content_left_down_head">
-                <view class="font_14 color_chartreuse">星际舰队</view>
-                <view>{{ gameTime }}</view>
-                <view class="font_14 color_chartreuse" @click="toStaratlas">星际探索</view>
+                <view class="font_16 color_chartreuse">星际舰队</view>
+                <view class="font_14">{{ gameTime }}</view>
+                <view class="font_16 color_chartreuse" @click="toStaratlas">星际探索</view>
               </view>
               <build-queue :planetId="planetId" />
               <view class="content_left_down_active">
@@ -50,20 +50,23 @@
               <view>{{ planetInfo.name }}</view>
               <view>{{ planetInfo.galaxyX }},{{ planetInfo.galaxyY }},{{ planetInfo.galaxyZ }}</view>
             </view>
-            <view class="planet_select_btn"> >>> </view>
+            <view class="planet_arrow">
+              <view class="arrow arrow_left" :class="planetSelectListShow ? 'arrow_right' : 'arrow_left'"></view>
+              <view class="arrow arrow_left" :class="planetSelectListShow ? 'arrow_right' : 'arrow_left'"></view>
+            </view>
           </view>
           <view class="planet_select_list" :class="planetSelectListShow ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
               <view class="planet_select_list_item">
-                <template v-for="(item) in userPlanetList">
-                  <view class="divider_vertical"></view>
+                <template v-for="(item, index) in userPlanetList">
+                  <view :key="item.id +'_'+ index" class="divider_vertical"></view>
                   <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="item">
                     <view class="planet_icon"></view>
                     <view class="planet_name">
                       <view>{{ item.name }}</view>
                       <view>{{ item.galaxyX }},{{ item.galaxyY }},{{ item.galaxyZ }}</view>
                     </view>
-                    <view class="planet_on" v-if="item.id == planetId">> </view>
+                    <view class="arrow arrow_down" v-if="item.id == planetId"></view>
                   </view>
                 </template>
               </view>

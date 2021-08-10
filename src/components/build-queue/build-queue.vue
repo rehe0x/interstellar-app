@@ -5,7 +5,7 @@
       <view class="divider"></view>
       <view class="content_left_down_queue_list">
         <view class="item" v-for="(item) in buildQueues" :key="item.id">
-          <view> 
+          <view>
             <view v-if="item.buildType === BuildTypeEnum.FLEET || item.buildType === BuildTypeEnum.DEFENSE" class="font_12">
               {{ item.buildName }} {{ item.level }} / {{ Math.floor((time - item.startTime) / 1000 / (item.seconds / item.level)) }}
             </view>

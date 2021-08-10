@@ -197,9 +197,9 @@
 }
 
 .footer .arrow_left2 {
-  transform: translateX(-60rpx) rotate(-135deg);
+  transform: translateX(-20rpx) rotate(-135deg);
 }
 
 .footer .arrow_right2 {
-  transform: translateX(60rpx) rotate(45deg);
+  transform: translateX(20rpx) rotate(45deg);
 }

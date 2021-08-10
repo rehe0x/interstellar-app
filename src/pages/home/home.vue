@@ -16,7 +16,7 @@
                 <view class="font_20">{{ item.name }}</view>
                 <view class="font_16">{{ item.description }}</view>
               </view>
-              <view v-if="key == selectUniverseId" class="select">></view>
+              <view v-if="key == selectUniverseId" class="arrow arrow_right"></view>
             </view>
           </template>
         </view>

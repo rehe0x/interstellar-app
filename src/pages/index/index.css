@@ -84,22 +84,37 @@
   letter-spacing: 4rpx;
   word-break: keep-all;
   display: flex;
+  padding-bottom: 4rpx;
 }
 
 .content_right_up_planet_info .planet_name {
-  max-height: 260rpx;
+  max-height: 252rpx;
   overflow: hidden;
 }
 
 .content_right_up_planet_info .planet_name view:nth-child(2) {
   text-indent: 4rpx;
 }
+.content_right_up_planet_info .planet_arrow {
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 
-.content_right_up_planet_info .planet_select_btn{
-  color: springgreen;
-  font-size: 28rpx;
-  text-align: center;
-  writing-mode: initial;
+.content_right_up_planet_info .arrow{
+  display: inline-block;
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 4rpx solid springgreen;
+  border-right: 4rpx solid springgreen;
+}
+
+.content_right_up_planet_info .arrow_left {
+  transform: rotate(-135deg);
+}
+.content_right_up_planet_info .arrow_right {
+  transform: rotate(45deg);
 }
 
 .planet_select_list {
@@ -158,6 +173,20 @@
 .planet_select_list_item .planet_name view:nth-child(2) {
   text-indent: 4rpx;
 }
+
+
+.planet_select_list_item .arrow{
+  display: inline-block;
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 4rpx solid springgreen;
+  border-right: 4rpx solid springgreen;
+}
+
+.planet_select_list_item .arrow_down {
+  transform: rotate(135deg);
+}
+
 
 .content_right_down{
   height: calc(100% - 400rpx);

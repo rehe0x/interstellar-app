@@ -40,10 +40,9 @@
   align-items: center;
   height: 12vh;
   width: 600rpx;
-  padding-left: 10px;
-  padding-right: 10px;
   box-sizing: border-box;
   margin-bottom: 10px;
+  justify-content: space-evenly;
 }
 
 .main_universe_item .icon{
@@ -52,13 +51,19 @@
   background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
   border-radius: 50%;
 }
-.main_universe_item .title {
-  margin-left: 30rpx;
+
+.main_universe_item .arrow {
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+  border-top: 8rpx solid lightblue;
+  border-right: 8rpx solid lightblue;
 }
 
-.main_universe_item .select {
-  margin-left: 90rpx;
+.main_universe_item .arrow_right {
+  transform: rotate(45deg);
 }
+
 
 .main .main_footer {
   display: flex;

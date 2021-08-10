@@ -62,11 +62,15 @@
 				</scroll-view>
 			</view>
       <view class="footer">
-        <view class="arrow arrow_left1"></view>
-        <view class="arrow arrow_left2"></view>
+        <view>
+          <view class="arrow arrow_left1"></view>
+          <view class="arrow arrow_left2"></view>
+        </view>
         <view class="control font_18">控制</view>
-        <view class="arrow arrow_right2"></view>
-        <view class="arrow arrow_right1"></view>
+        <view>
+          <view class="arrow arrow_right2"></view>
+          <view class="arrow arrow_right1"></view>
+        </view>
       </view>
 		</view>
 	</view>

@@ -31,7 +31,7 @@
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.FLEET || buildType == BuildTypeEnum.DEFENSE">
-              <view class="i-button " style="height: 40rpx;transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
+              <view class="i-button " style="transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
               <view class="fd_build_form" v-show="fdBuildFormStatus.includes(buildCode)" :style="fdBuildFormStyle">
                 <input class="build_num font_16" :focus="buildNumFocus" maxlength="4" type="number"  v-model="buildNum" placeholder="建造数量" />
                 <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
@@ -53,7 +53,7 @@
         <view class="i_popup" :class="iPopupContentOpacity" @click.stop="closeReqPopup(2)">
           <view class="i_popup_title font_16">科技树</view>
           <view v-if="Object.keys(requeriments).length > 0" class="i_popup_content font_14">
-            <view v-for="(item, index) in requeriments.requeriments" :key="index">
+            <view v-for="(item, index) in requeriments.requeriments" :key="'req' + index">
               {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
             </view>
           </view>
@@ -66,7 +66,7 @@
             <scroll-view scroll-y="true" class="scroll-Y" style="max-height: 800rpx">
               <view>{{ detail.description }}</view>
               <view v-if="detail.requeriment.requeriments.length > 0" class="i_popup_title font_16">科技树</view>
-              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="index">
+              <view class="text_center" v-for="(item, index) in detail.requeriment.requeriments" :key="'detail' + index">
                 {{ item.name }}   {{ item.level }} 级 当前 {{ item.mylevel }} 级
               </view>
             </scroll-view>
@@ -110,7 +110,7 @@ export default {
       builds: [],
       buildQueues: [],
       buildNum: null,
-      buildNumFocus: false,
+      buildNumFocus: false
     }
   },
   filters: {
@@ -169,7 +169,7 @@ export default {
     },
     async addFleetQueue (row) {
       console.log(this.buildNum)
-      if(this.buildNum){
+      if (this.buildNum) {
         const rest = await addFleetQueue({
           planetId: this.planetId,
           buildCode: row.buildCode,
@@ -185,7 +185,7 @@ export default {
     },
     async addDefenseQueue (row) {
       console.log(this.buildNum)
-      if(this.buildNum){
+      if (this.buildNum) {
         const rest = await addDefenseQueue({
           planetId: this.planetId,
           buildCode: row.buildCode,
@@ -232,10 +232,10 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => {
           this.fdBuildFormStyle = 'right: 20rpx'
-        },0)
+        }, 0)
         setTimeout(() => {
           this.buildNumFocus = true
-        },400)
+        }, 400)
       })
     },
     touchstart (code) {
@@ -300,6 +300,10 @@ export default {
   display: flex;
   margin-bottom: 3px;
   align-items: center;
+}
+
+.content_left_down_build_list .item_up .i-button,.i-no-button{
+  height: 44rpx;
 }
 
 .content_left_down_build_list .item_up .i-button,.i-no-button{
