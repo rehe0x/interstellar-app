@@ -1,13 +1,14 @@
 <template>
   <view>
-    <view><text>金属：</text>{{ resources.metalStorageMax | numberToCurrency }} / {{ resources.metal | numberToCurrency }}</view>
-    <view><text>晶体：</text>{{ resources.crystalStorageMax | numberToCurrency }} / {{ resources.crystal | numberToCurrency }}</view>
-    <view><text>重氦：</text>{{ resources.deuteriumStorageMax | numberToCurrency }} / {{ resources.deuterium | numberToCurrency }}</view>
-    <view><text>能量：</text>{{ resources.energyMax | numberToCurrency }} / {{ resources.energyUsed | numberToCurrency }}</view>
+    <view><text>金属：</text>{{ numberToCurrency(resources.metalStorageMax) }} / {{ numberToCurrency(resources.metal) }}</view>
+    <view><text>晶体：</text>{{ numberToCurrency(resources.crystalStorageMax) }} / {{ numberToCurrency(resources.crystal) }}</view>
+    <view><text>重氦：</text>{{ numberToCurrency(resources.deuteriumStorageMax) }} / {{ numberToCurrency(resources.deuterium) }}</view>
+    <view><text>能量：</text>{{ numberToCurrency(resources.energyMax) }} / {{ numberToCurrency(resources.energyUsed) }}</view>
    </view>
 </template>
 
 <script>
+import { computed } from 'vue'
 import { getPlanetResources } from '../../api/planet'
 let metalT = 0
 let crystalT = 0
@@ -18,6 +19,17 @@ export default {
     planetId: {
       required: true
     }
+  },
+  setup (props, context) {
+    const numberToCurrency = computed(() => {
+      return (value) => {
+        if (!value) return '0'
+        // 整数部分处理，增加,
+        const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+        return intPartFormat
+      }
+    })
+    return { numberToCurrency }
   },
   data () {
     return {

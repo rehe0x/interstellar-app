@@ -68,7 +68,8 @@
                     }
                 }
             }
-        }
+        },
+        "nvueLaunchMode" : ""
     },
     /* SDK配置 */
     "quickapp" : {},

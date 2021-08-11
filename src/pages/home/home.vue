@@ -9,8 +9,8 @@
       </view>
       <view class="main">
         <view class="main_universe">
-          <template v-for="(item, key) in universeMap">
-            <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
+          <template v-for="(item, key) in universeMap" :key="key">
+            <view @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
               <view class="icon"></view>
               <view class="title">
                 <view class="font_20">{{ item.name }}</view>
@@ -221,9 +221,9 @@ export default {
       this.loginAnimationStepone = 'login_animation_stepone_back'
     }
   },
-  destroyed () {
+  unmounted () {
   },
-  beforeDestroy () {
+  beforeUnmount () {
   }
 }
 </script>

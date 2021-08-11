@@ -25,8 +25,8 @@
               <view class="cell" style="width: 15%"><view>联盟</view></view>
               <view class="cell" style="width: 5%"><view>操作</view></view>
             </view>
-            <template v-for="(item, index) in 15">
-              <view :key="index" class="row_body">
+            <template v-for="(item, index) in 15" :key="index">
+              <view class="row_body">
                 <template v-if="item % 3 === 0 || item % 4 === 0">
                   <view class="cell"><view>{{ item }}</view></view>
                   <view class="cell"><view><view class="icon"></view></view></view>
@@ -77,7 +77,7 @@ export default {
   },
   created () {
   },
-  beforeDestroy () {
+  beforeUnmount () {
   },
   methods: {
     toIndex () {

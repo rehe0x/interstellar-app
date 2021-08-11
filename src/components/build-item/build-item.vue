@@ -2,8 +2,8 @@
   <view>
     <view class="text_center font_16">{{ title }}</view>
     <view class="divider"></view>
-    <template v-for="(item, buildCode) in builds">
-      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="content_left_down_build_list" :key="buildCode">
+    <template v-for="(item, buildCode) in builds" :key="buildCode">
+      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="content_left_down_build_list" >
         <view class="item_up">
           <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''"/>
           <view class="info" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''">
@@ -43,10 +43,10 @@
           </template>
         </view>
         <view class="item_down">
-          <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
+          <view><text>金属：</text>{{ numberToCurrency(item.metal) }} <text>晶体：</text>{{ numberToCurrency(item.crystal) }} <text>重氦：</text>{{ numberToCurrency(item.deuterium) }}</view>
         </view>
       </view>
-      <view class="divider" :key="item.id"></view>
+      <view class="divider"></view>
     </template>
     <view>
       <view class="i_popup_mask" :class="iPopupMaskOpacity" v-if="isShowReqPopup == true" @click="closeReqPopup(1)">
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
 import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueueByType, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
 
@@ -93,6 +94,17 @@ export default {
     planetId: {
       required: true
     }
+  },
+  setup (props, context) {
+    const numberToCurrency = computed(() => {
+      return (value) => {
+        if (!value) return '0'
+        // 整数部分处理，增加,
+        const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+        return intPartFormat
+      }
+    })
+    return { numberToCurrency }
   },
   data () {
     return {

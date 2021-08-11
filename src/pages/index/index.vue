@@ -58,9 +58,9 @@
           <view class="planet_select_list" :class="planetSelectListShow ? 'planet_select_list_show' : ''">
             <scroll-view scroll-x="true" style="writing-mode: vertical-lr;height: 100%;" class="scroll-view_H" scroll-left="0">
               <view class="planet_select_list_item">
-                <template v-for="(item, index) in userPlanetList">
-                  <view :key="index" class="divider_vertical"></view>
-                  <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="item">
+                <template v-for="(item) in userPlanetList" :key="item.id">
+                  <view class="divider_vertical"></view>
+                  <view @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="item">
                     <view class="planet_icon"></view>
                     <view class="planet_name">
                       <view>{{ item.name }}</view>
@@ -274,10 +274,10 @@ export default {
       console.log('stopTimer', nowTime)
     }
   },
-  destroyed () {
+  unmounted () {
     this.timers && clearTimeout(this.timers)
   },
-  beforeDestroy () {
+  beforeUnmount () {
     this.timers && clearTimeout(this.timers)
   }
 }

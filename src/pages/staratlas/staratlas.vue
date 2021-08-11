@@ -33,8 +33,8 @@
               <th>联盟</th>
               <th width="5%">操作</th> -->
             </tr>
-            <template v-for="(item, index) in 15">
-              <tr :key="index">
+            <template v-for="(item, index) in 15" :key="index">
+              <tr>
                 <template v-if="item % 3 === 0 || item % 4 === 0">
                   <td><view>{{ item }}</view></td>
                   <td><view><view class="icon"></view></view></td>
@@ -85,7 +85,7 @@ export default {
   },
   created () {
   },
-  beforeDestroy () {
+  beforeUnmount () {
   },
   methods: {
     toIndex () {
