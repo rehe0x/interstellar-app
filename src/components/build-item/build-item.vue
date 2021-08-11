@@ -1,10 +1,10 @@
 <template>
-  <view>
+  <view class="main_console_build">
     <view class="text_center font_16">{{ title }}</view>
     <view class="divider"></view>
     <template v-for="(item, buildCode) in builds">
-      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="content_left_down_build_list" :key="buildCode">
-        <view class="item_up">
+      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="main_console_build_list" :key="buildCode">
+        <view class="item_info">
           <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''"/>
           <view class="info" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''">
             <view class="font_14">{{ item.name }} {{ item.level > 0 ? item.level: ''}}</view>
@@ -42,7 +42,7 @@
             <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
           </template>
         </view>
-        <view class="item_down">
+        <view class="item_resources">
           <view><text>金属：</text>{{ item.metal | numberToCurrency }} <text>晶体：</text>{{ item.crystal | numberToCurrency }} <text>重氦：</text>{{ item.deuterium | numberToCurrency }}</view>
         </view>
       </view>
@@ -286,7 +286,7 @@ export default {
 
 <style>
 
-.content_left_down_build_list{
+.main_console_build_list{
   flex-direction: column;
   /* height: 188rpx; */
   padding: 8px 7px 3px 7px;
@@ -296,33 +296,33 @@ export default {
   /* margin-bottom: 8px; */
 }
 
-.content_left_down_build_list .item_up{
+.main_console_build_list .item_info{
   display: flex;
   margin-bottom: 3px;
   align-items: center;
 }
 
-.content_left_down_build_list .item_up .i-button,.i-no-button{
+.main_console_build_list .item_info .i-button,.i-no-button{
   height: 44rpx;
 }
 
-.content_left_down_build_list .item_up .i-button,.i-no-button{
+.main_console_build_list .item_info .i-button,.i-no-button{
   align-self: center;
 }
 
-.content_left_down_build_list .item_up image{
+.main_console_build_list .item_info image{
   width: 100rpx;
   height: 90rpx;
   transition: all 0.5s;
 }
 
-.content_left_down_build_list .item_up .info{
+.main_console_build_list .item_info .info{
   width: 360rpx;
   padding-left: 8px;
   transition: all 0.5s;
 }
 
-.content_left_down_build_list .fd_build_form {
+.main_console_build_list .fd_build_form {
   display: flex;
   align-items: center;
   position: absolute;
@@ -330,23 +330,23 @@ export default {
   transition: all 0.3s;
 }
 
-.content_left_down_build_list .fd_build_form_right {
+.main_console_build_list .fd_build_form_right {
   right: 0;
 }
 
-.content_left_down_build_list .fd_build_form .build_num{
+.main_console_build_list .fd_build_form .build_num{
   border: 2px solid;
   height: 60rpx;
   width: 180rpx;
   text-indent: 20rpx;
   margin-right: 10px;
 }
-.content_left_down_build_list .fd_build_form .i-button{
+.main_console_build_list .fd_build_form .i-button{
   transition: all 0.5s;
   overflow: hidden;
 }
 
-.content_left_down_build_list .item_down{
+.main_console_build_list .item_resources{
   font-size: 24rpx;
   box-sizing: border-box;
   align-items: center;
@@ -354,10 +354,10 @@ export default {
   color: rgb(180, 242, 253);
 }
 
-.content_left_down_build_list .item_down text{
+.main_console_build_list .item_resources text{
   color: rgb(0,205,204);
 }
-.content_left_down_build_list .item_down text:not(:nth-child(1)){
+.main_console_build_list .item_resources text:not(:nth-child(1)){
   margin-left: 10rpx;
 }
 

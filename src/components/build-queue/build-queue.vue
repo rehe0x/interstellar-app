@@ -1,9 +1,9 @@
 <template>
-   <view class="content_left_down_queue">
+   <view class="main_console_queue">
     <template v-if="buildQueues.length > 0">
       <view class="text_center font_16">建造队列</view>
       <view class="divider"></view>
-      <view class="content_left_down_queue_list">
+      <view class="main_console_queue_list">
         <view class="item" v-for="(item) in buildQueues" :key="item.id">
           <view>
             <view v-if="item.buildType === BuildTypeEnum.FLEET || item.buildType === BuildTypeEnum.DEFENSE" class="font_12">
@@ -95,19 +95,19 @@ export default {
 
 <style scoped>
 
-.content_left_down_queue_list{
+.main_console_queue_list{
   padding: 0 7px 0px 7px;
 }
-.content_left_down_queue_list > .item{
+.main_console_queue_list > .item{
   display: flex;
   align-items: center;
 }
-.content_left_down_queue_list > .item > .i-button{
+.main_console_queue_list > .item > .i-button{
   margin-left: 30rpx;
   align-self: flex-end;
 }
 
-.content_left_down_queue_list .i-progress{
+.main_console_queue_list .i-progress{
   width: 460rpx;
   display: flex;
   align-items: center;

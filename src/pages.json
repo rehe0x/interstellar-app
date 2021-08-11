@@ -24,6 +24,16 @@
 			}
 		},
 		{
+			"path": "pages/index4/index",
+			"style": {
+				"navigationBarTitleText": "interstellar",
+				"app-plus": {
+					"animationType": "none",
+					"background": "black"
+				}
+			}
+		},
+		{
 			"path": "pages/staratlas/staratlas",
 			"style": {
 				"navigationBarTitleText": "interstellar",

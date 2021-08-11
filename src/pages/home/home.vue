@@ -171,7 +171,7 @@ export default {
         uni.setStorageSync('token', rest.result.token)
         setTimeout(() => {
           uni.redirectTo({
-            url: `/pages/index/index?userId=${rest.result.id}&planetId=${rest.result.planetId}`,
+            url: `/pages/index4/index?userId=${rest.result.id}&planetId=${rest.result.planetId}`,
             animationType: 'none'
           })
         }, 300)
