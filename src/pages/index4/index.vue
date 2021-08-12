@@ -10,7 +10,7 @@
             <view>能量  4411/66336</view>
             <view>17,250公里 (255 / 263 空间)</view>
             <view>大约 29°C 到 69°C</view>
-            <view>255,915,079 (用户排名 25 / 70236)</view>
+            <view style="display: flex">255,915,079 (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
           </view>
         </view>
         <view class="header_planet">
@@ -49,9 +49,10 @@
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <view v-show="swichSubmenuCode==1">
               <view class="main_console_head">
-                <view class="font_16 color_chartreuse" @click="toStaratlasFlex">星际舰队</view>
-                <view class="font_14">{{ gameTime }}</view>
-                <view class="font_16 color_chartreuse" @click="toStaratlas">星际探索</view>
+                <view class="font_16 color_chartreuse" @click="toStaratlas">消息中心</view>
+                <!-- <view class="font_14">{{ gameTime }}</view> -->
+                <view class="font_16 color_chartreuse" @click="toStaratlas">战斗报告</view>
+                <view class="font_16 color_chartreuse" @click="toStaratlasFlex">星际探索</view>
               </view>
               <build-queue :planetId="planetId" />
               <view class="main_console_dashboard">
@@ -84,10 +85,36 @@
           <view class="submenu ripple" :class="[swichSubmenuAct==3 ? 'submen_active' : '']" @click="swichMenu(3)">研究</view>
           <view class="submenu ripple" :class="[swichSubmenuAct==4 ? 'submen_active' : '']" @click="swichMenu(4)">船厂</view>
           <view class="submenu ripple" :class="[swichSubmenuAct==5 ? 'submen_active' : '']" @click="swichMenu(5)">防御</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==7 ? 'submen_active' : '']" @click="swichMenu(7)">事务官</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==7 ? 'submen_active' : '']" @click="swichMenu(7)">财团</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==8 ? 'submen_active' : '']" @click="swichMenu(8)">联盟</view>
+          <view class="submenu ripple" :class="[swichSubmenuAct==99 ? 'submen_active' : '']" @click="swichMenu(99)">更多</view>
         </view>
       </view>
     </view>
-    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="indexTransitionMask">
+    <view class="i_transition_mask" :class="iTransitionMaskOpacity" v-show="indexTransitionMask"></view>
+    <view class="popup_more_menu" :class="moreMenuShowOpacity" v-show="moreMenuShow">
+      <view class="more_menu">
+        <view class="back font_16" @click="moreMenuBackIndex" >返回</view>
+        <view class="title">
+          <view class="font_20">设置</view>
+          <view class="divider" style="width: 80%"></view>
+        </view>
+        <view class="mainmenu">
+          <view class="item">
+            <view class="font_18">大战役</view>
+            <view class="font_18">用户信息</view>
+            <view class="font_18">大战役</view>
+            <view class="font_18">用户信息</view>
+            <view class="font_18">大战役</view>
+            <view class="font_18">用户信息</view>
+            <view class="font_18">大战役</view>
+            <view class="font_18">用户信息</view>
+            <view class="font_18">大战役1</view>
+            <view class="font_18">用户信息1</view>
+          </view>
+        </view>
+      </view>
     </view>
 	</view>
 </template>
@@ -111,6 +138,8 @@ export default {
       gameTime: '0.0.0',
       iTransitionMaskOpacity: '',
       indexTransitionMask: true,
+      moreMenuShowOpacity: '',
+      moreMenuShow: false,
       planetSelectShow: false,
       touchstartStyle: [],
       swichSubmenuCode: 1,
@@ -196,7 +225,7 @@ export default {
     },
     toStaratlasFlex () {
       uni.navigateTo({
-        url: '/pages/staratlas_flex/staratlas_flex',
+        url: `/pages/staratlas_flex/staratlas_flex?planetId=${this.planetId}&galaxyX=${this.planetInfo.galaxyX}&galaxyY=${this.planetInfo.galaxyY}`,
         animationType: 'fade-in',
         animationDuration: 500
       })
@@ -222,9 +251,19 @@ export default {
         this.updateDate([BuildTypeEnum.FLEET])
       } else if (code === 5) {
         this.updateDate([BuildTypeEnum.DEFENSE])
+      } else if (code === 99) {
+        this.moreMenuShowOpacity = 'more_menu_show_opacity'
+        this.moreMenuShow = true
+        return
+      } else {
+        this.toStaratlasFlex()
       }
       this.swichSubmenuCode = code
       this.swichSubmenuAct = code
+    },
+    moreMenuBackIndex () {
+      this.moreMenuShowOpacity = ''
+      this.moreMenuShow = false
     },
     async updateDate (typeArray) {
       if (typeArray.includes('resource')) {

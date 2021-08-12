@@ -7,9 +7,9 @@
         <view class="header_back font_18" @click="toIndex">返回</view>
         <view class="galaxy_form">
           <view class="font_18">太阳系</view>
-          <input class="galaxy_x font_18" maxlength="1" value="1"  type="number"  placeholder="" />
-          <input class="galaxy_y font_18" maxlength="3" value="333" type="number"  placeholder="" />
-          <view class="x_button font_14">空间跳跃</view>
+          <input class="galaxy_x font_18" maxlength="1" v-model="galaxyX"  type="number"  placeholder="" />
+          <input class="galaxy_y font_18" maxlength="3" v-model="galaxyY" type="number"  placeholder="" />
+          <view class="x_button font_14" @click="pageJump">空间跳跃</view>
         </view>
       </view>
 			<view class="main">
@@ -27,15 +27,16 @@
             </view>
             <template v-for="(item, index) in 15">
               <view :key="index" class="row_body">
-                <template v-if="item % 3 === 0 || item % 4 === 0">
+                <view v-show="false">{{ star = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.STAR }) }}</view>
+                <view v-show="false">{{ moon = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.MOON }) }}</view>
+                <template v-if="star">
                   <view class="cell"><view>{{ item }}</view></view>
                   <view class="cell"><view><view class="icon"></view></view></view>
-                  <view v-if="item % 4 === 0" class="cell"><view>殖民地殖民地殖民地殖民地</view></view>
-                  <view v-else class="cell"><view>殖民地</view></view>
-                  <view class="cell"><view><view class="icon"></view></view></view>
+                  <view class="cell"><view>{{ star.planetName }}</view></view>
+                  <view class="cell"><view><view v-if="moon" class="icon"></view></view></view>
                   <view class="cell"><view></view></view>
-                  <view class="cell"><view style="color: springgreen">殖民地殖民地</view></view>
-                  <view class="cell"><view>殖民地殖民地</view></view>
+                  <view class="cell"><view style="color: springgreen">{{ star.username }}</view></view>
+                  <view class="cell"><view>{{ star.allianceName }}</view></view>
                   <view class="cell"><view>探测</view></view>
                 </template>
                 <template v-else>
@@ -54,12 +55,12 @@
 				</scroll-view>
 			</view>
       <view class="footer">
-        <view>
+        <view @click="pageUp">
           <view class="arrow arrow_left1"></view>
           <view class="arrow arrow_left2"></view>
         </view>
         <view class="control font_18">控制</view>
-        <view>
+        <view @click="pageDown">
           <view class="arrow arrow_right2"></view>
           <view class="arrow arrow_right1"></view>
         </view>
@@ -69,13 +70,28 @@
 </template>
 
 <script>
+import { PlanetTypeEnum } from '../../enum/base.enum'
+import { getStaratlas } from '../../api/home'
+
 export default {
   data () {
     return {
-
+      planetId: 0,
+      planetInfo: {},
+      galaxyX: 0,
+      galaxyY: 0,
+      staratlas: [],
+      PlanetTypeEnum
     }
   },
-  created () {
+  onLoad (option) {
+    this.planetId = +option.planetId
+    this.galaxyX = option.galaxyX
+    this.galaxyY = option.galaxyY
+  },
+  async created () {
+    const rest = await getStaratlas({ planetId: this.planetId, galaxyX: this.galaxyX, galaxyY: this.galaxyY })
+    this.staratlas = rest.result
   },
   beforeDestroy () {
   },
@@ -87,6 +103,21 @@ export default {
         animationType: 'fade-out',
         animationDuration: 500
       })
+    },
+    async pageUp () {
+      this.galaxyY--
+      const rest = await getStaratlas({ planetId: this.planetId, galaxyX: this.galaxyX, galaxyY: this.galaxyY })
+      this.staratlas = rest.result
+    },
+    async pageDown () {
+      this.galaxyY++
+      const rest = await getStaratlas({ planetId: this.planetId, galaxyX: this.galaxyX, galaxyY: this.galaxyY })
+      this.staratlas = rest.result
+    },
+    async pageJump () {
+      console.log(this.galaxyX, this.galaxyY)
+      const rest = await getStaratlas({ planetId: this.planetId, galaxyX: this.galaxyX, galaxyY: this.galaxyY })
+      this.staratlas = rest.result
     }
   }
 }
