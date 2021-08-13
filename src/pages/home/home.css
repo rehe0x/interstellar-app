@@ -11,7 +11,7 @@
 }
 
 .header {
-  height: 20vh;
+  height: 20%;
 }
 
 .header_userinfo{
@@ -27,10 +27,16 @@
 }
 
 .main {
-  height: calc(90% - 20vh);
+  height: 75%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.main_universe{
+  overflow: auto;
+  min-height: 50%;
+  max-height: 85%;
 }
 
 .main_universe_item{
@@ -67,14 +73,12 @@
 
 .main .main_footer {
   display: flex;
-  height: 600rpx;
-  min-height: 160rpx;
-  display: flex;
   align-items: center;
+  height: 15%;
 }
 
 .footer{
-  height: 10%;
+  height: 5%;
   color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;

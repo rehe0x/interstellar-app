@@ -7,7 +7,7 @@
         <view class="header_back font_18" @click="toIndex">返回</view>
         <view class="galaxy_form">
           <view class="font_18">太阳系</view>
-          <input class="galaxy_x font_18" maxlength="1" v-model="galaxyX"  type="number"  placeholder="" />
+          <input class="galaxy_x font_18" maxlength="2" v-model="galaxyX"  type="number"  placeholder="" />
           <input class="galaxy_y font_18" maxlength="3" v-model="galaxyY" type="number"  placeholder="" />
           <view class="x_button font_14" @click="pageJump">空间跳跃</view>
         </view>
@@ -26,9 +26,9 @@
               <view class="cell" style="width: 5%"><view>操作</view></view>
             </view>
             <template v-for="(item, index) in 15">
+              <view v-show="false">{{ star = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.STAR }) }}</view>
+              <view v-show="false">{{ moon = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.MOON }) }}</view>
               <view :key="index" class="row_body">
-                <view v-show="false">{{ star = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.STAR }) }}</view>
-                <view v-show="false">{{ moon = staratlas.find((value) => { return value.galaxyZ === item && value.planetType === PlanetTypeEnum.MOON }) }}</view>
                 <template v-if="star">
                   <view class="cell"><view>{{ item }}</view></view>
                   <view class="cell"><view><view class="icon"></view></view></view>

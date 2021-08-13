@@ -9,16 +9,18 @@
       </view>
       <view class="main">
         <view class="main_universe">
-          <template v-for="(item, key) in universeMap">
-            <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
-              <view class="icon"></view>
-              <view class="title">
-                <view class="font_20">{{ item.name }}</view>
-                <view class="font_16">{{ item.description }}</view>
+          <!-- <scroll-view scroll-y="true" class="scroll-Y" style="height: 90%;"> -->
+            <template v-for="(item, key) in universeMap">
+              <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
+                <view class="icon"></view>
+                <view class="title">
+                  <view class="font_20">{{ item.name }}</view>
+                  <view class="font_16">{{ item.description }}</view>
+                </view>
+                <view v-if="key == selectUniverseId" class="arrow arrow_right"></view>
               </view>
-              <view v-if="key == selectUniverseId" class="arrow arrow_right"></view>
-            </view>
-          </template>
+            </template>
+          <!-- </scroll-view> -->
         </view>
         <view class="main_footer">
           <view v-if="!loginStatus">
