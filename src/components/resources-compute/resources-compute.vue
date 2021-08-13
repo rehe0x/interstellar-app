@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getPlanetResources } from '../../api/planet'
+import { getPlanetResources } from '../../api/main'
 let metalT = 0
 let crystalT = 0
 let deuteriumT = 0

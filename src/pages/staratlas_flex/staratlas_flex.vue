@@ -71,7 +71,7 @@
 
 <script>
 import { PlanetTypeEnum } from '../../enum/base.enum'
-import { getStaratlas } from '../../api/home'
+import { getStaratlas } from '../../api/main'
 
 export default {
   data () {

@@ -30,7 +30,7 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getPlanetBuildQueue, deleteBuildQueue } from '../../api/planet'
+import { getPlanetBuildQueue, deleteBuildQueue } from '../../api/main'
 export default {
   name: 'buildQueue',
   props: {

@@ -79,7 +79,7 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueue, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
+import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueue, getBuilding, getResearch, getFleet, getDefense } from '../../api/main'
 
 export default {
   name: 'buildQueue',

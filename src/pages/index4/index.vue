@@ -123,7 +123,7 @@
 import dayjs from 'dayjs'
 import { wait } from '../../common/utils.js'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getNowTime } from '../../api/planet'
+import { getNowTime } from '../../api/main'
 import { getUserPlanet } from '../../api/user'
 
 let timerCount = -1
