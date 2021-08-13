@@ -7,10 +7,6 @@ export const getPlanetBuildQueue = async (params) => {
   return request.get('/api/planet/getPlanetBuildQueue', { params })
 }
 
-export const getPlanetBuildQueueByType = async (params) => {
-  return request.get('/api/planet/getPlanetBuildQueueByType', { params })
-}
-
 export const getPlanetResources = (params) => {
   return request.get('/api/planet/getPlanetResources', { params })
 }

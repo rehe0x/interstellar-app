@@ -79,7 +79,7 @@
 
 <script>
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueueByType, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
+import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueue, getBuilding, getResearch, getFleet, getDefense } from '../../api/planet'
 
 export default {
   name: 'buildQueue',
@@ -223,7 +223,7 @@ export default {
         this.builds = defense.result
       }
       if (buildQueueType) {
-        const typeBuildQueue = await getPlanetBuildQueueByType({ planetId: this.planetId, buildType: buildQueueType })
+        const typeBuildQueue = await getPlanetBuildQueue({ planetId: this.planetId, buildType: buildQueueType })
         this.buildQueues = typeBuildQueue.result
       }
     },
