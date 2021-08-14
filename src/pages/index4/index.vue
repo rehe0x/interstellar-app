@@ -7,9 +7,9 @@
         <view class="header_basic">
           <resources-compute2 :planetId="planetId" />
           <view class="planet_info">
-            <view>能量  4411/66336</view>
-            <view>17,250公里 (255 / 263 空间)</view>
-            <view>大约 29°C 到 69°C</view>
+            <view>能量  {{ planetInfo.energyUsed | numberToCurrency}}/{{ planetInfo.energyMax | numberToCurrency}}</view>
+            <view>{{ planetInfo.tempMax * 75 |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.tempMax }} 空间)</view>
+            <view>大约 {{ planetInfo.tempMini }}°C 到 {{ planetInfo.tempMax }}°C</view>
             <view style="display: flex">255,915,079 (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
           </view>
         </view>
@@ -151,6 +151,16 @@ export default {
   },
   onLoad (option) {
     this.planetId = option.planetId
+  },
+  filters: {
+    numberToCurrency (value) {
+      if (!value) return '0'
+      // 整数部分处理，增加,
+      const intPartFormat = value
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return intPartFormat
+    }
   },
   async created () {
     uni.$on('toLogin', () => {
