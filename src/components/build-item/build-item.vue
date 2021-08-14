@@ -15,7 +15,7 @@
               <template v-if="buildQueues.length === 0">
                 <view class="i-button" @tap="addBuildingQueue({buildCode})">{{ item.level > 0 ? '升级': '建造'}}</view>
               </template>
-              <template v-else-if="buildQueues.length < 5">
+              <template v-else-if="buildQueues.length < buildQueueMax">
                 <view class="i-button" @tap="addBuildingQueue({buildCode})">加入</view>
               </template>
               <template v-else>
@@ -31,11 +31,16 @@
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.FLEET || buildType == BuildTypeEnum.DEFENSE">
-              <view class="i-button " style="transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
-              <view class="fd_build_form" v-show="fdBuildFormStatus.includes(buildCode)" :style="fdBuildFormStyle">
-                <input class="build_num font_16" :focus="buildNumFocus" maxlength="4" type="number"  v-model="buildNum" placeholder="建造数量" />
-                <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
-              </view>
+              <template v-if="buildQueues.length < buildQueueMax">
+                <view class="i-button " style="transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
+                <view class="fd_build_form" v-show="fdBuildFormStatus.includes(buildCode)" :style="fdBuildFormStyle">
+                  <input class="build_num font_16" :focus="buildNumFocus" maxlength="4" type="number"  v-model="buildNum" placeholder="建造数量" />
+                  <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
+                </view>
+              </template>
+              <template v-else>
+                <view class="i-no-button">建造</view>
+              </template>
             </template>
           </template>
           <template v-else>
@@ -91,6 +96,9 @@ export default {
       require: true
     },
     planetId: {
+      required: true
+    },
+    buildQueueMax: {
       required: true
     }
   },

@@ -8,7 +8,7 @@
           <resources-compute2 :planetId="planetId" />
           <view class="planet_info">
             <view>能量  {{ planetInfo.energyUsed | numberToCurrency}}/{{ planetInfo.energyMax | numberToCurrency}}</view>
-            <view>{{ planetInfo.tempMax * 75 |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.tempMax }} 空间)</view>
+            <view>{{ planetInfo.sizeMax * 75 |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.sizeMax }} 空间)</view>
             <view>大约 {{ planetInfo.tempMini }}°C 到 {{ planetInfo.tempMax }}°C</view>
             <view style="display: flex">255,915,079 (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
           </view>
@@ -65,16 +65,16 @@
             </view>
             <view v-if="loadComplete">
               <view v-show="swichSubmenuCode==2">
-                <build-item title="基础建筑" :buildType="BuildTypeEnum.BUILDING" :planetId="planetId" />
+                <build-item title="基础建筑" :buildQueueMax="buildQueueMax" :buildType="BuildTypeEnum.BUILDING" :planetId="planetId" />
               </view>
               <view v-show="swichSubmenuCode==3">
-                <build-item title="科技研究" :buildType="BuildTypeEnum.RESEARCH" :planetId="planetId" />
+                <build-item title="科技研究" :buildQueueMax="buildQueueMax" :buildType="BuildTypeEnum.RESEARCH" :planetId="planetId" />
               </view>
               <view v-show="swichSubmenuCode==4">
-                <build-item title="舰队" :buildType="BuildTypeEnum.FLEET" :planetId="planetId" />
+                <build-item title="舰队" :buildQueueMax="buildQueueMax" :buildType="BuildTypeEnum.FLEET" :planetId="planetId" />
               </view>
               <view v-show="swichSubmenuCode==5">
-                <build-item title="防御" :buildType="BuildTypeEnum.DEFENSE" :planetId="planetId" />
+                <build-item title="防御" :buildQueueMax="buildQueueMax" :buildType="BuildTypeEnum.DEFENSE" :planetId="planetId" />
               </view>
             </view>
           </scroll-view>
@@ -124,7 +124,7 @@ import dayjs from 'dayjs'
 import { wait } from '../../common/utils.js'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
 import { getNowTime } from '../../api/main'
-import { getUserPlanet } from '../../api/user'
+import { getUserPlanet, updateUserPlanetId } from '../../api/user'
 
 let timerCount = -1
 let startTime = dayjs().valueOf()
@@ -145,12 +145,14 @@ export default {
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
       userPlanetList: [],
+      buildQueueMax: 0,
       planetId: null,
       planetInfo: {}
     }
   },
   onLoad (option) {
     this.planetId = option.planetId
+    this.buildQueueMax = option.buildQueueMax
   },
   filters: {
     numberToCurrency (value) {
@@ -249,6 +251,7 @@ export default {
       this.$nextTick(() => {
         this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
       })
+      updateUserPlanetId({ planetId })
     },
     async swichMenu (code) {
       if (code === 1) {
