@@ -8,7 +8,7 @@
           <resources-compute2 :planetId="planetId" />
           <view class="planet_info">
             <view>能量  {{ planetInfo.energyUsed | numberToCurrency}}/{{ planetInfo.energyMax | numberToCurrency}}</view>
-            <view>{{ planetInfo.sizeMax * 75 |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.sizeMax }} 空间)</view>
+            <view>{{ planetInfo.diameter |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.sizeMax }} 空间)</view>
             <view>大约 {{ planetInfo.tempMini }}°C 到 {{ planetInfo.tempMax }}°C</view>
             <view style="display: flex">255,915,079 (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
           </view>

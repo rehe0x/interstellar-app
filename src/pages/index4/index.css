@@ -140,8 +140,8 @@
   word-break: keep-all;
   overflow: hidden;
   height: 95%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
   display: flex;
   align-items: center;
 }
