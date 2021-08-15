@@ -5,6 +5,7 @@
   padding-top: var(--status-bar-height);
 }
 
+
 .content{
   height: 100%;
   box-sizing: border-box;
@@ -219,4 +220,24 @@
 {
   0% {left: 50%;}
   100% {left: 150%;}
+}
+
+.login_button {
+  background: rgb(35,125,118);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 242, 253);
+  width: 100rpx;
+  min-width: 240rpx;
+}
+
+.login_no_button {
+  background: rgb(90,124,129);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 242, 253);
+  width: 100rpx;
+  min-width: 240rpx;
 }

@@ -41,15 +41,16 @@ page {
 .font_24 {
   font-size: 48rpx;
 }
-.color_chartreuse{
+.color_springgreen{
   color: springgreen;
 }
-.color_rgb0205204{
-  color: rgb(0,205,204)
+
+.text_center {
+  text-align: center;
 }
 
 
-.i-button{
+.i_button {
   background: rgb(45,184,172);
   width: 90rpx;
   display: flex;
@@ -58,7 +59,7 @@ page {
   color: rgb(180, 242, 253);
 }
 
-.i-no-button{
+.i_no_button{
   background: rgb(151,174,22);
   width: 90rpx;
   display: flex;
@@ -67,25 +68,38 @@ page {
   color: rgb(180, 242, 253);
 }
 
-.i-button-x{
-  background: rgb(35,125,118);
+
+.i_button_x {
+  background: rgb(45,184,172);
+  width: 90rpx;
+  height: 44rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgb(180, 242, 253);
-  width: 100rpx;
-  min-width: 240rpx;
 }
 
-.i-no-button-x{
-  background: rgb(90,124,129);
+.i_no_button_x{
+  background: rgb(151,174,22);
+  width: 90rpx;
+  height: 44rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgb(180, 242, 253);
-  width: 100rpx;
-  min-width: 240rpx;
+  transition: all 1s;
 }
+
+/* .i_button_x:active{
+  background: rgba(45,184,172,0.3);
+  transition: all 0.3s;
+}
+
+.i_button_x:active::before {
+  transition: all 1s;
+  background: rgba(45,184,172,1);
+} */
+
 
 .divider {
   height: 1px;
@@ -126,10 +140,4 @@ page {
    rgba(35,198,200,0.8) 90%,
    rgba(35,198,200,0.8) 95%,
    rgba(0,0,0,0) 100%);
-}
-
-
-
-.text_center {
-  text-align: center;
 }

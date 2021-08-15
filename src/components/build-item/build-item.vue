@@ -13,38 +13,38 @@
           <template v-if="item.requeriment.isReq">
             <template v-if="buildType == BuildTypeEnum.BUILDING">
               <template v-if="buildQueues.length === 0">
-                <view class="i-button" @tap="addBuildingQueue({buildCode})">{{ item.level > 0 ? '升级': '建造'}}</view>
+                <view class="i_button_x" @tap="addBuildingQueue({buildCode})">{{ item.level > 0 ? '升级': '建造'}}</view>
               </template>
               <template v-else-if="buildQueues.length < buildQueueMax">
-                <view class="i-button" @tap="addBuildingQueue({buildCode})">加入</view>
+                <view class="i_button_x" @tap="addBuildingQueue({buildCode})">加入</view>
               </template>
               <template v-else>
-                <view class="i-no-button">{{ item.level > 0 ? '升级': '建造'}}</view>
+                <view class="i_no_button_x">{{ item.level > 0 ? '升级': '建造'}}</view>
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.RESEARCH">
               <template v-if="buildQueues.length > 0">
-                <view class="i-no-button">{{ item.level > 0 ? '升级': '建造'}}</view>
+                <view class="i_no_button_x">{{ item.level > 0 ? '升级': '建造'}}</view>
               </template>
               <template v-else>
-                <view class="i-button" @tap="addResearchQueue({buildCode})">{{ item.level > 0 ? '升级': '建造'}}</view>
+                <view class="i_button_x" @tap="addResearchQueue({buildCode})">{{ item.level > 0 ? '升级': '建造'}}</view>
               </template>
             </template>
             <template v-else-if="buildType == BuildTypeEnum.FLEET || buildType == BuildTypeEnum.DEFENSE">
               <template v-if="buildQueues.length < buildQueueMax">
-                <view class="i-button " style="transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
+                <view class="i_button_x" style="transition: all 0.3s;overflow: hidden;" :style="fdBuildFormStatus.includes(buildCode) ? 'height: 0;':''"  @tap="fdBuildFormShow(buildCode)">建造</view>
                 <view class="fd_build_form" v-show="fdBuildFormStatus.includes(buildCode)" :style="fdBuildFormStyle">
                   <input class="build_num font_16" :focus="buildNumFocus" maxlength="4" type="number"  v-model="buildNum" placeholder="建造数量" />
-                  <view class="i-button" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
+                  <view class="i_button_x" style="height: 100rpx;width:72rpx;writing-mode: vertical-lr;" @tap="buildType == BuildTypeEnum.FLEET ? addFleetQueue({buildCode}) : addDefenseQueue({buildCode})">确定</view>
                 </view>
               </template>
               <template v-else>
-                <view class="i-no-button">建造</view>
+                <view class="i_no_button_x">建造</view>
               </template>
             </template>
           </template>
           <template v-else>
-            <view class="i-button" @tap="openReqPopup(item.requeriment)">查看</view>
+            <view class="i_button_x" @tap="openReqPopup(item.requeriment)">查看</view>
           </template>
         </view>
         <view class="item_resources">
@@ -292,125 +292,7 @@ export default {
 }
 </script>
 
-<style>
-
-.main_console_build_list{
-  flex-direction: column;
-  /* height: 188rpx; */
-  padding: 8px 7px 3px 7px;
-  box-sizing: border-box;
-  /* 透明块改成分割线 */
-  /* background-color: rgba(10, 32, 58, 0.5); */
-  /* margin-bottom: 8px; */
-}
-
-.main_console_build_list .item_info{
-  display: flex;
-  margin-bottom: 3px;
-  align-items: center;
-}
-
-.main_console_build_list .item_info .i-button,.i-no-button{
-  height: 44rpx;
-}
-
-.main_console_build_list .item_info .i-button,.i-no-button{
-  align-self: center;
-}
-
-.main_console_build_list .item_info image{
-  width: 100rpx;
-  height: 90rpx;
-  transition: all 0.5s;
-}
-
-.main_console_build_list .item_info .info{
-  width: 360rpx;
-  padding-left: 8px;
-  transition: all 0.5s;
-}
-
-.main_console_build_list .fd_build_form {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  right: -60%;
-  transition: all 0.3s;
-}
-
-.main_console_build_list .fd_build_form_right {
-  right: 0;
-}
-
-.main_console_build_list .fd_build_form .build_num{
-  border: 2px solid;
-  height: 60rpx;
-  width: 180rpx;
-  text-indent: 20rpx;
-  margin-right: 10px;
-}
-.main_console_build_list .fd_build_form .i-button{
-  transition: all 0.5s;
-  overflow: hidden;
-}
-
-.main_console_build_list .item_resources{
-  font-size: 24rpx;
-  box-sizing: border-box;
-  align-items: center;
-  display: flex;
-  color: rgb(180, 242, 253);
-}
-
-.main_console_build_list .item_resources text{
-  color: rgb(0,205,204);
-}
-.main_console_build_list .item_resources text:not(:nth-child(1)){
-  margin-left: 10rpx;
-}
-
-.i_popup{
-  position: relative;
-  width: 680rpx;
-  margin: auto;
-  top: 40%;
-  transform: translateY(-40%);
-  background-color: rgb(0,0,0);
-  box-shadow: 0px 0px 3px 0px springgreen inset;
-  color: rgb(180, 242, 253);
-  padding: 20px;
-  box-sizing: border-box;
-  opacity: 0;
-  transition: all 0.3s;
-}
-.i_popup_content_opacity {
-  opacity: 0.7;
-}
-
-.i_popup_content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 200rpx;
-  max-height: 800rpx;
-}
-
-.i_popup_title {
-  text-align: center;
-}
-
-.i_popup_mask {
-  z-index: 1;
-  position: fixed;
-  /* inset: 0; 安卓不支持次写法*/
-  top: 0; right: 0; bottom: 0; left: 0;
-  /* background-color: #73d2d233; 安卓不支持*/
-  background-color: rgba(0,0,0,0);
-  transition: all 0.3s;
-}
-
-.i_popup_mask_opacity {
-  background: rgba(0,0,0,0.7)
-}
+<style scoped>
+@import 'build-item.css'
 </style>
+

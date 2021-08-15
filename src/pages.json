@@ -50,18 +50,6 @@
 					"background": "black"
 				}
 			}
-		},
-		{
-			"path": "pages/index/new-nvue-page-1",
-			"style": {
-				"navigationBarTitleText": "interstellar"
-			}
-		},
-		{
-			"path": "pages/index/new-nvue-page-2",
-			"style": {
-				"navigationBarTitleText": "interstellar"
-			}
 		}
 	],
 	"globalStyle": {

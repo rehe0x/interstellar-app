@@ -5,7 +5,7 @@
     <view class="content">
       <view class="header">
         <view class="header_basic">
-          <resources-compute2 :planetId="planetId" />
+          <resources-compute :planetId="planetId" />
           <view class="planet_info">
             <view>能量  {{ planetInfo.energyUsed | numberToCurrency}}/{{ planetInfo.energyMax | numberToCurrency}}</view>
             <view>{{ planetInfo.diameter |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.sizeMax }} 空间)</view>
@@ -49,10 +49,10 @@
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <view v-show="swichSubmenuCode==1">
               <view class="main_console_head">
-                <view class="font_16 color_chartreuse" @click="toStaratlas">消息中心</view>
+                <view class="font_16 color_springgreen" @click="toStaratlas">消息中心</view>
                 <!-- <view class="font_14">{{ gameTime }}</view> -->
-                <view class="font_16 color_chartreuse" @click="toStaratlas">战斗报告</view>
-                <view class="font_16 color_chartreuse" @click="toStaratlasFlex">星际探索</view>
+                <view class="font_16 color_springgreen" @click="toStaratlas">战斗报告</view>
+                <view class="font_16 color_springgreen" @click="toStaratlasFlex">星际探索</view>
               </view>
               <build-queue :planetId="planetId" />
               <view class="main_console_dashboard">
@@ -209,9 +209,6 @@ export default {
     },
     touchend (code) {
       this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
-    },
-    showDrawer () {
-      uni.getSubNVueById('drawer').show('slide-in-left', 200)
     },
     toLogin () {
       this.indexTransitionMask = true

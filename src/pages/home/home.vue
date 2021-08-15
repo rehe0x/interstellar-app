@@ -24,10 +24,10 @@
         </view>
         <view class="main_footer">
           <view v-if="!loginStatus">
-            <view class="i-button-x font_18" @tap="openLoginPopup" >登 录</view>
+            <view class="login_button font_18" @tap="openLoginPopup" >登 录</view>
           </view>
           <view v-if="loginStatus">
-            <view class="i-button-x font_18" @tap="toGame" >进入</view>
+            <view class="login_button font_18" @tap="toGame" >进入</view>
           </view>
         </view>
       </view>
@@ -89,7 +89,7 @@ export default {
       homeTransitionMask: true,
       touchstartStyle: [],
       loginStep: 1,
-      loginStepNextButtonStyle: 'i-no-button-x',
+      loginStepNextButtonStyle: 'login_no_button',
       loginAnimationStepone: '',
       loginAnimationSteptwo: '',
       smsCodeInput: [],
@@ -123,9 +123,9 @@ export default {
     onKeyPhoneInput: function (event) {
       this.phoneValue = event.detail.value
       if (/^1[3-9]\d{9}$/.test(event.detail.value)) {
-        this.loginStepNextButtonStyle = 'i-button-x'
+        this.loginStepNextButtonStyle = 'login_button'
       } else {
-        this.loginStepNextButtonStyle = 'i-no-button-x'
+        this.loginStepNextButtonStyle = 'login_no_button'
       }
     },
     onKeySmsCodeInput: async function (val, event) {

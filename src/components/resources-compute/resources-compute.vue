@@ -1,10 +1,24 @@
 <template>
-  <view>
-    <view><text>金属：</text>{{ resources.metalStorageMax | numberToCurrency }} / {{ resources.metal | numberToCurrency }}</view>
-    <view><text>晶体：</text>{{ resources.crystalStorageMax | numberToCurrency }} / {{ resources.crystal | numberToCurrency }}</view>
-    <view><text>重氦：</text>{{ resources.deuteriumStorageMax | numberToCurrency }} / {{ resources.deuterium | numberToCurrency }}</view>
-    <view><text>能量：</text>{{ resources.energyMax | numberToCurrency }} / {{ resources.energyUsed | numberToCurrency }}</view>
-   </view>
+  <view class="resources">
+    <view class="item">
+      <view class="name">金属</view>
+      <view>{{ resources.metal | numberToCurrency }}</view>
+      <view>{{ resources.metalStorageMax | numberToCurrency }}</view>
+    </view>
+    <view class="divider_vertical"></view>
+    <view class="item">
+      <view class="name">晶体</view>
+      <view>{{ resources.crystal | numberToCurrency }}</view>
+      <view>{{ resources.crystalStorageMax | numberToCurrency }}</view>
+    </view>
+    <view class="divider_vertical"></view>
+    <view class="item">
+      <view class="name">重氦</view>
+      <view>{{ resources.deuterium | numberToCurrency }}</view>
+      <view>{{ resources.deuteriumStorageMax | numberToCurrency }}</view>
+    </view>
+    <!-- <view><view> {{ resources.energyUsed | numberToCurrency }} </view><view> {{ resources.energyMax | numberToCurrency }} </view><view>能量</view></view> -->
+  </view>
 </template>
 
 <script>
@@ -28,13 +42,13 @@ export default {
     numberToCurrency (value) {
       if (!value) return '0'
       // 整数部分处理，增加,
-      const intPartFormat = value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      const intPartFormat = value
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
       return intPartFormat
     }
   },
   async created () {
-    const resource = await getPlanetResources({ planetId: this.planetId })
-    this.resources = resource.result
     this.$root.$on('resourcesUpdate', async () => {
       const resource = await getPlanetResources({ planetId: this.planetId })
       this.resources = resource.result
@@ -42,14 +56,19 @@ export default {
     this.$root.$on('resourcesTimer', async (time) => {
       this.timer(time)
     })
+    if (this.planetId) {
+      const resource = await getPlanetResources({ planetId: this.planetId })
+      this.resources = resource.result
+    }
   },
-  async mounted () {
-  },
+  async mounted () {},
   methods: {
     timer (time) {
       if (this.resources.metal < this.resources.metalStorageMax) {
         if (this.resources.metalTime >= 1) {
-          this.resources.metal = Math.floor(+this.resources.metal + +this.resources.metalTime)
+          this.resources.metal = Math.floor(
+            +this.resources.metal + +this.resources.metalTime
+          )
         } else {
           metalT += +this.resources.metalTime
           if (metalT >= 1) {
@@ -60,22 +79,30 @@ export default {
       }
       if (this.resources.crystal < this.resources.crystalStorageMax) {
         if (this.resources.crystalTime >= 1) {
-          this.resources.crystal = Math.floor(+this.resources.crystal + +this.resources.crystalTime)
+          this.resources.crystal = Math.floor(
+            +this.resources.crystal + +this.resources.crystalTime
+          )
         } else {
           crystalT += +this.resources.crystalTime
           if (crystalT >= 1) {
-            this.resources.crystal = Math.floor(+this.resources.crystal + +crystalT)
+            this.resources.crystal = Math.floor(
+              +this.resources.crystal + +crystalT
+            )
             crystalT = crystalT % 1
           }
         }
       }
       if (this.resources.deuterium < this.resources.deuteriumStorageMax) {
         if (this.resources.deuteriumTime >= 1) {
-          this.resources.deuterium = Math.floor(+this.resources.deuterium + +this.resources.deuteriumTime)
+          this.resources.deuterium = Math.floor(
+            +this.resources.deuterium + +this.resources.deuteriumTime
+          )
         } else {
           deuteriumT += +this.resources.deuteriumTime
           if (deuteriumT >= 1) {
-            this.resources.deuterium = Math.floor(+this.resources.deuterium + +deuteriumT)
+            this.resources.deuterium = Math.floor(
+              +this.resources.deuterium + +deuteriumT
+            )
             deuteriumT = 0
           }
         }
@@ -86,8 +113,5 @@ export default {
 </script>
 
 <style scoped>
-view > view > text{
-  color: rgb(0,205,204);
-  font-size: 28rpx;
-}
+@import 'resources-compute.css'
 </style>

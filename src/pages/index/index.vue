@@ -11,9 +11,9 @@
           <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
             <view v-show="swichSubmenuCode==1">
               <view class="content_left_down_head">
-                <view class="font_16 color_chartreuse" @click="toStaratlasFlex">星际舰队</view>
+                <view class="font_16 color_springgreen" @click="toStaratlasFlex">星际舰队</view>
                 <view class="font_14">{{ gameTime }}</view>
-                <view class="font_16 color_chartreuse" @click="toStaratlas">星际探索</view>
+                <view class="font_16 color_springgreen" @click="toStaratlas">星际探索</view>
               </view>
               <build-queue :planetId="planetId" />
               <view class="content_left_down_active">
