@@ -10,7 +10,7 @@
             <view>能量  {{ planetInfo.energyUsed | numberToCurrency}}/{{ planetInfo.energyMax | numberToCurrency}}</view>
             <view>{{ planetInfo.diameter |  numberToCurrency }}公里 ({{ planetInfo.sizeUsed }} / {{ planetInfo.sizeMax }} 空间)</view>
             <view>大约 {{ planetInfo.tempMini }}°C 到 {{ planetInfo.tempMax }}°C</view>
-            <view style="display: flex">255,915,079 (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
+            <view style="display: flex">{{ planetInfo.points |  numberToCurrency }} (<view style="color: springgreen">用户排名 </view> 25 / 70236)</view>
           </view>
         </view>
         <view class="header_planet">
@@ -123,9 +123,8 @@
 import dayjs from 'dayjs'
 import { wait } from '../../common/utils.js'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
-import { getNowTime } from '../../api/main'
-import { getUserPlanet, updateUserPlanetId } from '../../api/user'
-
+import { getNowTime, getUserPlanetInfo } from '../../api/main'
+import { getUserPlanetList, updateUserPlanetId } from '../../api/user'
 let timerCount = -1
 let startTime = dayjs().valueOf()
 let nowTime = 0
@@ -176,9 +175,11 @@ export default {
       this.startTimer()
       this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
     })
-    const planet = await getUserPlanet()
-    this.userPlanetList = planet.result
-    this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+    const planetList = await getUserPlanetList()
+    this.userPlanetList = planetList.result
+
+    const planetInfo = await getUserPlanetInfo({ planetId: this.planetId })
+    this.planetInfo = planetInfo.result
 
     const rest = await getNowTime()
     nowTime = rest.result.nowTime
@@ -237,7 +238,8 @@ export default {
     },
     async planetSelect (planetId) {
       this.planetId = planetId
-      this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
+      const planetInfo = await getUserPlanetInfo({ planetId: this.planetId })
+      this.planetInfo = planetInfo.result
       this.$nextTick(() => {
         this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
       })

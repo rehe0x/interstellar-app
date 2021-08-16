@@ -92,7 +92,7 @@ import dayjs from 'dayjs'
 import { wait } from '../../common/utils.js'
 import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
 import { getNowTime } from '../../api/main'
-import { getUserPlanet } from '../../api/user'
+import { getUserPlanetList } from '../../api/user'
 
 let timerCount = -1
 let startTime = dayjs().valueOf()
@@ -131,7 +131,7 @@ export default {
       this.startTimer()
       this.updateDate(['resource', 'buildQueue', BuildTypeEnum.BUILDING, BuildTypeEnum.RESEARCH, BuildTypeEnum.FLEET, BuildTypeEnum.DEFENSE])
     })
-    const planet = await getUserPlanet()
+    const planet = await getUserPlanetList()
     this.userPlanetList = planet.result
     this.planetInfo = this.userPlanetList.find(item => { return item.id === +this.planetId })
 

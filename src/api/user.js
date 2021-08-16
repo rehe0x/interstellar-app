@@ -12,8 +12,8 @@ export const login = async (params) => {
   return request.post('/api/user/login', params)
 }
 
-export const getUserPlanet = async (params) => {
-  return request.get('/api/user/getUserPlanet', { params })
+export const getUserPlanetList = async (params) => {
+  return request.get('/api/user/getUserPlanetList', { params })
 }
 
 export const updateUserPlanetId = async (params) => {

@@ -8,6 +8,10 @@ export const getPlanetResources = (params) => {
   return request.get('/api/main/getPlanetResources', { params })
 }
 
+export const getUserPlanetInfo = (params) => {
+  return request.get('/api/main/getUserPlanetInfo', { params })
+}
+
 export const getPlanetBuildQueue = async (params) => {
   return request.get('/api/main/getPlanetBuildQueue', { params })
 }
