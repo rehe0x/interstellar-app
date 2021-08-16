@@ -9,12 +9,12 @@
 } */
 
 page {
+  height: 100%;
   font-family: ZpixReviewLocal, ZpixReviewOnline, sans-serif;
+  font-size: 24rpx;
+  line-height: 1.6;
   -webkit-font-smoothing: none;
   font-feature-settings: 'tnum';
-  line-height: 1.6;
-	height: 100%;
-  font-size: 24rpx;
 }
 
 /* 一个大坑，ios上scroll里面的定位无效，就因为这个属性 */
@@ -51,42 +51,42 @@ page {
 
 
 .i_button {
-  background: rgb(45,184,172);
-  width: 90rpx;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 90rpx;
   color: rgb(180, 242, 253);
+  background: rgb(45,184,172);
 }
 
 .i_no_button{
-  background: rgb(151,174,22);
-  width: 90rpx;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 90rpx;
   color: rgb(180, 242, 253);
+  background: rgb(151,174,22);
 }
 
 
 .i_button_x {
-  background: rgb(45,184,172);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 90rpx;
   height: 44rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: rgb(180, 242, 253);
+  background: rgb(45,184,172);
 }
 
 .i_no_button_x{
-  background: rgb(151,174,22);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 90rpx;
   height: 44rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: rgb(180, 242, 253);
+  background: rgb(151,174,22);
   transition: all 1s;
 }
 
@@ -125,7 +125,6 @@ page {
 .divider_vertical {
   width: 1px;
   height: 94%;
-  /* width: 45px; */
   background: linear-gradient( to top, 
    rgba(0,0,0,0) 0%,
    rgba(35,198,200,0.8) 5%, 

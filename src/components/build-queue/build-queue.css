@@ -7,14 +7,14 @@
   align-items: center;
 }
 .main_console_queue_list > .item > .i_button{
-  margin-left: 30rpx;
   align-self: flex-end;
+  margin-left: 30rpx;
 }
 
 .main_console_queue_list .i-progress{
-  width: 460rpx;
   display: flex;
   align-items: center;
+  width: 460rpx;
 }
 
 /* 进度条 */
@@ -22,8 +22,8 @@
 .i-progress {
   width: 100%;
   height: 32rpx;
-  background-color: rgb(180, 242, 253);
   overflow: hidden;
+  background-color: rgb(180, 242, 253);
 }
 
 .i-progress .i-striped-active, .i-no-active{
@@ -46,13 +46,13 @@
 }
 
 .i-striped-active + view{
-  width: 200rpx;
-  position: absolute;
-  left: 50%;
-  margin-left: -50rpx;
-  color: #000;
   display: flex;
   justify-content: center;
+  position: absolute;
+  left: 50%;
+  width: 200rpx;
+  margin-left: -50rpx;
+  color: #000;
 }
 
 .i-striped-active {

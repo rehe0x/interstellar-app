@@ -1,33 +1,33 @@
 .wrapper {
 	height: calc(100% - var(--status-bar-height));
+  padding-top: var(--status-bar-height);
   background-image: url('@/static/image/IMG_5223.png');
   background-size: cover;
-  padding-top: var(--status-bar-height);
 }
 
 .status_bar{
-  height: var(--status-bar-height);
-  width: 100%;
   position: fixed;
   top: 0;
+  width: 100%;
+  height: var(--status-bar-height);
   background: rgba(0,0,0,0.3);
 }
 
 .content {
-  height: 100%;
-  box-sizing: border-box;
-  background: rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  box-sizing: border-box;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
 }
 
 .header {
-  color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;
   align-items: flex-end;
   padding: 5px 0px 0px 5px;
+  color: rgb(180, 242, 253);
 }
 
 .header .header_back {
@@ -36,39 +36,37 @@
 
 .header .galaxy_form {
   display: flex;
-  width: 240rpx;
   justify-content: space-around;
-  flex: 3;
   align-items: flex-end;
+  flex: 3;
+  width: 240rpx;
 }
 
 .header .galaxy_form input {
-  border: 1px solid;
-  /* height: 26px; */
   flex-basis: 100rpx;
+  border: 1px solid;
   text-indent: 12rpx;
 }
 
-.header .galaxy_form .x_button { 
-  animation: x_button 1.5s infinite;
-  color: springgreen;
-  border: 1px rgba(144,238,144,0.7) solid;
-  text-align: center;
-  background: rgba(32,178,170,0.7);
+.header .galaxy_form .space_jump_button { 
   height: 50rpx;
-  line-height: 50rpx;
   padding-left: 16rpx;
   padding-right: 16rpx;
+  border: 1px rgba(144,238,144,0.7) solid;
+  line-height: 50rpx;
+  text-align: center;
+  color: springgreen;
+  background: rgba(32,178,170,0.7);
+  animation: space_jump_button 1.5s infinite;
 }
 
-@keyframes x_button {  
+@keyframes space_jump_button {  
   0% {  box-shadow: 0 0 0 0 rgba(255,255,255,0.4);   }  
   100% {  box-shadow: 0 0 0 20px rgba(255,255,255,0);   } 
 }
 
 .main {
   height: 85%;
-  /* height: calc(85% - 64rpx); */
 }
 
 .main_table {
@@ -96,24 +94,24 @@
 }
 
 .main_table .row_head .cell > view{
-  background-color: rgba(119,136,153,0.8);
-  font-size: 14px;
   width: 100%;
   height: 3.5vh;
+  font-size: 14px;
   color: aqua;
+  background-color: rgba(119,136,153,0.8);
 }
 
 .main_table .cell > view{
-  width: 100%;
-  height: 3.5vh;
-  background-color: rgba(32,178,170,0.4);
-  border: 0px #000000 solid;
-  color: rgb(180, 242, 253);
-  font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 3.5vh;
+  border: 0px #000000 solid;
+  font-size: 14px;
   text-indent: 2px;
+  color: rgb(180, 242, 253);
+  background-color: rgba(32,178,170,0.4);
 }
 .main_table .row_head .cell:last-child {
  position: sticky;
@@ -124,41 +122,41 @@
   background-color: rgba(119,136,153,0.8);
  }
 
- .main_table .row_body .cell:last-child {
+.main_table .row_body .cell:last-child {
   position: sticky;
   right: 0px;
  }
 
- .main_table .row_body .cell:last-child > view{
-  background-color: rgba(240,128,128,0.8);
+.main_table .row_body .cell:last-child > view{
   color: springgreen;
+  background-color: rgba(240,128,128,0.8);
  }
 
- .main_table .row_head .cell:first-child {
+.main_table .row_head .cell:first-child {
   position: sticky;
   left: 0px;
  }
 
- .main_table .row_head .cell:first-child > view{
+.main_table .row_head .cell:first-child > view{
   background-color: rgba(119,136,153,0.8);
  }
 
- .main_table .row_body .cell:first-child {
+.main_table .row_body .cell:first-child {
    position: sticky;
    left: 0px;
   }
 
-  .main_table .row_body .cell:first-child > view {
-  background-color: rgba(144,238,144,0.8);
+.main_table .row_body .cell:first-child > view {
   color: blueviolet;
+  background-color: rgba(144,238,144,0.8);
  }
 
  .main_table .icon{
   height: 3vh;
   width: 3vh;
-  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
-  border-radius: 50%;
   margin: auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
 }
 
 .footer {
@@ -173,14 +171,14 @@
 } 
 
 .footer .control { 
-  animation: control_animated 1.5s infinite;
-  color: lightcoral;
-  border: 2px solid;
-  border-radius: 50%;
-  text-align: center;
   width: 120rpx;
   height: 120rpx;
+  border: 2px solid;
+  border-radius: 50%;
   line-height: 120rpx;
+  text-align: center;
+  color: lightcoral;
+  animation: control_animated 1.5s infinite;
 }
 
 .footer .arrow {

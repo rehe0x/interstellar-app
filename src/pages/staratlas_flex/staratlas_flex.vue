@@ -9,7 +9,7 @@
           <view class="font_18">太阳系</view>
           <input class="galaxy_x font_18" maxlength="2" v-model="galaxyX"  type="number"  placeholder="" />
           <input class="galaxy_y font_18" maxlength="3" v-model="galaxyY" type="number"  placeholder="" />
-          <view class="x_button font_14" @click="pageJump">空间跳跃</view>
+          <view class="space_jump_button font_14" @click="pageJump">空间跳跃</view>
         </view>
       </view>
 			<view class="main">

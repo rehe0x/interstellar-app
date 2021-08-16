@@ -1,8 +1,8 @@
 .wrapper {
 	height: calc(100% - var(--status-bar-height));
+  padding-top: var(--status-bar-height);
   background-image: url('@/static/image/home.jpeg');
   background-size: cover;
-  padding-top: var(--status-bar-height);
 }
 
 
@@ -20,43 +20,44 @@
   text-align: end;
 }
 .header_title {
-  color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80%;
+  color: rgb(180, 242, 253);
+  
 }
 
 .main {
-  height: 75%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 75%;
 }
 
 .main_universe{
-  overflow: auto;
   min-height: 50%;
   max-height: 85%;
+  overflow: auto;
 }
 
 .main_universe_item{
-  color: rgb(0,205,204);
-  background: rgba(0,0,0, 0.5);
   display: flex;
-  align-items: center;
-  height: 12vh;
-  width: 600rpx;
-  box-sizing: border-box;
-  margin-bottom: 10px;
   justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  width: 600rpx;
+  height: 12vh;
+  margin-bottom: 10px;
+  color: rgb(0,205,204);
+  background: rgba(0,0,0, 0.5); 
 }
 
 .main_universe_item .icon{
   width: 100rpx;
   height: 100rpx;
-  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
   border-radius: 50%;
+  background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
 }
 
 .main_universe_item .arrow {
@@ -71,7 +72,6 @@
   transform: rotate(45deg);
 }
 
-
 .main .main_footer {
   display: flex;
   align-items: center;
@@ -79,25 +79,25 @@
 }
 
 .footer{
-  height: 5%;
-  color: rgb(180, 242, 253);
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  height: 5%;
+  color: rgb(180, 242, 253);
 }
 
 .i_popup{
   position: fixed;
-  height: 460rpx;
-  width: 600rpx;
   left: 50%;
   top: 50%;
+  box-sizing: border-box;
+  width: 600rpx;
+  height: 460rpx;
+  padding: 20px;
+  color: rgb(180, 242, 253);
+  box-shadow: 0px 0px 3px 0px springgreen inset;
   transform: translate(-50%,-50%);
   background-color: rgb(0,0,0);
-  box-shadow: 0px 0px 3px 0px springgreen inset;
-  color: rgb(180, 242, 253);
-  padding: 20px;
-  box-sizing: border-box;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -122,31 +122,31 @@
 }
 
 .i_popup_content .next {
-  margin-top: 40rpx;
   width: 368rpx;
+  margin-top: 40rpx;
 }
 
 .i_popup_content_form {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: 40rpx;
-  justify-content: space-between;
 }
 .i_popup_content_form .code {
   letter-spacing: 6rpx;
 }
 
 .i_popup_content_form .phone {
-  border: 2px solid;
   height: 60rpx;
+  border: 2px solid;
   text-indent: 20rpx;
 }
 
 .i_popup_content_form .sms_code {
-  border: 2px solid;
   height: 60rpx;
-  text-indent: 20rpx;
   flex-basis: 100rpx;
+  border: 2px solid;
+  text-indent: 20rpx;
 }
 
 .i_popup_mask {
@@ -223,21 +223,21 @@
 }
 
 .login_button {
-  background: rgb(35,125,118);
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: rgb(180, 242, 253);
+  align-items: center;
   width: 100rpx;
   min-width: 240rpx;
+  color: rgb(180, 242, 253);
+  background: rgb(35,125,118);
 }
 
 .login_no_button {
-  background: rgb(90,124,129);
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: rgb(180, 242, 253);
+  align-items: center;
   width: 100rpx;
   min-width: 240rpx;
+  color: rgb(180, 242, 253);
+  background: rgb(90,124,129);
 }

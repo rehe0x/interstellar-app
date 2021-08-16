@@ -1,7 +1,7 @@
 .resources {
-  height: 40%;
   display: flex;
   justify-content: space-around;
+  height: 40%;
 }
 
 .resources .item {

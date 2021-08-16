@@ -1,9 +1,9 @@
 
 .main_console_build_list{
   flex-direction: column;
+  box-sizing: border-box;
   /* height: 188rpx; */
   padding: 8px 7px 3px 7px;
-  box-sizing: border-box;
   /* 透明块改成分割线 */
   /* background-color: rgba(10, 32, 58, 0.5); */
   /* margin-bottom: 8px; */
@@ -11,8 +11,8 @@
 
 .main_console_build_list .item_info{
   display: flex;
-  margin-bottom: 3px;
   align-items: center;
+  margin-bottom: 3px;
 }
 
 .main_console_build_list .item_info image{
@@ -40,22 +40,22 @@
 }
 
 .main_console_build_list .fd_build_form .build_num{
-  border: 2px solid;
-  height: 60rpx;
   width: 180rpx;
-  text-indent: 20rpx;
+  height: 60rpx;
+  border: 2px solid;
   margin-right: 10px;
+  text-indent: 20rpx;
 }
 .main_console_build_list .fd_build_form .i_button_x{
-  transition: all 0.5s;
   overflow: hidden;
+  transition: all 0.5s;
 }
 
 .main_console_build_list .item_resources{
-  font-size: 24rpx;
-  box-sizing: border-box;
-  align-items: center;
   display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 24rpx;
   color: rgb(180, 242, 253);
 }
 
@@ -68,15 +68,15 @@
 
 .i_popup{
   position: relative;
-  width: 680rpx;
-  margin: auto;
   top: 40%;
-  transform: translateY(-40%);
-  background-color: rgb(0,0,0);
-  box-shadow: 0px 0px 3px 0px springgreen inset;
-  color: rgb(180, 242, 253);
-  padding: 20px;
   box-sizing: border-box;
+  width: 680rpx;
+  padding: 20px;
+  margin: auto;
+  box-shadow: 0px 0px 3px 0px springgreen inset;
+  transform: translateY(-40%);
+  color: rgb(180, 242, 253);
+  background-color: rgb(0,0,0);
   opacity: 0;
   transition: all 0.3s;
 }
