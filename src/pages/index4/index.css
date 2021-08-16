@@ -293,10 +293,16 @@
 }
 
 .more_menu .title{
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
   height: 5vh;
+  text-align: center  ;
+}
+
+.more_menu .divider{
+  width: 80%;
+  margin: auto;
 }
 
 .more_menu .mainmenu {
