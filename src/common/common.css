@@ -58,7 +58,9 @@ page {
   color: rgb(180, 242, 253);
   background: rgb(45,184,172);
 }
-
+.i_button:active{
+  background: lightslategrey;
+}
 .i_no_button{
   display: flex;
   justify-content: center;
@@ -68,7 +70,9 @@ page {
   background: rgb(151,174,22);
 }
 
-
+.i_no_button:active{
+  background: lightslategrey;
+}
 .i_button_x {
   display: flex;
   justify-content: center;
@@ -78,7 +82,9 @@ page {
   color: rgb(180, 242, 253);
   background: rgb(45,184,172);
 }
-
+.i_button_x:active{
+  background: lightslategrey;
+}
 .i_no_button_x{
   display: flex;
   justify-content: center;
@@ -90,16 +96,9 @@ page {
   transition: all 1s;
 }
 
-/* .i_button_x:active{
-  background: rgba(45,184,172,0.3);
-  transition: all 0.3s;
+.i_no_button_x:active{
+  background: lightslategrey;
 }
-
-.i_button_x:active::before {
-  transition: all 1s;
-  background: rgba(45,184,172,1);
-} */
-
 
 .divider {
   height: 1px;

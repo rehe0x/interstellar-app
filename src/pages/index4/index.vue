@@ -15,7 +15,7 @@
         </view>
         <view class="header_planet">
           <view class="planet_icon"></view>
-          <view class="planet_info" @tap="getPlanetList" @touchstart="touchstart(3221)" @touchend="touchend(3221)" :style="touchstartStyle.indexOf(3221) != -1 ? 'background-color: rgba(253,72,72,0.4)':''">
+          <view class="planet_info" @tap="getPlanetList">
             <view class="planet_name">
               <view>{{ planetInfo.name }}</view>
               <view>{{ planetInfo.galaxyX }},{{ planetInfo.galaxyY }},{{ planetInfo.galaxyZ }}</view>
@@ -30,7 +30,7 @@
               <view class="planet_list">
                 <template v-for="(item, index) in userPlanetList">
                   <view :key="index" class="divider_vertical"></view>
-                  <view :key="item.id" @tap="planetSelect(item.id)" @touchstart="touchstart(item.id)" @touchend="touchend(item.id)" :style="touchstartStyle.indexOf(item.id) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="item">
+                  <view :key="item.id" @tap="planetSelect(item.id)" class="item">
                     <view class="planet_icon"></view>
                     <view class="planet_name">
                       <view>{{ item.name }}</view>
@@ -141,7 +141,6 @@ export default {
       moreMenuShowOpacity: '',
       moreMenuShow: false,
       planetSelectShow: false,
-      touchstartStyle: [],
       swichSubmenuCode: 1,
       swichSubmenuAct: 1,
       userPlanetList: [],
@@ -204,12 +203,6 @@ export default {
     })
   },
   methods: {
-    touchstart (code) {
-      this.touchstartStyle.push(code)
-    },
-    touchend (code) {
-      this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
-    },
     toLogin () {
       this.indexTransitionMask = true
       this.$nextTick(() => {

@@ -52,6 +52,9 @@
   color: rgb(0,205,204);
   background: rgba(0,0,0, 0.5); 
 }
+.main_universe_item:active {
+  background-color: rgba(253,72,72,0.4);
+}
 
 .main_universe_item .icon{
   width: 100rpx;
@@ -232,6 +235,10 @@
   background: rgb(35,125,118);
 }
 
+.login_button:active{
+  background: lightslategrey;
+}
+
 .login_no_button {
   display: flex;
   justify-content: center;
@@ -240,4 +247,7 @@
   min-width: 240rpx;
   color: rgb(180, 242, 253);
   background: rgb(90,124,129);
+}
+.login_no_button:active{
+  background: lightslategrey;
 }

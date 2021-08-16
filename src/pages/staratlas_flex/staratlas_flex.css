@@ -60,6 +60,10 @@
   animation: space_jump_button 1.5s infinite;
 }
 
+.header .galaxy_form .space_jump_button:active{
+  background: lightslategrey;
+}
+
 @keyframes space_jump_button {  
   0% {  box-shadow: 0 0 0 0 rgba(255,255,255,0.4);   }  
   100% {  box-shadow: 0 0 0 20px rgba(255,255,255,0);   } 

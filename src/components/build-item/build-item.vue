@@ -3,7 +3,7 @@
     <view class="text_center font_16">{{ title }}</view>
     <view class="divider"></view>
     <template v-for="(item, buildCode) in builds">
-      <view @touchstart="touchstart(buildCode)" @touchend="touchend(buildCode)" style="transition: all 0.6s;" :style="touchstartStyle.includes(buildCode) ? 'background-color: rgba(253,72,72,0.4)': fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="main_console_build_list" :key="buildCode">
+      <view :style="fdBuildFormStatus.includes(buildCode) ? 'background-color: rgba(0,0,0,0.4)' : ''" class="main_console_build_list" :key="buildCode">
         <view class="item_info">
           <image @tap="openDetailPopup(item)" src="../../static/image/24.gif" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''"/>
           <view class="info" :style="fdBuildFormStatus.includes(buildCode) ? 'transform: translateX(-110rpx);' : ''">
@@ -106,7 +106,6 @@ export default {
     return {
       BuildTypeEnum: BuildTypeEnum,
       QueueStatusEnum: QueueStatusEnum,
-      touchstartStyle: [],
       fdBuildFormStatus: [],
       fdBuildFormStyle: '',
       iPopupMaskOpacity: '',
@@ -245,12 +244,6 @@ export default {
           this.buildNumFocus = true
         }, 400)
       })
-    },
-    touchstart (code) {
-      this.touchstartStyle.push(code)
-    },
-    touchend (code) {
-      this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
     },
     openReqPopup (r) {
       this.requeriments = r

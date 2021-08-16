@@ -11,7 +11,7 @@
         <view class="main_universe">
           <!-- <scroll-view scroll-y="true" class="scroll-Y" style="height: 90%;"> -->
             <template v-for="(item, key) in universeMap">
-              <view :key="key" @touchstart="touchstart(key)" @touchend="touchend(key)" :style="touchstartStyle.indexOf(key) != -1 ? 'background-color: rgba(253,72,72,0.4)':''" class="main_universe_item">
+              <view :key="key" @click="selectUniverse(key)" class="main_universe_item">
                 <view class="icon"></view>
                 <view class="title">
                   <view class="font_20">{{ item.name }}</view>
@@ -87,7 +87,6 @@ export default {
       isShowLoginPopup: false,
       iTransitionMaskOpacity: '',
       homeTransitionMask: true,
-      touchstartStyle: [],
       loginStep: 1,
       loginStepNextButtonStyle: 'login_no_button',
       loginAnimationStepone: '',
@@ -179,13 +178,10 @@ export default {
         }, 300)
       }
     },
-    touchstart (code) {
-      this.touchstartStyle.push(code)
+    selectUniverse (code) {
       this.selectUniverseId = code
     },
-    touchend (code) {
-      this.touchstartStyle.splice(this.touchstartStyle.indexOf(code), 1)
-    },
+
     openLoginPopup (r) {
       this.isShowLoginPopup = true
       this.loginStep = 1

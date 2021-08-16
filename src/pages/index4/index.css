@@ -77,6 +77,10 @@
   color: springgreen;
 }
 
+.header_planet .planet_info:active {
+  background-color: rgba(253,72,72,0.4);
+}
+
 .header_planet .planet_info .planet_name {
   max-height: 252rpx;
   overflow: hidden;
@@ -144,6 +148,10 @@
   writing-mode: vertical-lr;
   word-break: keep-all;
   color: springgreen;
+}
+
+.header_planet .planet_select .planet_list .item:active{
+  background-color: rgba(253,72,72,0.4)
 }
 
 .header_planet .planet_select .planet_list .planet_icon{
@@ -306,5 +314,10 @@
   height: 48rpx;
   margin-top: 3vh;
   color: rgb(199,220,224);
-  background: #65a29f;
+  background: rgb(101,162,159);
 }
+
+.more_menu .mainmenu .item > view:active{
+  background: lightslategrey;
+}
+
