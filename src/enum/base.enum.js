@@ -6,7 +6,7 @@ export const BuildTypeEnum = Object.freeze({
   DELETE: 'delete'
 })
 
-export const QueueStatusEnum = Object.freeze({
+export const BuildQueueStatusEnum = Object.freeze({
   RUNNING: 'running',
   PENDING: 'pending'
 })

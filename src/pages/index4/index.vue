@@ -122,7 +122,7 @@
 <script>
 import dayjs from 'dayjs'
 import { wait } from '../../common/utils.js'
-import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
+import { BuildTypeEnum, BuildQueueStatusEnum } from '../../enum/base.enum.js'
 import { getNowTime, getUserPlanetInfo } from '../../api/main'
 import { getUserPlanetList, updateUserPlanetId } from '../../api/user'
 let timerCount = -1
@@ -132,7 +132,7 @@ export default {
   data () {
     return {
       BuildTypeEnum: BuildTypeEnum,
-      QueueStatusEnum: QueueStatusEnum,
+      BuildQueueStatusEnum: BuildQueueStatusEnum,
       loadComplete: false,
       gameTime: '0.0.0',
       iTransitionMaskOpacity: '',

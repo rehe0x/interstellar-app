@@ -7,10 +7,10 @@
         <view class="item" v-for="(item) in buildQueues" :key="item.id">
           <view>
             <view v-if="item.buildType === BuildTypeEnum.FLEET || item.buildType === BuildTypeEnum.DEFENSE" class="font_12">
-              {{ item.buildName }} {{ item.level }} / {{item.status === QueueStatusEnum.RUNNING ? Math.floor((time - item.startTime) / 1000 / (item.seconds / item.level)) : 0 }}
+              {{ item.buildName }} {{ item.level }} / {{item.status === BuildQueueStatusEnum.RUNNING ? Math.floor((time - item.startTime) / 1000 / (item.seconds / item.level)) : 0 }}
             </view>
             <view v-else class="font_12">{{ item.buildName }} {{ item.level }}</view>
-            <template v-if="item.status === QueueStatusEnum.RUNNING">
+            <template v-if="item.status === BuildQueueStatusEnum.RUNNING">
               <view class="i-progress" style="height: 28rpx">
                 <!-- 小程序style不支持计算函数 -->
                 <view class="i-striped-active" :style="'width: '+Math.floor((time - item.startTime) / 1000 / item.seconds * 100)+'%'"></view>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
+import { BuildTypeEnum, BuildQueueStatusEnum } from '../../enum/base.enum.js'
 import { getPlanetBuildQueue, deleteBuildQueue } from '../../api/main'
 export default {
   name: 'buildQueue',
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       BuildTypeEnum: BuildTypeEnum,
-      QueueStatusEnum: QueueStatusEnum,
+      BuildQueueStatusEnum: BuildQueueStatusEnum,
       time: 0,
       buildQueues: []
     }

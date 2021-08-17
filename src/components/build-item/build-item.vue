@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { BuildTypeEnum, QueueStatusEnum } from '../../enum/base.enum.js'
+import { BuildTypeEnum, BuildQueueStatusEnum } from '../../enum/base.enum.js'
 import { addBuildingQueue, addResearchQueue, addFleetQueue, addDefenseQueue, getPlanetBuildQueue, getBuilding, getResearch, getFleet, getDefense } from '../../api/main'
 
 export default {
@@ -105,7 +105,7 @@ export default {
   data () {
     return {
       BuildTypeEnum: BuildTypeEnum,
-      QueueStatusEnum: QueueStatusEnum,
+      BuildQueueStatusEnum: BuildQueueStatusEnum,
       fdBuildFormStatus: [],
       fdBuildFormStyle: '',
       iPopupMaskOpacity: '',
