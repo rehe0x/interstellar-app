@@ -97,7 +97,6 @@ export default {
   },
   methods: {
     toIndex () {
-      console.log('back')
       uni.navigateBack({
         delta: 1,
         animationType: 'fade-out',
@@ -115,7 +114,6 @@ export default {
       this.staratlas = rest.result
     },
     async pageJump () {
-      console.log(this.galaxyX, this.galaxyY)
       const rest = await getStaratlas({ planetId: this.planetId, galaxyX: this.galaxyX, galaxyY: this.galaxyY })
       this.staratlas = rest.result
     }

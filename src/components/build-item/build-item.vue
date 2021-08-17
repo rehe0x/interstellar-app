@@ -129,7 +129,6 @@ export default {
     }
   },
   async created () {
-    console.log('=======', this.buildType)
     if (this.buildType === BuildTypeEnum.BUILDING) {
       this.updateDate([BuildTypeEnum.BUILDING], BuildTypeEnum.BUILDING)
       this.$root.$on('buildingUpdate', async () => {
@@ -175,7 +174,6 @@ export default {
       this.updateDate(['resource'], BuildTypeEnum.RESEARCH)
     },
     async addFleetQueue (row) {
-      console.log(this.buildNum)
       if (this.buildNum) {
         const rest = await addFleetQueue({
           planetId: this.planetId,
@@ -191,7 +189,6 @@ export default {
       }, 300)
     },
     async addDefenseQueue (row) {
-      console.log(this.buildNum)
       if (this.buildNum) {
         const rest = await addDefenseQueue({
           planetId: this.planetId,

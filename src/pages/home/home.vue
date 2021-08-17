@@ -128,12 +128,10 @@ export default {
       }
     },
     onKeySmsCodeInput: async function (val, event) {
-      console.log(event.detail.value)
       if (event.detail.value) {
         this.smsCodeInput[val] = event.detail.value
         if (val === 3) {
           const rest = await verifyPhoneCode({ phoneCode: this.smsCodeInput.join('') })
-          console.log(rest)
           if (rest.code !== 200) {
             this.loginStatusMsg = '登陆失败'
             this.smsCodeNullValue == null ? this.smsCodeNullValue = '' : this.smsCodeNullValue = null
@@ -205,7 +203,6 @@ export default {
     async nextLogin () {
       if (/^1[3-9]\d{9}$/.test(this.phoneValue)) {
         const rest = await sendPhoneCode({ phone: this.phoneValue })
-        console.log(rest)
         if (rest.code === 200) {
           this.loginStep = 2
           this.loginStatusMsg = ''
