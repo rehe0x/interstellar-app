@@ -55,3 +55,11 @@ export const deleteBuildQueue = async (params) => {
 export const getStaratlas = async (params) => {
   return request.get('/api/main/getStaratlas', { params })
 }
+
+export const getMissionCompute = async (params) => {
+  return request.get('/api/main/getMissionCompute', { params })
+}
+
+export const executeMission = async (params) => {
+  return request.post('/api/main/executeMission', params)
+}

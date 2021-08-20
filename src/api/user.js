@@ -11,6 +11,9 @@ export const verifyPhoneCode = async (params) => {
 export const login = async (params) => {
   return request.post('/api/user/login', params)
 }
+export const getUserMissionList = async (params) => {
+  return request.get('/api/user/getUserMissionList', { params })
+}
 
 export const getUserPlanetList = async (params) => {
   return request.get('/api/user/getUserPlanetList', { params })

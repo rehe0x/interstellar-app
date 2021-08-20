@@ -37,7 +37,7 @@
                   <view class="cell"><view></view></view>
                   <view class="cell"><view style="color: springgreen">{{ star.username }}</view></view>
                   <view class="cell"><view>{{ star.allianceName }}</view></view>
-                  <view class="cell"><view>探测</view></view>
+                  <view class="cell" @click="spy(item)"><view>探测</view></view>
                 </template>
                 <template v-else>
                   <view class="cell"><view>{{ item }}</view></view>
@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import { PlanetTypeEnum } from '../../enum/base.enum'
-import { getStaratlas } from '../../api/main'
+import { PlanetTypeEnum, MissionTypeEnum } from '../../enum/base.enum'
+import { getStaratlas, getMissionCompute, executeMission } from '../../api/main'
 
 export default {
   data () {
@@ -101,6 +101,20 @@ export default {
         delta: 1,
         animationType: 'fade-out',
         animationDuration: 500
+      })
+    },
+    async spy (z) {
+      await executeMission({
+        planetId: this.planetId,
+        planetType: PlanetTypeEnum.MOON,
+        missionTypeCode: MissionTypeEnum.SPY.CODE,
+        targetGalaxyX: this.galaxyX,
+        targetGalaxyY: this.galaxyY,
+        targetGalaxyZ: z,
+        fleets: { fleetSpySonde: 20 },
+        metal: 1,
+        crystal: 1,
+        deuterium: 1
       })
     },
     async pageUp () {

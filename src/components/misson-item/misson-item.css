@@ -1,0 +1,18 @@
+
+.main_console_misson{
+  margin-bottom: 20rpx;
+}
+
+.main_console_misson_list {
+  font-size: 28rpx;
+  padding: 0 7px 0px 7px;
+}
+
+.main_console_misson_list .item text{
+  margin-left: 20rpx;
+  color: springgreen;
+}
+
+.main_console_misson_list .item span{
+  color: springgreen;
+}

@@ -46,22 +46,16 @@
       </view>
       <view class="main">
         <view class="main_console">
-          <scroll-view scroll-y="true" class="scroll-Y" style="height: 100%;">
+          <view class="main_console_head">
+            <view class="font_16 color_springgreen" @click="toStaratlas">消息中心</view>
+            <view class="font_14">{{ gameTime }}</view>
+            <!-- <view class="font_16 color_springgreen" @click="toStaratlas">战斗报告</view> -->
+            <view class="font_16 color_springgreen" @click="toStaratlasFlex">星际探索</view>
+          </view>
+          <scroll-view scroll-y="true" class="scroll-Y">
             <view v-show="swichSubmenuCode==1">
-              <view class="main_console_head">
-                <view class="font_16 color_springgreen" @click="toStaratlas">消息中心</view>
-                <!-- <view class="font_14">{{ gameTime }}</view> -->
-                <view class="font_16 color_springgreen" @click="toStaratlas">战斗报告</view>
-                <view class="font_16 color_springgreen" @click="toStaratlasFlex">星际探索</view>
-              </view>
+              <misson-item/>
               <build-queue :planetId="planetId" />
-              <view class="main_console_dashboard">
-                <view class="text_center font_16">显示器</view>
-                <view class="divider"></view>
-                <view>
-                  你要记得那些黑暗中默默抱紧你的人，逗你笑的人，陪你彻夜聊天的人，坐车来看望你的人，陪你哭过的人，在医院陪你的人，总是以你为重的人，带着你四处游荡的人，说想念你的人。是这些人组成你生命中一点一滴的温暖，是这些温暖使你远离阴霾，是这些温暖使你成为善良的人。
-                </view>
-              </view>
             </view>
             <view v-if="loadComplete">
               <view v-show="swichSubmenuCode==2">
@@ -305,6 +299,7 @@ export default {
         const time = nowTime + timerCount * 1000
         this.$root.$emit('resourcesTimer', time)
         this.$root.$emit('buildQueueTimer', time)
+        this.$root.$emit('missionItemTimer', time)
         this.gameTime = dayjs(time).format('MM-DD HH:mm:ss')
         const offset = dayjs().valueOf() - (startTime + timerCount * 1000) // 代码执行所消耗的时间
         this.timers = setTimeout(this.timer, 1000 - offset)
