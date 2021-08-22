@@ -55,17 +55,31 @@
 				</scroll-view>
 			</view>
       <view class="footer">
+        <view class="misson_menu" :class="openedMissonMenu ? 'opened_misson_menu' : ''">
+          <div class="menu">
+            <div class="item"><div><span>殖民</span></div></div>
+            <div class="item"><div><span>派遣</span></div></div>
+            <div class="item"><div><span>运输</span></div></div>
+            <div class="item"><div><span>探险</span></div></div>
+            <div class="item"><div><span>探测</span></div></div>
+            <div class="item"><div><span>攻击</span></div></div>
+            <div class="item"><div><span>回收</span></div></div>
+            <div class="item"><div><span>舰队</span></div></div>
+            <div class="item"><div><span>导弹</span></div></div>
+          </div>
+        </view>
         <view @click="pageUp">
           <view class="arrow arrow_left1"></view>
           <view class="arrow arrow_left2"></view>
         </view>
-        <view class="control font_18">控制</view>
+        <view class="control font_18" @click="openMissonMenu">{{ openedMissonMenu ? '关闭' : '舰桥' }}</view>
         <view @click="pageDown">
           <view class="arrow arrow_right2"></view>
           <view class="arrow arrow_right1"></view>
         </view>
       </view>
 		</view>
+    <view class="misson_menu_mask" :class="missonMenuMaskOpacity" v-show="missonMenuMaskShow"></view>
 	</view>
 </template>
 
@@ -76,12 +90,15 @@ import { getStaratlas, getMissionCompute, executeMission } from '../../api/main'
 export default {
   data () {
     return {
+      PlanetTypeEnum,
+      openedMissonMenu: false,
+      missonMenuMaskShow: false,
+      missonMenuMaskOpacity: '',
       planetId: 0,
       planetInfo: {},
       galaxyX: 0,
       galaxyY: 0,
-      staratlas: [],
-      PlanetTypeEnum
+      staratlas: []
     }
   },
   onLoad (option) {
@@ -96,6 +113,25 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    openMissonMenu () {
+      if (!this.openedMissonMenu) {
+        this.openedMissonMenu = true
+        this.missonMenuMaskShow = true
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMenuMaskOpacity = 'misson_menu_mask_opacity'
+          }, 0)
+        })
+      } else {
+        this.openedMissonMenu = false
+        this.missonMenuMaskOpacity = ''
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMenuMaskShow = false
+          }, 500)
+        })
+      }
+    },
     toIndex () {
       uni.navigateBack({
         delta: 1,
