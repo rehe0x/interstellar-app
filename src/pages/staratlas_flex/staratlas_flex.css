@@ -338,3 +338,44 @@
 .misson_menu_mask_opacity {
   background-color: rgba(0,0,0, 0.9);
 }
+
+.misson_content {
+  position: absolute;
+  z-index: 999;
+  top: 0; right: 0; bottom: 0; left: 0;
+  color: #76deef;
+}
+
+.misson_content .misson_header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 8vh;
+  text-align: center;
+}
+
+.misson_content .misson_main {
+  padding: 20rpx;
+}
+
+.misson_main_info {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.misson_main_info .item {
+  display: flex;
+}
+
+
+.misson_main_info .item view:first-child {
+  flex: 1;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  text-align: center;
+}
+.misson_main_info .item view:last-child {
+  flex: 2;
+  text-align: center;
+  border-bottom: 1px solid;
+}

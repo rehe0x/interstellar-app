@@ -57,15 +57,15 @@
       <view class="footer">
         <view class="misson_menu" :class="openedMissonMenu ? 'opened_misson_menu' : ''">
           <div class="menu">
-            <div class="item"><div><span>殖民</span></div></div>
-            <div class="item"><div><span>派遣</span></div></div>
-            <div class="item"><div><span>运输</span></div></div>
-            <div class="item"><div><span>探险</span></div></div>
-            <div class="item"><div><span>探测</span></div></div>
-            <div class="item"><div><span>攻击</span></div></div>
-            <div class="item"><div><span>回收</span></div></div>
-            <div class="item"><div><span>舰队</span></div></div>
-            <div class="item"><div><span>导弹</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.COLONY)"><span>殖民</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.DISPATCH)"><span>派遣</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.TRANSPORT)"><span>运输</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.EXPLORE)"><span>探险</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.SPY)"><span>探测</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.ATTACK)"><span>攻击</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.RECYCLE)"><span>回收</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.COLONY)"><span>舰队</span></div></div>
+            <div class="item"><div @click="toMisson(MissionTypeEnum.JDAM)"><span>导弹</span></div></div>
           </div>
         </view>
         <view @click="pageUp">
@@ -76,6 +76,43 @@
         <view @click="pageDown">
           <view class="arrow arrow_right2"></view>
           <view class="arrow arrow_right1"></view>
+        </view>
+      </view>
+      <view class="misson_content" v-if="missonContent">
+        <view class="misson_header">
+          <view class="font_18">执行攻击任务</view>
+          <view class="divider"></view>
+        </view>
+        <view class="misson_main">
+          <view class="misson_main_info">
+            <view class="item">
+              <view>ffff</view>
+              <view>sssss</view>
+            </view>
+            <view class="item">
+              <view>ffff</view>
+              <view>sssss</view>
+            </view>
+            <view class="item">
+              <view>ffff</view>
+              <view>sssss</view>
+            </view>
+            <view class="item">
+              <view>ffff</view>
+              <view>sssss</view>
+            </view>
+          </view>
+          <view class="misson_main_info">
+            <view class="text_center">舰队</view>
+              <view class="item">
+            <view>ffff</view>
+            <view>sssss</view>
+          </view>
+            <view class="item">
+            <view>ffff</view>
+            <view>sssss</view>
+          </view>
+          </view>
         </view>
       </view>
 		</view>
@@ -91,9 +128,11 @@ export default {
   data () {
     return {
       PlanetTypeEnum,
+      MissionTypeEnum,
       openedMissonMenu: false,
       missonMenuMaskShow: false,
       missonMenuMaskOpacity: '',
+      missonContent: false,
       planetId: 0,
       planetInfo: {},
       galaxyX: 0,
@@ -113,6 +152,33 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    toMisson (type) {
+      console.log(type)
+      this.openedMissonMenu = false
+      this.missonContent = true
+      switch (type) {
+        case MissionTypeEnum.COLONY:
+          console.log(1)
+          break
+        case MissionTypeEnum.DISPATCH:
+          console.log(22)
+          break
+        case MissionTypeEnum.TRANSPORT:
+          console.log(22)
+          break
+        case MissionTypeEnum.EXPLORE:
+          console.log(22)
+          break
+        case MissionTypeEnum.SPY:
+          console.log(22)
+          break
+        case MissionTypeEnum.ATTACK:
+          console.log(22)
+          break
+        default:
+          break
+      }
+    },
     openMissonMenu () {
       if (!this.openedMissonMenu) {
         this.openedMissonMenu = true
@@ -124,8 +190,10 @@ export default {
         })
       } else {
         this.openedMissonMenu = false
-        this.missonMenuMaskOpacity = ''
         this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMenuMaskOpacity = ''
+          }, 200)
           setTimeout(() => {
             this.missonMenuMaskShow = false
           }, 500)
