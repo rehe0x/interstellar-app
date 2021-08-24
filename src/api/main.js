@@ -57,7 +57,7 @@ export const getStaratlas = async (params) => {
 }
 
 export const getMissionCompute = async (params) => {
-  return request.get('/api/main/getMissionCompute', { params })
+  return request.post('/api/main/getMissionCompute', params)
 }
 
 export const executeMission = async (params) => {

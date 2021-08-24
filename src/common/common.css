@@ -100,6 +100,33 @@ page {
   background: lightslategrey;
 }
 
+.i_button_xx {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56rpx;
+  font-size: 36rpx;
+  color: rgb(180, 242, 253);
+  background: rgb(45,184,172);
+}
+.i_button_xx:active{
+  background: lightslategrey;
+}
+.i_no_button_xx{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56rpx;
+  font-size: 36rpx;
+  color: rgb(180, 242, 253);
+  background: rgb(151,174,22);
+  transition: all 1s;
+}
+
+.i_no_button_xx:active{
+  background: lightslategrey;
+}
+
 .divider {
   height: 1px;
   margin-top: 2px;

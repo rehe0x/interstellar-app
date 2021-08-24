@@ -80,49 +80,151 @@
       </view>
       <view class="misson_content" v-if="missonContent">
         <view class="misson_header">
-          <view class="font_18">执行攻击任务</view>
+          <view class="font_18">{{ missionType.VALUE }}</view>
           <view class="divider"></view>
         </view>
         <view class="misson_main">
-          <view class="misson_main_info">
-            <view class="item">
-              <view>ffff</view>
-              <view>sssss</view>
-            </view>
-            <view class="item">
-              <view>ffff</view>
-              <view>sssss</view>
-            </view>
-            <view class="item">
-              <view>ffff</view>
-              <view>sssss</view>
-            </view>
-            <view class="item">
-              <view>ffff</view>
-              <view>sssss</view>
-            </view>
-          </view>
-          <view class="misson_main_info">
-            <view class="text_center">舰队</view>
+          <template v-if="missonStep === 1">
+            <view class="misson_main_style misson_main_fleet">
+              <view class="label">选择舰队</view>
+              <template v-for="(item, key, index) in fleets">
+                <view :key="index" class="item">
+                  <view class="name">{{ item.name }}</view>
+                  <view class="form">
+                    <input v-model="item.level" type="number" @input="onKeyFleetInput(key, item.originLevel, $event)"  placeholder="" />
+                    <view @click="fleetMax(key, item.originLevel)" >最大</view>
+                  </view>
+                </view>
+              </template>
               <view class="item">
-            <view>ffff</view>
-            <view>sssss</view>
-          </view>
-            <view class="item">
-            <view>ffff</view>
-            <view>sssss</view>
-          </view>
+                <view class="name">总计</view>
+                <view class="form">
+                  <input v-model="totalFleet" type="number" disabled  placeholder="" />
+                  <view @click="fleetAllReset">{{ missonFleetAllStatus ? '全部' : '重置' }}</view>
+                </view>
+              </view>
+            </view>
+          </template>
+          <template v-else-if="missonStep === 2">
+            <view class="misson_main_style misson_main_info">
+              <view class="label">航行信息</view>
+              <view class="item">
+                <view class="name">目的地</view>
+                <view class="form">
+                  <input maxlength="2" v-model="missionForm.targetGalaxyX" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
+                  <input maxlength="3" v-model="missionForm.targetGalaxyY" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
+                  <input maxlength="3" v-model="missionForm.targetGalaxyZ" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">星球/月球</view>
+                <view class="form">
+                  <view class="planetType">
+                    <view @click="missionForm.planetType = PlanetTypeEnum.STAR" :class="missionForm.planetType === PlanetTypeEnum.STAR ? 'planet_type_on' : ''">星球</view>
+                    <view @click="missionForm.planetType = PlanetTypeEnum.MOON" :class="missionForm.planetType === PlanetTypeEnum.MOON ? 'planet_type_on' : ''">月球</view>
+                  </view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">速度</view>
+                <view class="form">
+                  <view class="speed">
+                    <template v-for="(item, index) in 10">
+                      <view :key="index" @click="setSpeed(item * 10)" :class="missionForm.speed >= item * 10 ? 'speed_on' : ''">{{ item * 10 }}</view>
+                    </template>
+                  </view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">停留时间</view>
+                <view class="form">
+                  <view class="speed">
+                    <template v-for="(item, index) in 10">
+                      <view :key="index" @click="missionForm.stayTime = index" :class="missionForm.stayTime >= index ? 'speed_on' : ''">{{ index }}</view>
+                    </template>
+                  </view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">距离</view>
+                <view class="form">
+                  <view>{{ missionCompute.distance }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">时间</view>
+                <view class="form">
+                  <view>{{ progressTime(missionCompute.seconds) }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">预计抵达</view>
+                <view class="form">
+                  <view>{{ missionCompute.estimatedTime }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">消耗燃料</view>
+                <view class="form">
+                  <view>{{ missionCompute.consumption }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">剩余空间</view>
+                <view class="form">
+                  <view>{{ missionCompute.capacity - missionCompute.consumption }}</view>
+                </view>
+              </view>
+            </view>
+            <view class="misson_main_style misson_main_resource">
+              <view class="label">携带资源</view>
+              <view class="item">
+                <view class="name">金属</view>
+                <view class="form">
+                  <input v-model="missionForm.metal" @input="onKeyResourceInput('metal', $event)" type="number"  placeholder="" />
+                  <view @click="resourceMax('metal')">最大</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">晶体</view>
+                <view class="form">
+                  <input v-model="missionForm.crystal" @input="onKeyResourceInput('crystal', $event)" type="number"  placeholder="" />
+                  <view @click="resourceMax('crystal')">最大</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">重氦</view>
+                <view class="form">
+                  <input v-model="missionForm.deuterium" @input="onKeyResourceInput('deuterium', $event)" type="number"  placeholder="" />
+                  <view @click="resourceMax('deuterium')">最大</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">总计</view>
+                <view class="form">
+                  <input v-model="totalResource" type="number" disabled  placeholder="" />
+                  <view @click="resourceAllReset">{{ missonResourceAllStatus ? '全部' : '重置' }}</view>
+                </view>
+              </view>
+            </view>
+          </template>
+        </view>
+        <view class="misson_footer">
+          <view class="misson_btn">
+            <view class="i_button_xx" @click="missonNext(0)">{{ missonStep === 1 ? '关闭' : '返回'}}</view>
+            <view class="i_button_xx" @click="missonNext(1)">{{ missonStep === 1 ? '下一步' : '确定'}}</view>
           </view>
         </view>
       </view>
 		</view>
     <view class="misson_menu_mask" :class="missonMenuMaskOpacity" v-show="missonMenuMaskShow"></view>
+    <view class="misson_main_mask" :class="missonMainMaskOpacity" v-show="missonMainMaskShow"></view>
 	</view>
 </template>
 
 <script>
 import { PlanetTypeEnum, MissionTypeEnum } from '../../enum/base.enum'
-import { getStaratlas, getMissionCompute, executeMission } from '../../api/main'
+import { getStaratlas, getMissionCompute, executeMission, getFleet } from '../../api/main'
 
 export default {
   data () {
@@ -132,12 +234,30 @@ export default {
       openedMissonMenu: false,
       missonMenuMaskShow: false,
       missonMenuMaskOpacity: '',
+      missonMainMaskShow: false,
+      missonMainMaskOpacity: '',
       missonContent: false,
+      missonStep: 1,
+      missonFleetAllStatus: false,
+      missonResourceAllStatus: true,
       planetId: 0,
-      planetInfo: {},
       galaxyX: 0,
       galaxyY: 0,
-      staratlas: []
+      missionType: {},
+      staratlas: [],
+      fleets: {},
+      missionCompute: {},
+      missionForm: {
+        planetType: PlanetTypeEnum.STAR,
+        targetGalaxyX: 0,
+        targetGalaxyY: 0,
+        targetGalaxyZ: 0,
+        speed: 100,
+        stayTime: 0,
+        metal: 0,
+        crystal: 0,
+        deuterium: 0
+      }
     }
   },
   onLoad (option) {
@@ -151,11 +271,74 @@ export default {
   },
   beforeDestroy () {
   },
+  computed: {
+    totalFleet () {
+      const c = Object.values(this.fleets).reduce((acc, cur) => +acc + +cur.level, 0)
+      return c
+    },
+    totalResource () {
+      return +this.missionForm.metal + +this.missionForm.crystal + +this.missionForm.deuterium
+    }
+  },
   methods: {
-    toMisson (type) {
-      console.log(type)
-      this.openedMissonMenu = false
-      this.missonContent = true
+    openMissonMenu () {
+      if (!this.openedMissonMenu) {
+        this.openedMissonMenu = true
+        this.missonMenuMaskShow = true
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMenuMaskOpacity = 'misson_menu_mask_opacity'
+          }, 0)
+        })
+      } else {
+        this.openedMissonMenu = false
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMenuMaskOpacity = ''
+          }, 200)
+          setTimeout(() => {
+            this.missonMenuMaskShow = false
+          }, 500)
+        })
+      }
+    },
+    openMissonContent () {
+      if (!this.missonContent) {
+        this.missonContent = true
+        this.missonMainMaskShow = true
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.missonMainMaskOpacity = 'misson_main_mask_opacity'
+          }, 0)
+        })
+      } else {
+        this.missonMainMaskOpacity = ''
+        this.$nextTick(() => {
+          this.missonContent = false
+          setTimeout(() => {
+            this.missonMainMaskShow = false
+          }, 500)
+        })
+      }
+    },
+    async reMissionCompute () {
+      const fleets = {}
+      for (const key in this.fleets) {
+        fleets[key] = this.fleets[key].level
+      }
+      const rest = await getMissionCompute({ planetId: this.planetId, ...this.missionForm, missionTypeCode: this.missionType.CODE, fleets })
+      this.missionCompute = rest.result
+    },
+    async toMisson (type) {
+      this.missionForm.targetGalaxyX = this.galaxyX
+      this.missionForm.targetGalaxyY = this.galaxyY
+      this.missionForm.targetGalaxyZ = 1
+      this.missionType = type
+      this.openMissonMenu()
+      this.openMissonContent()
+      const rest = await getFleet({ planetId: this.planetId })
+      const { fleetSolarSatelit, ...r } = rest.result
+      this.fleets = r
       switch (type) {
         case MissionTypeEnum.COLONY:
           console.log(1)
@@ -179,26 +362,134 @@ export default {
           break
       }
     },
-    openMissonMenu () {
-      if (!this.openedMissonMenu) {
-        this.openedMissonMenu = true
-        this.missonMenuMaskShow = true
+    async missonNext (next) {
+      if (next) {
+        if (this.missonStep === 1) {
+          this.missonStep = 2
+          this.reMissionCompute()
+        } else if (this.missonStep === 2) {
+          // 确认
+          this.missionForm.planetId = this.planetId
+          this.missionForm.missionTypeCode = this.missionType.CODE
+          this.missionForm.fleets = {}
+          for (const key in this.fleets) {
+            this.missionForm.fleets[key] = this.fleets[key].level
+          }
+          console.log(this.missionForm)
+          await executeMission(this.missionForm)
+        }
+      } else {
+        if (this.missonStep === 1) {
+          this.openMissonContent()
+        } else {
+          this.missonStep = 1
+        }
+      }
+    },
+    fleetMax (key, originLevel) {
+      // 延时 不然不会更新
+      this.$nextTick(() => {
+        this.fleets[key].level = originLevel
+      })
+    },
+    fleetAllReset () {
+      if (this.missonFleetAllStatus) {
+        for (const key in this.fleets) {
+          this.fleets[key].level = this.fleets[key].originLevel
+        }
+        this.missonFleetAllStatus = false
+      } else {
+        for (const key in this.fleets) {
+          this.fleets[key].level = 0
+        }
+        this.missonFleetAllStatus = true
+      }
+    },
+    onKeyFleetInput (key, originLevel, event) {
+      if (event.detail.value > originLevel) {
+        // 延时 不然不会更新
         this.$nextTick(() => {
-          setTimeout(() => {
-            this.missonMenuMaskOpacity = 'misson_menu_mask_opacity'
-          }, 0)
+          this.fleets[key].level = originLevel
+        })
+      } else if (!event.detail.value || event.detail.value < 0) {
+        // 延时 不然不会更新
+        this.$nextTick(() => {
+          this.fleets[key].level = 0
         })
       } else {
-        this.openedMissonMenu = false
+        // 延时 不然不会更新
         this.$nextTick(() => {
-          setTimeout(() => {
-            this.missonMenuMaskOpacity = ''
-          }, 200)
-          setTimeout(() => {
-            this.missonMenuMaskShow = false
-          }, 500)
+          this.fleets[key].level = +event.detail.value
         })
       }
+    },
+    onKeyTargetGalaxyInput (event) {
+      if (event.detail.value) {
+        this.reMissionCompute()
+      }
+    },
+    setSpeed (speed) {
+      this.missionForm.speed = speed
+      this.reMissionCompute()
+    },
+    resourceMax (key) {
+      this.missionForm[key] = this.missionCompute[key]
+      // 延时 不然不会更新
+      this.$nextTick(() => {
+        this.onKeyResourceInput(key, { detail: { value: this.missionCompute[key] } })
+      })
+    },
+    resourceAllReset () {
+      if (this.missonResourceAllStatus) {
+        this.$nextTick(() => {
+          this.missionForm.metal = 0
+          this.missionForm.crystal = 0
+          this.missionForm.deuterium = 0
+          !this.missionForm.metal && (this.missionForm.metal = this.missionCompute.metal)
+          this.onKeyResourceInput('metal', { detail: { value: this.missionCompute.metal } })
+          !this.missionForm.crystal && (this.missionForm.crystal = this.missionCompute.crystal)
+          this.onKeyResourceInput('crystal', { detail: { value: this.missionCompute.crystal } })
+          !this.missionForm.deuterium && (this.missionForm.deuterium = this.missionCompute.deuterium)
+          this.onKeyResourceInput('deuterium', { detail: { value: this.missionCompute.deuterium } })
+          this.missonResourceAllStatus = false
+        })
+      } else {
+        this.missionForm.metal = 0
+        this.missionForm.crystal = 0
+        this.missionForm.deuterium = 0
+        this.missonResourceAllStatus = true
+      }
+    },
+    onKeyResourceInput (key, event) {
+      const totalResource = +this.missionForm.metal + +this.missionForm.crystal + +this.missionForm.deuterium
+      const c = this.missionCompute.capacity - this.missionCompute.consumption
+      if (!event.detail.value || event.detail.value < 0) {
+        // 延时 不然不会更新
+        this.$nextTick(() => {
+          this.missionForm[key] = 0
+        })
+      } else if (event.detail.value > this.missionCompute[key] || totalResource > c) {
+        let s = this.missionCompute[key]
+        if (totalResource > c) {
+          s = this.missionCompute.capacity - this.missionCompute.consumption - (totalResource - event.detail.value)
+          s < 0 && (s = 0)
+          if (s > this.missionCompute[key]) {
+            s = this.missionCompute[key]
+          }
+        }
+        // 延时 不然不会更新
+        this.$nextTick(() => {
+          this.missionForm[key] = s
+        })
+      } else {
+        // 延时 不然不会更新
+        this.$nextTick(() => {
+          this.missionForm[key] = +event.detail.value
+        })
+      }
+    },
+    progressTime (seconds) {
+      return this.$utils.remainingTime(seconds)
     },
     toIndex () {
       uni.navigateBack({
