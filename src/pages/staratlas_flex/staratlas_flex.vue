@@ -208,11 +208,107 @@
               </view>
             </view>
           </template>
+          <template v-else-if="missonStep === 3">
+            <view class="misson_main_style misson_main_info">
+              <view class="label">航行信息</view>
+              <view class="item">
+                <view class="name">目的地</view>
+                <view class="form">
+                  <view>{{ missionRest.targetGalaxy }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">星球/月球</view>
+                <view class="form">
+                  <view>{{ missionRest.targetGalaxy === PlanetTypeEnum.STAR ? '星球':'月球' }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">速度</view>
+                <view class="form">
+                  <view>{{ missionRest.detail.speed }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">停留时间</view>
+                <view class="form">
+                  <view>{{ progressTime(missionRest.staySeconds) }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">距离</view>
+                <view class="form">
+                  <view>{{ missionRest.distance }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">时间</view>
+                <view class="form">
+                  <view>{{ progressTime(missionRest.seconds) }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">预计抵达</view>
+                <view class="form">
+                  <view>{{ missionRest.estimatedTime }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">消耗燃料</view>
+                <view class="form">
+                  <view>{{ missionRest.detail.consumption }}</view>
+                </view>
+              </view>
+            </view>
+            <view class="misson_main_style misson_main_resource">
+              <view class="label">携带资源</view>
+              <view class="item">
+                <view class="name">金属</view>
+                <view class="form">
+                  <view>{{ missionRest.detail.resources.metal }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">晶体</view>
+                <view class="form">
+                  <view>{{ missionRest.detail.resources.crystal }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">重氦</view>
+                <view class="form">
+                 <view>{{ missionRest.detail.resources.deuterium }}</view>
+                </view>
+              </view>
+              <view class="item">
+                <view class="name">总计</view>
+                <view class="form">
+                  <view>{{ missionRest.detail.resources.metal + missionRest.detail.resources.crystal + missionRest.detail.resources.deuterium }}</view>
+                </view>
+              </view>
+            </view>
+            <view class="misson_main_style misson_main_fleet">
+              <view class="label">出发舰队</view>
+              <template v-for="(item, key, index) in missionRest.detail.fleets">
+                  <view :key="index" class="item">
+                    <view class="name">{{ fleets[key].name }}</view>
+                    <view class="form">
+                      <view>{{ item }}</view>
+                    </view>
+                  </view>
+              </template>
+            </view>
+          </template>
         </view>
         <view class="misson_footer">
           <view class="misson_btn">
-            <view class="i_button_xx" @click="missonNext(0)">{{ missonStep === 1 ? '关闭' : '返回'}}</view>
-            <view class="i_button_xx" @click="missonNext(1)">{{ missonStep === 1 ? '下一步' : '确定'}}</view>
+            <template v-if="missonStep !== 3">
+              <view class="i_button_xx" @click="missonNext(0)">{{ missonStep === 1 ? '关闭' : '返回'}}</view>
+              <view class="i_button_xx" @click="missonNext(1)">{{ missonStep === 1 ? '下一步' : '确定'}}</view>
+            </template>
+            <template v-else>
+              <view class="i_button_xx" @click="missonNext(0)">{{ missonStep === 3 ? '关闭' : '返回'}}</view>
+            </template>
           </view>
         </view>
       </view>
@@ -223,6 +319,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import { PlanetTypeEnum, MissionTypeEnum } from '../../enum/base.enum'
 import { getStaratlas, getMissionCompute, executeMission, getFleet } from '../../api/main'
 
@@ -257,7 +354,8 @@ export default {
         metal: 0,
         crystal: 0,
         deuterium: 0
-      }
+      },
+      missionRest: {}
     }
   },
   onLoad (option) {
@@ -376,10 +474,16 @@ export default {
             this.missionForm.fleets[key] = this.fleets[key].level
           }
           console.log(this.missionForm)
-          await executeMission(this.missionForm)
+          const rest = await executeMission(this.missionForm)
+          if (rest.result) {
+            this.missionRest = rest.result
+            const estimatedTime = dayjs(rest.time).add(this.missionRest.seconds, 'seconds').format('YYYY-MM-DD HH:mm:ss')
+            this.missionRest.estimatedTime = estimatedTime
+          }
+          this.missonStep = 3
         }
       } else {
-        if (this.missonStep === 1) {
+        if (this.missonStep === 1 || this.missonStep === 3) {
           this.openMissonContent()
         } else {
           this.missonStep = 1

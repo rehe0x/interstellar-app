@@ -5,14 +5,14 @@
       <view class="divider"></view>
       <view class="main_console_misson_list">
         <view class="item" v-for="(item) in missionList" :key="item.id">
-          <view v-if="item.missionStatus === MissionStatusEnum.START">{{ progressTime(item) }} 您的一支舰队从 {{item.planetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.galaxy }}]
+          <view v-if="item.missionStatus === MissionStatusEnum.START"><span>{{ progressTime(item) }}</span> 您的一支舰队从 {{item.planetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.galaxy }}]
              前往 {{item.targetPlanetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.targetGalaxy }}]
              执行<span>{{item.missionName}}</span>任务 预计{{ formatTime(item) }}抵达 <text>查看</text></view>
 
-          <view v-if="item.missionStatus === MissionStatusEnum.STAY">{{ progressTime(item) }} 您的一支舰队停留在 {{item.targetPlanetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.targetGalaxy }}]
+          <view v-if="item.missionStatus === MissionStatusEnum.STAY"><span>{{ progressTime(item) }}</span> 您的一支舰队停留在 {{item.targetPlanetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.targetGalaxy }}]
             执行<span>{{item.missionName}}</span>任务 预计{{ formatTime(item) }}离开 <text>查看</text></view>
 
-          <view v-if="item.missionStatus === MissionStatusEnum.BACK">{{ progressTime(item) }} 您的一支舰队从 {{item.targetPlanetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.targetGalaxy }}]
+          <view v-if="item.missionStatus === MissionStatusEnum.BACK"><span>{{ progressTime(item) }}</span> 您的一支舰队从 {{item.targetPlanetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.targetGalaxy }}]
             返回 {{item.planetName}}[{{ item.planetType ===  PlanetTypeEnum.STAR ? '星球' : '月球'}}] [{{ item.galaxy }}]
             执行<span>{{item.missionName}}</span>任务 预计{{ formatTime(item) }}抵达 <text>查看</text></view>
           <view class="divider"></view>
