@@ -111,15 +111,18 @@
               <view class="item">
                 <view class="name">目的地</view>
                 <view class="form">
-                  <input maxlength="2" v-model="missionForm.targetGalaxyX" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
-                  <input maxlength="3" v-model="missionForm.targetGalaxyY" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
-                  <input maxlength="3" v-model="missionForm.targetGalaxyZ" @input="onKeyTargetGalaxyInput($event)" type="number"  placeholder="" />
+                  <input maxlength="2" v-model="missionForm.targetGalaxyX" @input="onKeyTargetGalaxyInput($event)" :disabled="missonFormStatus === 1 ? true : false" type="number"  placeholder="" />
+                  <input maxlength="3" v-model="missionForm.targetGalaxyY" @input="onKeyTargetGalaxyInput($event)" :disabled="missonFormStatus === 1 ? true : false" type="number"  placeholder="" />
+                  <input maxlength="3" v-model="missionForm.targetGalaxyZ" @input="onKeyTargetGalaxyInput($event)" :disabled="missonFormStatus === 1 ? true : false" type="number"  placeholder="" />
                 </view>
               </view>
               <view class="item">
                 <view class="name">星球/月球</view>
                 <view class="form">
-                  <view class="planetType">
+                  <view v-if="missonFormStatus">
+                    {{ missionForm.planetType === PlanetTypeEnum.STAR ? '星球' : '月球' }}
+                  </view>
+                  <view v-else class="planetType">
                     <view @click="missionForm.planetType = PlanetTypeEnum.STAR" :class="missionForm.planetType === PlanetTypeEnum.STAR ? 'planet_type_on' : ''">星球</view>
                     <view @click="missionForm.planetType = PlanetTypeEnum.MOON" :class="missionForm.planetType === PlanetTypeEnum.MOON ? 'planet_type_on' : ''">月球</view>
                   </view>
@@ -128,7 +131,10 @@
               <view class="item">
                 <view class="name">速度</view>
                 <view class="form">
-                  <view class="speed">
+                  <view v-if="missonFormStatus">
+                    100
+                  </view>
+                  <view v-else class="speed">
                     <template v-for="(item, index) in 10">
                       <view :key="index" @click="setSpeed(item * 10)" :class="missionForm.speed >= item * 10 ? 'speed_on' : ''">{{ item * 10 }}</view>
                     </template>
@@ -138,7 +144,10 @@
               <view class="item">
                 <view class="name">停留时间</view>
                 <view class="form">
-                  <view class="speed">
+                  <view v-if="missonFormStatus">
+                    0
+                  </view>
+                  <view v-else class="speed">
                     <template v-for="(item, index) in 10">
                       <view :key="index" @click="missionForm.stayTime = index" :class="missionForm.stayTime >= index ? 'speed_on' : ''">{{ index }}</view>
                     </template>
@@ -176,7 +185,18 @@
                 </view>
               </view>
             </view>
-            <view class="misson_main_style misson_main_resource">
+            <view v-if="missonFormStatus" class="misson_main_style misson_main_fleet">
+              <view class="label">出发舰队</view>
+              <template v-for="(item, index) in this.fleets">
+                <view :key="index" v-if="item.level > 0" class="item">
+                  <view class="name">{{ item.name }}</view>
+                  <view class="form">
+                    <view>{{ item.level }}</view>
+                  </view>
+                </view>
+              </template>
+            </view>
+            <view v-else class="misson_main_style misson_main_resource">
               <view class="label">携带资源</view>
               <view class="item">
                 <view class="name">金属</view>
@@ -260,7 +280,7 @@
                 </view>
               </view>
             </view>
-            <view class="misson_main_style misson_main_resource">
+            <view v-if="!missonFormStatus" class="misson_main_style misson_main_resource">
               <view class="label">携带资源</view>
               <view class="item">
                 <view class="name">金属</view>
@@ -287,7 +307,7 @@
                 </view>
               </view>
             </view>
-            <view class="misson_main_style misson_main_fleet">
+            <!-- <view class="misson_main_style misson_main_fleet">
               <view class="label">出发舰队</view>
               <template v-for="(item, key, index) in missionRest.detail.fleets">
                   <view :key="index" class="item">
@@ -297,13 +317,13 @@
                     </view>
                   </view>
               </template>
-            </view>
+            </view> -->
           </template>
         </view>
         <view class="misson_footer">
           <view class="misson_btn">
             <template v-if="missonStep !== 3">
-              <view class="i_button_xx" @click="missonNext(0)">{{ missonStep === 1 ? '关闭' : '返回'}}</view>
+              <view class="i_button_xx" @click="missonNext(missonFormStatus ? 2 : 0)">{{ missonStep === 1 ? '关闭' : '返回'}}</view>
               <view class="i_button_xx" @click="missonNext(1)">{{ missonStep === 1 ? '下一步' : '确定'}}</view>
             </template>
             <template v-else>
@@ -337,6 +357,7 @@ export default {
       missonStep: 1,
       missonFleetAllStatus: false,
       missonResourceAllStatus: true,
+      missonFormStatus: 0,
       planetId: 0,
       galaxyX: 0,
       galaxyY: 0,
@@ -410,6 +431,8 @@ export default {
           }, 0)
         })
       } else {
+        this.missonStep = 1
+        this.missonFormStatus = 0
         this.missonMainMaskOpacity = ''
         this.$nextTick(() => {
           this.missonContent = false
@@ -439,6 +462,16 @@ export default {
       this.fleets = r
       switch (type) {
         case MissionTypeEnum.COLONY:
+          for (const key in this.fleets) {
+            this.fleets[key].level = 0
+          }
+          if (this.fleets.fleetColonizer.originLevel <= 0) {
+            console.log('没有殖民船可用')
+          }
+          this.fleets.fleetColonizer.level = 1
+          this.missonFormStatus = 1
+          this.missonStep = 1
+          this.missonNext(1)
           console.log(1)
           break
         case MissionTypeEnum.DISPATCH:
@@ -451,7 +484,27 @@ export default {
           console.log(22)
           break
         case MissionTypeEnum.SPY:
-          console.log(22)
+          for (const key in this.fleets) {
+            this.fleets[key].level = 0
+          }
+          if (this.fleets.fleetSpySonde.originLevel <= 0) {
+            console.log('没有探测器可用')
+          }
+          this.fleets.fleetSpySonde.level = 1
+          this.missonFormStatus = 1
+          this.missonStep = 1
+          this.missonNext(1)
+          console.log(1)
+          break
+        case MissionTypeEnum.JDAM:
+          for (const key in this.fleets) {
+            this.fleets[key].level = 0
+          }
+          this.fleets.defenseInterplanetaryMisil = { name: '导弹', level: 1 }
+          this.missonFormStatus = 1
+          this.missonStep = 1
+          this.missonNext(1)
+          console.log(1)
           break
         case MissionTypeEnum.ATTACK:
           console.log(22)
@@ -461,7 +514,7 @@ export default {
       }
     },
     async missonNext (next) {
-      if (next) {
+      if (next === 1) {
         if (this.missonStep === 1) {
           this.missonStep = 2
           this.reMissionCompute()
@@ -470,6 +523,7 @@ export default {
           this.missionForm.planetId = this.planetId
           this.missionForm.missionTypeCode = this.missionType.CODE
           this.missionForm.fleets = {}
+          console.log(this.fleets)
           for (const key in this.fleets) {
             this.missionForm.fleets[key] = this.fleets[key].level
           }
@@ -482,12 +536,14 @@ export default {
           }
           this.missonStep = 3
         }
-      } else {
+      } else if (next === 0) {
         if (this.missonStep === 1 || this.missonStep === 3) {
           this.openMissonContent()
         } else {
           this.missonStep = 1
         }
+      } else if (next === 2) {
+        this.openMissonContent()
       }
     },
     fleetMax (key, originLevel) {

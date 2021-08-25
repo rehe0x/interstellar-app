@@ -146,6 +146,9 @@ export default {
     this.planetId = option.planetId
     this.buildQueueMax = option.buildQueueMax
   },
+  onShow (option) {
+    this.$root.$emit('missionItemUpdate')
+  },
   filters: {
     numberToCurrency (value) {
       if (!value) return '0'
