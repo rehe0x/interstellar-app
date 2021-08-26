@@ -80,7 +80,7 @@
       </view>
       <view class="misson_content" v-if="missonContent">
         <view class="misson_header">
-          <view class="font_18">{{ missionType.VALUE }}</view>
+          <view class="font_18">执行任务：{{ missionType.VALUE }}</view>
           <view class="divider"></view>
         </view>
         <view class="misson_main">
@@ -240,7 +240,7 @@
               <view class="item">
                 <view class="name">星球/月球</view>
                 <view class="form">
-                  <view>{{ missionRest.targetGalaxy === PlanetTypeEnum.STAR ? '星球':'月球' }}</view>
+                  <view>{{ missionRest.targetPlanetType === PlanetTypeEnum.STAR ? '星球':'月球' }}</view>
                 </view>
               </view>
               <view class="item">
@@ -307,17 +307,17 @@
                 </view>
               </view>
             </view>
-            <!-- <view class="misson_main_style misson_main_fleet">
+            <view class="misson_main_style misson_main_fleet">
               <view class="label">出发舰队</view>
-              <template v-for="(item, key, index) in missionRest.detail.fleets">
+              <template v-for="(item, index) in missionRest.detail.fleets">
                   <view :key="index" class="item">
-                    <view class="name">{{ fleets[key].name }}</view>
+                    <view class="name">{{ item.name }}</view>
                     <view class="form">
-                      <view>{{ item }}</view>
+                      <view>{{ item.count }}</view>
                     </view>
                   </view>
               </template>
-            </view> -->
+            </view>
           </template>
         </view>
         <view class="misson_footer">
@@ -334,7 +334,6 @@
       </view>
 		</view>
     <view class="misson_menu_mask" :class="missonMenuMaskOpacity" v-show="missonMenuMaskShow"></view>
-    <view class="misson_main_mask" :class="missonMainMaskOpacity" v-show="missonMainMaskShow"></view>
 	</view>
 </template>
 
@@ -351,8 +350,6 @@ export default {
       openedMissonMenu: false,
       missonMenuMaskShow: false,
       missonMenuMaskOpacity: '',
-      missonMainMaskShow: false,
-      missonMainMaskOpacity: '',
       missonContent: false,
       missonStep: 1,
       missonFleetAllStatus: false,
@@ -400,6 +397,9 @@ export default {
     }
   },
   methods: {
+    progressTime (seconds) {
+      return this.$utils.remainingTime(seconds)
+    },
     openMissonMenu () {
       if (!this.openedMissonMenu) {
         this.openedMissonMenu = true
@@ -423,32 +423,14 @@ export default {
     },
     openMissonContent () {
       if (!this.missonContent) {
-        this.missonContent = true
-        this.missonMainMaskShow = true
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.missonMainMaskOpacity = 'misson_main_mask_opacity'
-          }, 0)
-        })
+        setTimeout(() => {
+          this.missonContent = true
+        }, 200)
       } else {
         this.missonStep = 1
         this.missonFormStatus = 0
-        this.missonMainMaskOpacity = ''
-        this.$nextTick(() => {
-          this.missonContent = false
-          setTimeout(() => {
-            this.missonMainMaskShow = false
-          }, 500)
-        })
+        this.missonContent = false
       }
-    },
-    async reMissionCompute () {
-      const fleets = {}
-      for (const key in this.fleets) {
-        fleets[key] = this.fleets[key].level
-      }
-      const rest = await getMissionCompute({ planetId: this.planetId, ...this.missionForm, missionTypeCode: this.missionType.CODE, fleets })
-      this.missionCompute = rest.result
     },
     async toMisson (type) {
       this.missionForm.targetGalaxyX = this.galaxyX
@@ -545,6 +527,14 @@ export default {
       } else if (next === 2) {
         this.openMissonContent()
       }
+    },
+    async reMissionCompute () {
+      const fleets = {}
+      for (const key in this.fleets) {
+        fleets[key] = this.fleets[key].level
+      }
+      const rest = await getMissionCompute({ planetId: this.planetId, ...this.missionForm, missionTypeCode: this.missionType.CODE, fleets })
+      this.missionCompute = rest.result
     },
     fleetMax (key, originLevel) {
       // 延时 不然不会更新
@@ -648,28 +638,11 @@ export default {
         })
       }
     },
-    progressTime (seconds) {
-      return this.$utils.remainingTime(seconds)
-    },
     toIndex () {
       uni.navigateBack({
         delta: 1,
         animationType: 'fade-out',
         animationDuration: 500
-      })
-    },
-    async spy (z) {
-      await executeMission({
-        planetId: this.planetId,
-        planetType: PlanetTypeEnum.MOON,
-        missionTypeCode: MissionTypeEnum.SPY.CODE,
-        targetGalaxyX: this.galaxyX,
-        targetGalaxyY: this.galaxyY,
-        targetGalaxyZ: z,
-        fleets: { fleetSpySonde: 20 },
-        metal: 1,
-        crystal: 1,
-        deuterium: 1
       })
     },
     async pageUp () {

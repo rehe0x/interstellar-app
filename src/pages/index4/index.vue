@@ -201,6 +201,9 @@ export default {
     })
   },
   methods: {
+    progressTime (seconds) {
+      return this.$utils.remainingTime(seconds)
+    },
     toLogin () {
       this.indexTransitionMask = true
       this.$nextTick(() => {

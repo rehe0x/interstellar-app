@@ -345,9 +345,8 @@
   top: 0; right: 0; bottom: 0; left: 0;
   padding-top: var(--status-bar-height);
   color: #76deef;
+  background-color: rgba(0,0,0, 0.9);
 }
-
-
 
 .misson_content .misson_header {
   display: flex;
@@ -358,6 +357,9 @@
 }
 
 .misson_content .misson_main {
+  max-height: 82%;
+  overflow: auto;
+  margin-bottom: 2vh;
   padding: 20rpx;
   font-size: 14px;
 }

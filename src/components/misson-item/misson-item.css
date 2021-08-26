@@ -16,3 +16,73 @@
 .main_console_misson_list .item span{
   color: springgreen;
 }
+
+
+.misson_content {
+  position: fixed;
+  z-index: 999;
+  top: 0; right: 0; bottom: 0; left: 0;
+  padding-top: var(--status-bar-height);
+  color: #76deef;
+  background-color: rgba(0,0,0, 0.9);
+}
+
+.misson_content .misson_header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 6vh;
+}
+
+.misson_content .misson_main {
+  max-height: 82%;
+  overflow: auto;
+  margin-bottom: 2vh;
+  padding: 20rpx;
+  font-size: 14px;
+}
+
+.misson_main_style {
+  margin-bottom: 3vh;
+}
+
+.misson_main_style .label {
+  margin-bottom: 2vh;
+  font-size: 16px;
+  text-align: center;
+}
+
+.misson_main_style > view:nth-child(2) {
+  border-top: 1px solid rgba(119,136,153,0.6);
+}
+
+.misson_main_style .item {
+  display: flex;
+  height: 4vh;
+  border-bottom: 1px solid rgba(119,136,153,0.6);
+  line-height: 4vh;
+  text-align: center;
+}
+
+.misson_main_style .item .name {
+  flex: 1;
+  border-right: 1px solid rgba(119,136,153,0.6);
+}
+
+.misson_main_style .item .form {
+  display: flex;
+  flex: 2;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.misson_main_style .item .form view{
+  width: 30%;
+  color: springgreen
+}
+
+.misson_footer .misson_btn {
+  width: 70%;
+  margin: auto;
+}
