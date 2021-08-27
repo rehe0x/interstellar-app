@@ -42,7 +42,7 @@
                 <template v-else>
                   <view class="cell"><view>{{ item }}</view></view>
                   <view class="cell"><view></view></view>
-                  <view class="cell"><view></view></view>
+                  <view class="cell"><view @click="toMisson(MissionTypeEnum.COLONY, item)" style="color: springgreen">殖民</view></view>
                   <view class="cell"><view></view></view>
                   <view class="cell"><view></view></view>
                   <view class="cell"><view></view></view>
@@ -432,10 +432,10 @@ export default {
         this.missonContent = false
       }
     },
-    async toMisson (type) {
+    async toMisson (type, targetGalaxyZ = 1) {
       this.missionForm.targetGalaxyX = this.galaxyX
       this.missionForm.targetGalaxyY = this.galaxyY
-      this.missionForm.targetGalaxyZ = 1
+      this.missionForm.targetGalaxyZ = targetGalaxyZ
       this.missionType = type
       this.openMissonMenu()
       this.openMissonContent()

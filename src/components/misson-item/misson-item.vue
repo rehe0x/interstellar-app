@@ -161,8 +161,14 @@ export default {
   },
   methods: {
     progressTime (item) {
-      const t = (this.time - item.startTime) / 1000
-      if (item.startTime && item.seconds - t <= 0) {
+      const tt = item.missionStatus === MissionStatusEnum.START ? item.startTime : item.backTime
+      const t = (this.time - tt) / 1000
+      if (tt && item.seconds - t <= 0) {
+        setTimeout(async () => {
+          this.$root.$emit('resourcesUpdate')
+          const rest = await getUserMissionList()
+          this.missionList = rest.result
+        }, 1000)
         return '0h 0m 0s'
       }
       const showTime = this.$utils.remainingTime(item.seconds - t)
